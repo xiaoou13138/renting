@@ -1,26 +1,29 @@
 package com.ncu.bean;
+import java.sql.Timestamp;
+import java.util.Date;
 
 import javax.persistence.*;
-
-import com.sun.jmx.snmp.Timestamp;
-
-
-@SuppressWarnings("deprecation")
 @Entity
-@Table(name = "USER", uniqueConstraints = {   
+@Table(name = "user", uniqueConstraints = {   
         @UniqueConstraint(columnNames = {"USER_ID"}),  
 }) 
 public class User {  
 	
+	@Id
+	@Column(name = "USER_ID")
     private int userId;  
 	
+	@Column(name = "CODE")
     private String code;  
 	
+	@Column(name = "PASSWORD")
     private String password;
 	
+    @Column(name = "DEL_FLAG")
     private String delFlag;
-	
-    private Timestamp createDate;
+    
+    @Column(name = "CREATE_DATE")
+    private Date createDate;
     
     public User(){
     }
@@ -28,8 +31,7 @@ public class User {
     public void setUserId(int value){
     	this.userId = value;
     }
-    @Id
-	@Column(name = "USER_ID")
+    
     public int getUserId(){
     	return userId;
     }
@@ -37,7 +39,7 @@ public class User {
     public void setcode(String value){
     	this.code = value;
     }
-    @Column(name = "CODE")
+    
     public String getcode(){
     	return code;
     }
@@ -45,7 +47,7 @@ public class User {
     public void setPassword(String value){
     	this.password = value;
     }
-    @Column(name = "PASSWORD")
+    
     public String getPassword(){
     	return password;
     }
@@ -53,16 +55,16 @@ public class User {
     public void setDelFlag(String value){
     	this.delFlag = value;
     }
-    @Column(name = "DEL_FLAG")
+    
     public String getDelFlag(){
     	return delFlag;
     }
     
-    public void setCreateDate(Timestamp value){
+    public void setCreateDate(Date value){
     	this.createDate = value;
     }
-    @Column(name = "CREATE_DATE")
-    public Timestamp getCreateDate(){
+    
+    public Date getCreateDate(){
     	return createDate;
     }
 }  
