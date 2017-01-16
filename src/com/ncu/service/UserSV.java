@@ -8,7 +8,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import com.ncu.bean.User;
+import com.ncu.bean.UserBean;
 import com.ncu.dao.UserDAO;
 
 @Service("UserSV")
@@ -21,7 +21,7 @@ public class UserSV {
 	}
 	@Transactional
 	public void saveUser(){
-	   User user = new User(); 
+	   UserBean user = new UserBean(); 
 	   user.setUserId(2);
 	   user.setDelFlag("1");
 	   user.setcode("12");

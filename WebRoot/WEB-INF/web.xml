@@ -7,6 +7,7 @@
  
     <display-name>GDD</display-name>
 
+
    <servlet>
       <servlet-name>GDD</servlet-name>
       <servlet-class>
@@ -14,14 +15,14 @@
       </servlet-class>
       <load-on-startup>1</load-on-startup>
    </servlet>
-
+   
    <servlet-mapping>
       <servlet-name>GDD</servlet-name>
       <url-pattern>/</url-pattern>
    </servlet-mapping>
    
    <welcome-file-list>
-    <welcome-file>/jsp/login.jsp</welcome-file>
+    <welcome-file>/login.jsp</welcome-file>
 </welcome-file-list>
   
 

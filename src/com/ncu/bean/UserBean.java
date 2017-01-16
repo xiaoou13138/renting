@@ -3,11 +3,17 @@ import java.sql.Timestamp;
 import java.util.Date;
 
 import javax.persistence.*;
+
+/**
+ * 用户表
+ * @author oulc
+ *
+ */
 @Entity
 @Table(name = "user", uniqueConstraints = {   
         @UniqueConstraint(columnNames = {"USER_ID"}),  
 }) 
-public class User {  
+public class UserBean {  
 	
 	@Id
 	@Column(name = "USER_ID")
@@ -25,7 +31,8 @@ public class User {
     @Column(name = "CREATE_DATE")
     private Date createDate;
     
-    public User(){
+    private String tableName = "user";
+    public UserBean(){
     }
     
     public void setUserId(int value){
@@ -66,5 +73,9 @@ public class User {
     
     public Date getCreateDate(){
     	return createDate;
+    }
+    
+    public String getTableName(){
+    	return tableName;
     }
 }  
