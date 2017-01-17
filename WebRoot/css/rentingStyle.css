@@ -116,3 +116,25 @@ span.input-group-addon i {
 	font-size: 11px;
 	text-align: center;
 }
+.fa {
+	display: inline-block;
+	font: normal normal normal 14px/1 FontAwesome;
+	font-size: inherit;
+	text-rendering: auto;
+	-webkit-font-smoothing: antialiased;
+	-moz-osx-font-smoothing: grayscale
+}
+.fa-envelope{
+	width: 22px;
+	height: 22px;
+	background: url(../image/login.png);
+	background-repeat: no-repeat;
+    background-size: cover;
+}
+.fa-lock{
+	width: 22px;
+	height: 22px;
+	background: url(../image/password.png);
+	background-repeat: no-repeat;
+    background-size: cover;
+}
