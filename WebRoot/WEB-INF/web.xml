@@ -6,8 +6,6 @@
     http://java.sun.com/xml/ns/j2ee/web-app_2_4.xsd">
  
     <display-name>GDD</display-name>
-
-
    <servlet>
       <servlet-name>GDD</servlet-name>
       <servlet-class>
@@ -20,7 +18,6 @@
       <servlet-name>GDD</servlet-name>
       <url-pattern>/</url-pattern>
    </servlet-mapping>
-   
    <welcome-file-list>
     <welcome-file>/login.jsp</welcome-file>
 </welcome-file-list>

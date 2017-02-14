@@ -1,4 +1,4 @@
-package com.ncu.service;
+package com.ncu.service.impl;
 
 
 import java.util.Date;
@@ -18,10 +18,11 @@ import org.springframework.context.annotation.Scope;
 import org.springframework.stereotype.Service;
 
 import com.ncu.cache.MailSetting;
+import com.ncu.service.interfaces.IMailSV;
 
 
 @Service
-public class MailService {
+public class MailSVImpl implements IMailSV{
 	@Autowired
 	private MailSetting mailSetting;
 	
@@ -30,6 +31,10 @@ public class MailService {
 	private static String password;
 	
 	private static Logger log = Logger.getLogger(MailSetting.class);
+	
+	/**
+	 * 邮件配置的初始化
+	 */
 	@PostConstruct
 	public void init(){
 		log.info("————————————邮件开始初始化");
@@ -42,6 +47,11 @@ public class MailService {
         session= Session.getDefaultInstance(props); // 根据参数配置，创建会话对象（为了发送邮件准备的）
 	}
 	
+	/**
+	 * 根据message发送邮件
+	 * @param message
+	 * @throws Exception
+	 */
 	public void send(Message message) throws Exception{
 		// 4. 根据 Session 获取邮件传输对象
         Transport transport = session.getTransport();
@@ -57,6 +67,13 @@ public class MailService {
         transport.close();
         log.info("————————————邮件发送成功");
 	}
+	
+	/**
+	 * 创建Message对象  里面包含了所有的发送信息
+	 * @param mailAddress 发送的地址
+	 * @return
+	 * @throws Exception
+	 */
 	public Message crateMessage(String mailAddress) throws Exception{
 		
 		Message message = new MimeMessage(session);     // 创建邮件对象

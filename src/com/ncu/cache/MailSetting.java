@@ -7,7 +7,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Scope;
 import org.springframework.stereotype.Service;
 
-import com.ncu.service.ConfigSV;
+import com.ncu.service.impl.ConfigSVImpl;
 
 /**
  * 邮箱参数加载到内存当中
@@ -24,10 +24,10 @@ public class MailSetting {
 	private String mailTransportProtocol =null;//协议
 	
 	@Autowired
-	private ConfigSV sv;
+	private ConfigSVImpl sv;
 	
 	@PostConstruct
-	public void init(){
+	public void init() throws Exception{
 		mailUserName=sv.queryConfigByCodeType("mailUserName").get(0).getCodeValue();
 		mailPassword=sv.queryConfigByCodeType("mailPassword").get(0).getCodeValue();
 		mailHost=sv.queryConfigByCodeType("mailHost").get(0).getCodeValue();
@@ -52,7 +52,7 @@ public class MailSetting {
 		return mailTransportProtocol;
 	}
 	
-	public void setUserName(String value){
+	/*public void setUserName(String value){
 		this.mailUserName = value;
 	}
 	public void setPassword(String value){
@@ -66,7 +66,7 @@ public class MailSetting {
 	}
 	public void setMailSmtpAuth(String value){
 		this.mailSmtpAuth =value;
-	}
+	}*/
 	
 	/*public static synchronized MailSetting getInstance(){
 	if(instance==null){

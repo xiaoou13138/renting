@@ -1,3 +1,3 @@
 eclipse.preferences.version=1
-validator.Checked=WebRoot/WEB-INF/dist/fonts,WebRoot/js/jquery-3.1.1.min.js,WebRoot/js/bootstrap.min.js,WebRoot/WEB-INF/dist/js,WebRoot/js/npm.js,WebRoot/WEB-INF/css/js/jquery-3.1.1.min.js,WebRoot/WEB-INF/dist/css,WebRoot/WEB-INF/js/jquery-3.1.1.min.js,WebRoot/dist/js/jquery-3.1.1.min.js,WebRoot/js/bootstrap.js
+validator.Checked=WebRoot/WEB-INF/dist/fonts,WebRoot/WEB-INF/dist/js,WebRoot/WEB-INF/css/js/jquery-3.1.1.min.js,WebRoot/js,WebRoot/WEB-INF/js/jquery-3.1.1.min.js,WebRoot/WEB-INF/dist/css,WebRoot/dist/js/jquery-3.1.1.min.js
 validator.Unchecked=

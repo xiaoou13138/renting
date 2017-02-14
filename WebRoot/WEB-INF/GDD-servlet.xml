@@ -54,7 +54,7 @@
             </props>
         </property>
         <!-- 扫描hibernate的注解 -->
-        <property name="packagesToScan" value="com.ncu.bean" />
+        <property name="packagesToScan" value="com.ncu.table.bean" />
     </bean>
     
 	<bean id="viewResolver"
@@ -79,6 +79,7 @@
     <!-- 静态资源的引入 -->
     <mvc:resources mapping="/css/**" location="/css/" />
     <mvc:resources mapping="/js/**" location="/js/"/>
-    <mvc:resources mapping="/image/**" location="/image/"/>    
+    <mvc:resources mapping="/images/**" location="/images/"/> 
+    <mvc:resources mapping="/showImage/**" location="http://localhost:9090/renting/showImage"/> 
     <mvc:annotation-driven />
 </beans>

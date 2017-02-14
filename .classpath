@@ -115,6 +115,15 @@
 	<classpathentry kind="lib" path="lib/log4j/commons-logging-1.1.1.jar"/>
 	<classpathentry kind="con" path="org.eclipse.jdt.launching.JRE_CONTAINER/org.eclipse.jdt.internal.debug.ui.launcher.StandardVMType/Sun JDK 1.6.0_13"/>
 	<classpathentry kind="lib" path="lib/mail/javax.mail.jar"/>
-	<classpathentry kind="lib" path="lib/commons-lang3-3.5.jar"/>
+	<classpathentry kind="con" path="org.eclipse.jdt.junit.JUNIT_CONTAINER/4"/>
+	<classpathentry kind="lib" path="lib/json/commons-beanutils-1.7.0.jar"/>
+	<classpathentry kind="lib" path="lib/json/commons-collections-3.2.1.jar"/>
+	<classpathentry kind="lib" path="lib/json/commons-httpclient-3.1.jar"/>
+	<classpathentry kind="lib" path="lib/json/ezmorph-1.0.3.jar"/>
+	<classpathentry kind="lib" path="lib/json/json-lib-2.2.3-jdk15.jar"/>
+	<classpathentry kind="lib" path="lib/commons-lang-2.4.jar"/>
+	<classpathentry kind="lib" path="lib/jackjson/jackson-annotations-2.7.0.jar"/>
+	<classpathentry kind="lib" path="lib/jackjson/jackson-core-2.7.7.jar"/>
+	<classpathentry kind="lib" path="lib/jackjson/jackson-databind-2.7.8.jar"/>
 	<classpathentry kind="output" path="WebRoot/WEB-INF/classes"/>
 </classpath>
