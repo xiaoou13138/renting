@@ -30,7 +30,6 @@ public class LoginController extends BaseController{
 	public ModelAndView toLogin()throws Exception{
 		ModelAndView mv = this.getModelAndView();
 		ViewData data = new ViewData();
-		data.put("SYSNAME", "测试"); //读取系统名称
 		mv.setViewName("login");
 		mv.addObject("data",data);
 		return mv;
@@ -58,7 +57,7 @@ public class LoginController extends BaseController{
     			//用户信息验证通过
     			rtn = "success";
     		}else{
-    			rtn = "errorPassword";
+    			rtn = "error";
     		}
     		
     	}else{

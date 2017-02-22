@@ -14,9 +14,6 @@ import com.ncu.util.SQLCon;
 
 @Repository
 public class ConfigDAOImpl {
-	@Autowired
-	private HibernateTemplate hibernateTemplate;
-	@SuppressWarnings("unchecked")
 	public List<ConfigBean> queryConfigByCodeType(String codeType) throws Exception{
 		StringBuilder condition = new StringBuilder();
 		HashMap<String,String> params  = new HashMap<String, String>();

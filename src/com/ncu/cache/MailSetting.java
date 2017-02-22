@@ -4,6 +4,7 @@ import javax.annotation.PostConstruct;
 
 import org.osgi.service.component.annotations.Component;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.annotation.DependsOn;
 import org.springframework.context.annotation.Scope;
 import org.springframework.stereotype.Service;
 
@@ -16,6 +17,7 @@ import com.ncu.service.impl.ConfigSVImpl;
  */
 @Service
 @Scope("singleton")
+@DependsOn("BeanUtil")
 public class MailSetting {
 	private  String mailUserName = null;//邮箱用户名
 	private  String mailPassword = null;//邮箱密码

@@ -42,6 +42,15 @@ public class UserBean implements IUserValue{
     @Column(name = IUserValue.S_UserType)
     private String userType;
     
+    @Column(name = IUserValue.S_Phone)
+    private String phone;
+    
+    @Column(name = IUserValue.S_Name)
+    private String name;
+    
+    @Column(name = IUserValue.S_Sex)
+    private String sex;
+    
     @Transient
 	public static Class beanClass = UserBean.class;
     
@@ -116,5 +125,35 @@ public class UserBean implements IUserValue{
 	@Override
 	public String getUserType() {
 		return this.userType;
+	}
+
+	@Override
+	public void setPhone(String value) {
+		this.phone = value;
+	}
+
+	@Override
+	public void setName(String value) {
+		this.name = value;
+	}
+
+	@Override
+	public void setSex(String value) {
+		this.sex = value;
+	}
+
+	@Override
+	public String getPhone() {
+		return phone;
+	}
+
+	@Override
+	public String getName() {
+		return name;
+	}
+
+	@Override
+	public String getSex() {
+		return sex;
 	}
 }  

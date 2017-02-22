@@ -4,7 +4,10 @@
     <head> 
 		<meta name="viewport" content="width=device-width, initial-scale=1">
 		<script src="js/head.js"></script>
+		<script src="js/jquery.cookie.js"></script>
+		<script src="1.js?ver=1"></script>
 		<link rel="stylesheet" href="css/rentingStyle.css">
+		<link rel="stylesheet" href="css/loginAndRegist.css">
 		
 		<title>登录</title>
 	</head>
@@ -18,7 +21,7 @@
 							<label for="email" class="cols-sm-2 control-label">账号:</label>
 							<div class="cols-sm-10">
 								<div class="input-group">
-									<span class="input-group-addon"><i class="fa fa-envelope fa" aria-hidden="true"></i></span>
+									<span class="input-group-addon"><i class="fa fa-login fa" aria-hidden="true"></i></span>
 									<input id="code" type="text" class="form-control" name="email" id="email"  placeholder="请输入邮箱"/>
 								</div>
 							</div>
@@ -56,65 +59,63 @@
 		</div>
     <script type="text/javascript">
     	//后台校验用户名密码
+		var codeObj = $("#code");
+		var passwordObj = $("#password");
 		function checkPassword(){
-			if(check()){
-				var code = $("#code").val();
-				var password = $("#password").val();
-				var json = {"code":code,"password":password};
-				
-				$.ajax({
-					type: "POST",
-					url: 'login_login',
-			    	data: {USERINFO:JSON.stringify(json),time:new Date().getTime()},
-					dataType:'json',
-					cache: false,
-					success: function(data){
-						if("success" == data.result){
-							saveCookie();
-							location.href = "./houses";
-						}else if("usererror" == data.result){
-							$("#code").qtip(getRentingTips('账号错误'));
-							$("#code").focus();
-						}else{
-							$("#password").qtip(getRentingTips('密码错误'));
-							$("#password").focus();
-						}
-					}
-				});
-			}
-		}
-		//前台校验
-		function check(){
-			var code = $("#code").val();
-			var password= $("#password").val();
+			var codeVal = codeObj.val();
+			var passwordVal = passwordObj.val();
+			codeObj.qtip('destroy',true);
+			passwordObj.qtip('destroy',true);
 			//校验账号和密码是否为空
-			if(code == ""){
-				$("#code").qtip(getRentingTips('账号不能为空'));
-				$("#code").focus();
+			if(codeVal == ""){
+				codeObj.qtip(getRentingTips('账号不能为空'));
+				codeObj.focus();
 				return false;
-			}else{
-				$("#code").qtip('destroy',true);
-				if(!checkMail(code)){
-					return false;
+			}
+			
+			if(!checkMail(codeVal)){
+				codeObj.qtip(getRentingTips('账号不是合法的邮箱'));
+				return false;
+			}
+			if(passwordVal == ""){
+				passwordObj.qtip(getRentingTips('密码不能为空'));
+				passwordObj.focus();
+				return false;
+			}
+			var json = {"code":codeVal,"password":passwordVal};
+			
+			$.ajax({
+				type: "POST",
+				url: 'login_login',
+		    	data: {USERINFO:JSON.stringify(json),time:new Date().getTime()},
+				dataType:'json',
+				cache: false,
+				success: function(data){
+					if("success" == data.result){
+						//saveCookie();
+						location.href = "./houses";
+					}else{
+						codeObj.qtip(getRentingTips('账号或者密码错误'));
+						codeObj.focus();
+					}
 				}
-			}
-			if(password == ""){
-				$("#password").qtip(getRentingTips('密码不能为空'));
-				$("#password").focus();
-				return false;
-			}else{
-				$("#password").qtip('destroy', true);
-			}
-			//$("#loginBox").qtip(getRentingTips('正在登陆'));
-			return true;
+			});
 		}
-		
-		
+		jQuery(function() {
+			var codeValC = $.cookie('codeVal');
+			var passwordValC = $.cookie('passwordVal');
+			if (typeof(codeValC) != "undefined"
+					&& typeof(passwordValC) != "undefined") {
+				codeObj.val(codeValC);
+				passwordObj.val(passwordValC);
+				$("#saveid").attr("checked", true);
+				//checkPassword();
+			}
+		});	
 		
 		function register(){
-			location.href = "./register";
+			location.href = "./choiceToRegist";
 		}
-
 	</script>
 	</body>
 </html>
