@@ -1,159 +1,155 @@
 package com.ncu.table.bean;
-import java.lang.reflect.Field;
+
 import java.util.ArrayList;
-import java.util.Date;
 
-import javax.annotation.PostConstruct;
-import javax.persistence.*;
-
-import org.hibernate.metadata.ClassMetadata;
-
+import com.ncu.util.beanUtil.BeanUtil;
+import javax.persistence.*
+;import java.util.Date;
+import java.io.Serializable;
 import com.ncu.table.ivalue.IUserValue;
-import com.ncu.util.BeanUtil;
 
-/**
- * 用户表
- * @author oulc
- *
- */
 @Entity
-@Table(name = "user") 
-public class UserBean implements IUserValue{  
-	
-	@Id
-	@Column(name = IUserValue.S_UserId)
-    private int userId;  
-	
-	@Column(name = IUserValue.S_Code)
-    private String code;  
-	
-	@Column(name = IUserValue.S_Password)
-    private String password;
-	
-    @Column(name = IUserValue.S_DelFlag)
-    private int delFlag;
-    
-    @Column(name = IUserValue.S_CreateDate)
-    private Date createDate;
-    
-    @Column(name = IUserValue.S_ModifyDate)
-    private Date modifyDate;
-    
-    @Column(name = IUserValue.S_UserType)
-    private String userType;
-    
-    @Column(name = IUserValue.S_Phone)
-    private String phone;
-    
-    @Column(name = IUserValue.S_Name)
-    private String name;
-    
-    @Column(name = IUserValue.S_Sex)
-    private String sex;
-    
-    @Transient
-	public static Class beanClass = UserBean.class;
-    
-    @Transient
-	public static ArrayList<String> primaryKey = BeanUtil.initPK(beanClass);
-    
-    @Override
-    public void setUserId(int value){
-    	this.userId = value;
-    }
-    
-    @Override
-    public void setCode(String value){
-    	this.code = value;
-    }
-    
-    @Override
-    public void setDelFlag(int value){
-    	this.delFlag = value;
-    }
-    
-    @Override
-    public void setPassword(String value){
-    	this.password = value;
-    }
-    
-    @Override
-    public void setCreateDate(Date value){
-    	this.createDate = value;
-    }
-    
-    @Override
-	public void setModifyDate(Date value) {
-		this.modifyDate = value;
-	}
-    
-	@Override
-	public void setUserType(String value) {
-		this.userType = value;
-	}
-    
-	@Override
-    public int getUserId(){
-    	return userId;
-    }
-    
-	@Override
-    public String getCode(){
-    	return code;
-    }
-    
-	@Override
-    public String getPassword(){
-    	return password;
-    }
-    
-	@Override
-    public int getDelFlag(){
-    	return delFlag;
-    }
-    
-	@Override
-    public Date getCreateDate(){
-    	return createDate;
-    }
-	
-	@Override
-	public Date getModifyDate() {
-		return this.modifyDate;
-	}
-	
-	@Override
-	public String getUserType() {
-		return this.userType;
-	}
+@Table(name ="user")
+public class UserBean implements IUserValue,Serializable{
 
-	@Override
-	public void setPhone(String value) {
-		this.phone = value;
-	}
+  @Id
+  @GeneratedValue(strategy = GenerationType.IDENTITY)
+  @Column(name = IUserValue.S_UserId)
+  private Long userId;
 
-	@Override
-	public void setName(String value) {
-		this.name = value;
-	}
+  @Column(name = IUserValue.S_UserAccountCode)
+  private String userAccountCode;
 
-	@Override
-	public void setSex(String value) {
-		this.sex = value;
-	}
+  @Column(name = IUserValue.S_UserName)
+  private String userName;
 
-	@Override
-	public String getPhone() {
-		return phone;
-	}
+  @Column(name = IUserValue.S_RealName)
+  private String realName;
 
-	@Override
-	public String getName() {
-		return name;
-	}
+  @Column(name = IUserValue.S_Password)
+  private String password;
 
-	@Override
-	public String getSex() {
-		return sex;
-	}
-}  
+  @Column(name = IUserValue.S_UserPhone)
+  private Long userPhone;
+
+  @Column(name = IUserValue.S_UserAge)
+  private Long userAge;
+
+  @Column(name = IUserValue.S_UserSex)
+  private String userSex;
+
+  @Column(name = IUserValue.S_UserType)
+  private String userType;
+
+  @Column(name = IUserValue.S_ModifyDate)
+  private Date modifyDate;
+
+  @Column(name = IUserValue.S_CreateDate)
+  private Date createDate;
+
+  @Column(name = IUserValue.S_DelFlag)
+  private Long delFlag;
+
+  @Transient
+  public static Class beanClass = UserBean.class;
+
+  @Transient
+  public static ArrayList<String> primaryKey = BeanUtil.initPK(beanClass);
+
+  public void setUserId(Long value){
+    this.userId = value;
+  }
+
+  public Long getUserId(){
+    return userId;
+  }
+
+  public void setUserAccountCode(String value){
+    this.userAccountCode = value;
+  }
+
+  public String getUserAccountCode(){
+    return userAccountCode;
+  }
+
+  public void setUserName(String value){
+    this.userName = value;
+  }
+
+  public String getUserName(){
+    return userName;
+  }
+
+  public void setRealName(String value){
+    this.realName = value;
+  }
+
+  public String getRealName(){
+    return realName;
+  }
+
+  public void setPassword(String value){
+    this.password = value;
+  }
+
+  public String getPassword(){
+    return password;
+  }
+
+  public void setUserPhone(Long value){
+    this.userPhone = value;
+  }
+
+  public Long getUserPhone(){
+    return userPhone;
+  }
+
+  public void setUserAge(Long value){
+    this.userAge = value;
+  }
+
+  public Long getUserAge(){
+    return userAge;
+  }
+
+  public void setUserSex(String value){
+    this.userSex = value;
+  }
+
+  public String getUserSex(){
+    return userSex;
+  }
+
+  public void setUserType(String value){
+    this.userType = value;
+  }
+
+  public String getUserType(){
+    return userType;
+  }
+
+  public void setModifyDate(Date value){
+    this.modifyDate = value;
+  }
+
+  public Date getModifyDate(){
+    return modifyDate;
+  }
+
+  public void setCreateDate(Date value){
+    this.createDate = value;
+  }
+
+  public Date getCreateDate(){
+    return createDate;
+  }
+
+  public void setDelFlag(Long value){
+    this.delFlag = value;
+  }
+
+  public Long getDelFlag(){
+    return delFlag;
+  }
+
+}

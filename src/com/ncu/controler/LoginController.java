@@ -3,10 +3,12 @@ package com.ncu.controler;
 
 import javax.annotation.Resource;
 
+import com.ncu.util.APPUtil;
 import net.sf.json.JSONObject;
 
 import org.apache.commons.lang.StringUtils;
 import org.apache.log4j.Logger;
+import org.springframework.context.annotation.Scope;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
@@ -15,7 +17,10 @@ import org.springframework.web.servlet.ModelAndView;
 import com.ncu.data.ViewData;
 import com.ncu.service.interfaces.IUserSV;
 
+import java.util.HashMap;
+
 @Controller
+@Scope("prototype")
 public class LoginController extends BaseController{
 	@Resource(name="UserSVImpl")
 	private IUserSV sv;
@@ -29,7 +34,7 @@ public class LoginController extends BaseController{
 	@RequestMapping(value="/login")
 	public ModelAndView toLogin()throws Exception{
 		ModelAndView mv = this.getModelAndView();
-		ViewData data = new ViewData();
+		ViewData data = this.getViewData();
 		mv.setViewName("login");
 		mv.addObject("data",data);
 		return mv;
@@ -37,45 +42,31 @@ public class LoginController extends BaseController{
     
     /**
      * 用户提交登录
-     * @param pojo
+     * @param
      * @return
      * @throws Exception
      */
     @RequestMapping(value="/login_login" ,produces="application/json;charset=UTF-8")
 	@ResponseBody
-    public Object checkPassword() throws Exception{
-    	
-    	//判断用户的密码是否正确
-    	String rtn = "";
+    public Object checkPassword(){
+    	JSONObject rtnObject = this.getRtnJSONObject();
     	ViewData data = this.getViewData();
-    	JSONObject userInfo = (JSONObject)data.get("USERINFO");
-    	String code = userInfo.getString("code");
-    	String password = userInfo.getString("password");
-    	if(StringUtils.isNotBlank(code)||StringUtils.isNotBlank(password)){
-    		log.info("开始验证"+code+"用户的身份");
-    		if(sv.checkUserInfo(code, password)){
-    			//用户信息验证通过
-    			rtn = "success";
-    		}else{
-    			rtn = "error";
-    		}
-    		
-    	}else{
-    		rtn = "emptyInfo";
-    	}
-    	JSONObject rtnObject = new JSONObject();
-    	rtnObject.put("result", rtn);
-    	return rtnObject;
+		String rtn = "N";
+    	try{
+			JSONObject viewObject = data.getJSONObject("DATA");
+			String code = APPUtil.getSafeStringFromJSONObject(viewObject,"code");
+			String password = APPUtil.getSafeStringFromJSONObject(viewObject,"password");
+			HashMap map = sv.checkUserInfo(code,password);
+			this.getSession().setAttribute("userId",map.get("userId"));
+			this.getSession().setAttribute("userName",map.get("userName"));
+			if((boolean)map.get("result")){
+				rtn = "Y";
+			}
+			rtnObject.put("result", rtn);
+
+		}catch (Exception e){
+    		e.printStackTrace();
+		}
+		return rtnObject;
     }
-   /* public String printHello(@ModelAttribute( " pojo " ) LoginBean loginBean)throws Exception {
-    	String userName = loginBean.getUserName();
-    	String password = loginBean.getPassword();
-    	if(StringUtils.isBlank(userName)){
-    		UserBean  bean = sv.queryUserInfoByUserName(userName);
-    		if(bean)
-    	}else{
-    		
-    	}
-	    return "login";
-    }*/
 }

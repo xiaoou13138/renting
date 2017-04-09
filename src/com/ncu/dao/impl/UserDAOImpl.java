@@ -14,7 +14,7 @@ import com.ncu.table.ivalue.IUserValue;
 public class UserDAOImpl {
 	@Autowired
 	private HibernateTemplate hibernateTemplate;
-	
+
 	@Autowired
 	private UserEngine engine;
 	/**
@@ -24,7 +24,7 @@ public class UserDAOImpl {
 	public void save(IUserValue value){
 		hibernateTemplate.save(value);
 	}
-	
+
 	/**
 	 * 根据条件和参数来查询表
 	 * @param condition 条件
@@ -35,5 +35,18 @@ public class UserDAOImpl {
 	public List<IUserValue> queryUserInfoByCondition(String condition , HashMap<String,String> params) throws Exception{
 		return (List<IUserValue>) engine.queryByCondition(condition, params,-1,-1);
 	}
-	
+
+	/**
+	 * 根据条件和参数来查询表
+	 * @param condition
+	 * @param params
+	 * @param begin
+	 * @param end
+	 * @return
+	 * @throws Exception
+	 */
+	public List<IUserValue> queryUserInfoByCondition(String condition , HashMap<String,String> params,int begin,int end) throws Exception{
+		return (List<IUserValue>) engine.queryByCondition(condition, params,begin,end);
+	}
+
 }

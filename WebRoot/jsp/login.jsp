@@ -2,59 +2,43 @@
 <!DOCTYPE html>
 <html lang="en">
     <head> 
-		<meta name="viewport" content="width=device-width, initial-scale=1">
 		<script src="js/head.js"></script>
-		<script src="js/jquery.cookie.js"></script>
-		<script src="1.js?ver=1"></script>
-		<link rel="stylesheet" href="css/rentingStyle.css">
-		<link rel="stylesheet" href="css/loginAndRegist.css">
-		
 		<title>登录</title>
 	</head>
 	<body>
-		<div class="container" >
-			<div class="row main">
-				<div class="main-login main-center" id="loginBox">
-					<form class="" method="post" action="#">
-					
-						<div class="form-group">
-							<label for="email" class="cols-sm-2 control-label">账号:</label>
-							<div class="cols-sm-10">
-								<div class="input-group">
-									<span class="input-group-addon"><i class="fa fa-login fa" aria-hidden="true"></i></span>
-									<input id="code" type="text" class="form-control" name="email" id="email"  placeholder="请输入邮箱"/>
-								</div>
+		<div class="container " >
+			<div class="center-block" style="width: 500px;margin: 100px auto">
+				<form class="form-horizontal">
+					<div class="form-group">
+						<label for="code" class="col-sm-2 control-label">账号:</label>
+						<div class="col-sm-10">
+							<input type="text" class="form-control" id="code" placeholder="请输入邮箱">
+						</div>
+					</div>
+					<div class="form-group">
+						<label for="password" class="col-sm-2 control-label">密码:</label>
+						<div class="col-sm-10">
+							<input type="password" class="form-control" id="password" placeholder="密码">
+						</div>
+					</div>
+					<div class="form-group">
+						<div class="col-sm-offset-2 col-sm-10">
+							<div class="checkbox">
+								<label>
+									<input type="checkbox" onclick="savePaw();" id="saveid"> 记住密码
+								</label>
 							</div>
 						</div>
-						
-						<div class="form-group">
-							<label for="password" class="cols-sm-2 control-label">密码:</label>
-							<div class="cols-sm-10">
-								<div class="input-group">
-									<span class="input-group-addon"><i class="fa fa-lock fa-lg" aria-hidden="true"></i></span>
-									<input id="password" type="password" class="form-control" name="password" id="password"  placeholder="请输入密码"/>
-								</div>
-							</div>
-							<div style="float:left;padding-left:10%;">
-							<a onclick="register()">
-								<font color="white">注册</font>
-							</a>
-						</div>
-						<div style="float:right;padding-right:10%;">
-							<div style="float: left;margin-top:3px;margin-right:2px;">
-								<font color="white">记住密码</font>
-							</div>
-							<div style="float: left;">
-								<input name="form-field-checkbox" id="saveid" type="checkbox"
-									onclick="savePaw();" style="padding-top:0px;" />
-							</div>
-						</div>
-						</div>
-						<div class="form-group">
-							<a type="button" id="button" class="btn btn-primary btn-lg btn-block login-button" onclick="checkPassword();">登录</a>
-						</div>
-					</form>
-				</div>
+					</div>
+					<div class="form-group center-block" style="margin-top: 80px">
+						<p class="col-sm-6">
+							<button type="button" class="btn btn-primary btn-lg btn-block" onclick="register()">注册</button>
+						</p>
+						<p class="col-sm-6">
+							<button type="button" class="btn btn-primary btn-lg btn-block" onclick="checkPassword();">登录</button>
+						</p>
+					</div>
+				</form>
 			</div>
 		</div>
     <script type="text/javascript">
@@ -82,24 +66,17 @@
 				passwordObj.focus();
 				return false;
 			}
-			var json = {"code":codeVal,"password":passwordVal};
-			
-			$.ajax({
-				type: "POST",
-				url: 'login_login',
-		    	data: {USERINFO:JSON.stringify(json),time:new Date().getTime()},
-				dataType:'json',
-				cache: false,
-				success: function(data){
-					if("success" == data.result){
-						//saveCookie();
-						location.href = "./houses";
-					}else{
-						codeObj.qtip(getRentingTips('账号或者密码错误'));
-						codeObj.focus();
-					}
-				}
-			});
+			//提交用户数据
+			doPostAjax("login_login",{"code":codeVal,"password":passwordVal},function (rtnData) {
+                if("Y" == rtnData.result){
+                    //saveCookie();
+                    location.href = "./houses";
+                }else{
+                    codeObj.qtip(getRentingTips('账号或者密码错误'));
+                    codeObj.focus();
+                }
+            })
+
 		}
 		jQuery(function() {
 			var codeValC = $.cookie('codeVal');
@@ -109,12 +86,11 @@
 				codeObj.val(codeValC);
 				passwordObj.val(passwordValC);
 				$("#saveid").attr("checked", true);
-				//checkPassword();
 			}
 		});	
 		
 		function register(){
-			location.href = "./choiceToRegist";
+			location.href = "./regist";
 		}
 	</script>
 	</body>

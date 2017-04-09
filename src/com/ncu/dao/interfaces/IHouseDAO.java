@@ -16,5 +16,8 @@ public interface IHouseDAO {
 	 * @throws Exception
 	 */
 	public List<IHouseValue> getHouseInfoByCondition(String condition , HashMap<String,String> params,int beginPage,int endPage) throws Exception;
+	public void save(IHouseValue value) throws Exception;
+	public long getCount(String condition , HashMap<String,String> params)throws Exception;
+
 
 }

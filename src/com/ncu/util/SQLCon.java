@@ -10,17 +10,16 @@ public class SQLCon {
 	 * @param colName 列名
 	 * @param colValue 列值
 	 * @param condition sql条件
-	 * @param map 值
-	 * @param connectType 拼接的类型
 	 */
-	public static void connectSQL(String colName,String colValue,StringBuilder condition,Map params,boolean isLike){
-		if(StringUtils.isNotBlank(colValue)){
+	public static void connectSQL(String colName,Object colValue,StringBuilder condition,Map params,boolean isLike){
+		String realColName = StringUtil.toHumpWord(colName,false);
+		if(colValue != null){
 			if(isLike){
-				condition.append(" AND "+colName+" LIKE %:"+colName+"%");
-				params.put(colName, colValue);
+				condition.append(" AND "+realColName+" LIKE :"+realColName+"");
+				params.put(realColName, ""+'%'+colValue+'%');
 			}else{
-				condition.append(" AND "+colName+" = :"+colName);
-				params.put(colName, colValue);
+				condition.append(" AND "+realColName+" = :"+realColName);
+				params.put(realColName, colValue);
 			}
 		}
 	}

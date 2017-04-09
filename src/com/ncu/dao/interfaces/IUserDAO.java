@@ -6,13 +6,13 @@ import java.util.List;
 import com.ncu.table.ivalue.IUserValue;
 
 public interface IUserDAO {
-	
+
 	/**
 	 * 保存用户信息
-	 * @param user
+	 * @param value
 	 */
 	public void save(IUserValue value);
-	
+
 	/**
 	 * 根据条件和参数来查询表
 	 * @param condition 条件

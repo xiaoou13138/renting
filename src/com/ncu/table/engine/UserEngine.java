@@ -2,18 +2,20 @@ package com.ncu.table.engine;
 
 import java.util.HashMap;
 import java.util.List;
-import org.springframework.stereotype.Service;
 
-import com.ncu.table.bean.ConfigBean;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Repository;
 import com.ncu.table.bean.UserBean;
-import com.ncu.util.BeanUtil;
+import com.ncu.util.beanUtil.BeanUtil;
 
-
-@Service
+@Repository
 public class UserEngine{
-
-	public static List<?> queryByCondition(String condition , HashMap<String,String> params,int beginPage ,int endPage) throws Exception{
-		return BeanUtil.queryByConditionBase(condition, params, beginPage, endPage, UserBean.beanClass.getSimpleName());
-	}
-
+  @Autowired
+  BeanUtil beanUtil;
+  public List queryByCondition(String condition , HashMap<String,String> params,int beginPage ,int endPage) throws Exception{
+    return beanUtil.queryByCondition(condition, params, beginPage, endPage, UserBean.beanClass.getSimpleName());
+  }
+  public void save(Object value) throws Exception{
+    beanUtil.save(value);
+  }
 }

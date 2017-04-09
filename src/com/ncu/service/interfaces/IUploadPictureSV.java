@@ -14,7 +14,7 @@ public interface IUploadPictureSV {
 	 * @return
 	 * @throws Exception 
 	 */
-	public boolean saveImageByUploadPicture(MultipartFile file) throws Exception;
+	public String saveImageByUploadPicture(MultipartFile file) throws Exception;
 	/**
 	 * 获取文件的名称
 	 * @param file 图片
@@ -22,5 +22,6 @@ public interface IUploadPictureSV {
 	 * @throws Exception 
 	 */
 	public String getFileName(MultipartFile file) throws Exception;
+
 
 }

@@ -10,7 +10,8 @@ import javax.persistence.Table;
 import javax.persistence.Transient;
 
 import com.ncu.table.ivalue.IUserTypeDefineValue;
-import com.ncu.util.BeanUtil;
+import com.ncu.util.beanUtil.BeanUtil;
+
 @Entity
 @Table(name = "user_type_define") 
 public class UserTypeDefineBean implements IUserTypeDefineValue{

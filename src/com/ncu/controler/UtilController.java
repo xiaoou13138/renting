@@ -7,12 +7,13 @@ import java.io.OutputStream;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import com.ncu.cache.StaticDataCache;
 import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.annotation.Scope;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 
-import com.ncu.cache.ImagePath;
 import com.ncu.data.ViewData;
 
 /**
@@ -21,32 +22,33 @@ import com.ncu.data.ViewData;
  *
  */
 @Controller
+@Scope("prototype")
 public class UtilController extends BaseController{
 	@Autowired
-	private ImagePath imagePathObejct;
+	private StaticDataCache cache;
 	public static Logger log = Logger.getLogger(UtilController.class);
-	
+
 	@RequestMapping(value="/showImage")
-	public void showImage(HttpServletRequest request,HttpServletResponse response){
+	public void showImage(HttpServletRequest request,HttpServletResponse response) throws Exception{
 		ViewData data = this.getViewData();
 		String imageFile = data.getString("imageFile");
 		//暂时先用虚拟的路径
-		String imagePath = imagePathObejct.getPhysicalPath()+imageFile;
-		
+		String imagePath = cache.getStaticDataByCode("physicalPath").get(0).getCodeValue()+imageFile;
+
 		FileInputStream fileIs = null;
 		OutputStream outStream = null;
 		try {
 			fileIs = new FileInputStream(imagePath);
 			int i=fileIs.available(); //得到文件大小   
-			byte fileData[]=new byte[i];   
+			byte fileData[]=new byte[i];
 			fileIs.read(fileData);  //读数据   
 			response.setContentType("image/*"); //设置返回的文件类型   
 			outStream=response.getOutputStream(); //得到向客户端输出二进制数据的对象   
 			outStream.write(fileData);  //输出数据      
-			outStream.flush();  
-			
+			outStream.flush();
+
 		} catch (Exception e) {
-			log.error("系统找不到图像文件："+imagePath);        
+			log.error("系统找不到图像文件："+imagePath);
 			return;
 		}finally{
 			try {
@@ -54,10 +56,10 @@ public class UtilController extends BaseController{
 				fileIs.close();
 			} catch (IOException e) {
 				e.printStackTrace();
-			}   
-			
+			}
+
 		}
-		
+
 	}
 
 }

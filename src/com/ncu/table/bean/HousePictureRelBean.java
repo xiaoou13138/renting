@@ -1,131 +1,67 @@
 package com.ncu.table.bean;
 
 import java.util.ArrayList;
-import java.util.Date;
 
-import javax.annotation.PostConstruct;
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.Id;
-import javax.persistence.Table;
-import javax.persistence.Transient;
-import javax.persistence.UniqueConstraint;
-
+import com.ncu.util.beanUtil.BeanUtil;
+import javax.persistence.*
+;import java.util.Date;
+import java.io.Serializable;
 import com.ncu.table.ivalue.IHousePictureRelValue;
-import com.ncu.table.ivalue.IPictureValue;
-import com.ncu.util.BeanUtil;
+
 @Entity
-@Table(name = "house_picture_rel") 
-public class HousePictureRelBean implements IHousePictureRelValue{
-	
-	@Id
-	@Column(name = IHousePictureRelValue.S_RelId)
-    private long relId; 
-	
-	@Column(name = IHousePictureRelValue.S_RelType)
-    private String relType;
-	
-	@Column(name = IHousePictureRelValue.S_HouseId)
-	private long houseId;
-	
-	@Column(name = IHousePictureRelValue.S_RelPictureId)
-	private long relPictureId;
-	
-	@Column(name = IHousePictureRelValue.S_DelFlag)
-    private int delFlag;
-    
-    @Column(name = IHousePictureRelValue.S_CreateDate)
-    private Date createDate;
-    
-    @Column(name = IHousePictureRelValue.S_ModifyDate)
-    private Date modifyDate;
-    
-    @Column(name = IHousePictureRelValue.S_OperId)
-    private long operId;
+@Table(name ="house_picture_rel")
+public class HousePictureRelBean implements IHousePictureRelValue,Serializable{
 
-    @Transient
-	public static Class beanClass = HousePictureRelBean.class;
-    
-    @Transient
-	public static ArrayList<String> primaryKey = BeanUtil.initPK(beanClass);
-	
-	@Override
-	public void setRelId(long value) {
-		this.relId = value;
-	}
+  @Id
+  @GeneratedValue(strategy = GenerationType.IDENTITY)
+  @Column(name = IHousePictureRelValue.S_HousePictureRelId)
+  private Long housePictureRelId;
 
-	@Override
-	public void setRelType(String value) {
-		this.relType = value;		
-	}
+  @Column(name = IHousePictureRelValue.S_HouseId)
+  private Long houseId;
 
-	@Override
-	public void setHouseId(long value) {
-		this.houseId = value;		
-	}
+  @Column(name = IHousePictureRelValue.S_HousePictureId)
+  private Long housePictureId;
 
-	@Override
-	public void setRelPictureId(long value) {
-		this.relPictureId = value;		
-	}
+  @Column(name = IHousePictureRelValue.S_PictureType)
+  private String pictureType;
 
-	@Override
-	public void setDelFlag(int value) {
-		this.delFlag = value;
-	}
+  @Transient
+  public static Class beanClass = HousePictureRelBean.class;
 
-	@Override
-	public void setCreateDate(Date value) {
-		this.createDate = value;
-	}
+  @Transient
+  public static ArrayList<String> primaryKey = BeanUtil.initPK(beanClass);
 
-	@Override
-	public void setModifyDate(Date value) {
-		this.modifyDate = value;
-	}
+  public void setHousePictureRelId(Long value){
+    this.housePictureRelId = value;
+  }
 
-	@Override
-	public void setOperId(long value) {
-		this.operId = value;
-	}
+  public Long getHousePictureRelId(){
+    return housePictureRelId;
+  }
 
-	@Override
-	public long getRelId() {
-		return this.relId;
-	}
+  public void setHouseId(Long value){
+    this.houseId = value;
+  }
 
-	@Override
-	public String getRelType() {
-		return this.relType;
-	}
+  public Long getHouseId(){
+    return houseId;
+  }
 
-	@Override
-	public long getHouseId() {
-		return this.houseId;
-	}
+  public void setHousePictureId(Long value){
+    this.housePictureId = value;
+  }
 
-	@Override
-	public long getRelPictureId() {
-		return this.relPictureId;
-	}
+  public Long getHousePictureId(){
+    return housePictureId;
+  }
 
-	@Override
-	public int getDelFlag() {
-		return this.delFlag;
-	}
+  public void setPictureType(String value){
+    this.pictureType = value;
+  }
 
-	@Override
-	public Date getCreateDate() {
-		return this.createDate;
-	}
+  public String getPictureType(){
+    return pictureType;
+  }
 
-	@Override
-	public Date getModifyDate() {
-		return this.modifyDate;
-	}
-
-	@Override
-	public long getOperId() {
-		return this.operId;
-	}
 }

@@ -39,3 +39,22 @@ function checkTime(time1,time2){
 	}
 	return true;
 }
+/**
+ * 校验数字
+ * @param time1
+ * @param time2
+ * @returns {Boolean}
+ */
+function validateNum(obj1) {
+    var obj = $(obj1).val();
+    if(obj!="" && obj!=undefined){
+        if(isNaN(obj)){
+            layer.alert('请输入数字', {
+                skin: 'layui-layer-molv' //样式类名
+                ,closeBtn: 0
+            });
+            $(obj1).val("")
+            return;
+        }
+    }
+}

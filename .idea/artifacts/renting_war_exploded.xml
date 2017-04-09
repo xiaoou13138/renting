@@ -1,0 +1,137 @@
+<component name="ArtifactManager">
+  <artifact type="exploded-war" name="renting:war exploded">
+    <output-path>$PROJECT_DIR$/WebRoot/WEB-INF/classes/artifacts/renting_war_exploded</output-path>
+    <root id="root">
+      <element id="directory" name="WEB-INF">
+        <element id="directory" name="classes">
+          <element id="module-output" name="renting" />
+        </element>
+        <element id="directory" name="lib">
+          <element id="library" level="module" name="druid-1.0.26.jar" module-name="renting" />
+          <element id="library" level="module" name="mysql-connector-java-3.1.14-bin.jar" module-name="renting" />
+          <element id="library" level="module" name="geolatte-geom-1.0.6.jar" module-name="renting" />
+          <element id="library" level="module" name="guava-18.0.jar" module-name="renting" />
+          <element id="library" level="module" name="hibernate-spatial-5.2.6.Final.jar" module-name="renting" />
+          <element id="library" level="module" name="jna-4.1.0.jar" module-name="renting" />
+          <element id="library" level="module" name="jna-platform-4.1.0.jar" module-name="renting" />
+          <element id="library" level="module" name="jts-1.13.jar" module-name="renting" />
+          <element id="library" level="module" name="postgresql-9.4-1200-jdbc41.jar" module-name="renting" />
+          <element id="library" level="module" name="slf4j-api-1.7.7.jar" module-name="renting" />
+          <element id="library" level="module" name="slf4j-simple-1.7.7.jar" module-name="renting" />
+          <element id="library" level="module" name="waffle-jna-1.7.jar" module-name="renting" />
+          <element id="library" level="module" name="spring-aop-4.3.4.RELEASE-javadoc.jar" module-name="renting" />
+          <element id="library" level="module" name="spring-aop-4.3.4.RELEASE-sources.jar" module-name="renting" />
+          <element id="library" level="module" name="spring-aop-4.3.4.RELEASE.jar" module-name="renting" />
+          <element id="library" level="module" name="spring-aspects-4.3.4.RELEASE-javadoc.jar" module-name="renting" />
+          <element id="library" level="module" name="spring-aspects-4.3.4.RELEASE-sources.jar" module-name="renting" />
+          <element id="library" level="module" name="spring-aspects-4.3.4.RELEASE.jar" module-name="renting" />
+          <element id="library" level="module" name="spring-beans-4.3.4.RELEASE-javadoc.jar" module-name="renting" />
+          <element id="library" level="module" name="spring-beans-4.3.4.RELEASE-sources.jar" module-name="renting" />
+          <element id="library" level="module" name="spring-beans-4.3.4.RELEASE.jar" module-name="renting" />
+          <element id="library" level="module" name="spring-context-4.3.4.RELEASE-javadoc.jar" module-name="renting" />
+          <element id="library" level="module" name="spring-context-4.3.4.RELEASE-sources.jar" module-name="renting" />
+          <element id="library" level="module" name="spring-context-4.3.4.RELEASE.jar" module-name="renting" />
+          <element id="library" level="module" name="spring-context-support-4.3.4.RELEASE-javadoc.jar" module-name="renting" />
+          <element id="library" level="module" name="spring-context-support-4.3.4.RELEASE-sources.jar" module-name="renting" />
+          <element id="library" level="module" name="spring-context-support-4.3.4.RELEASE.jar" module-name="renting" />
+          <element id="library" level="module" name="spring-core-4.3.4.RELEASE-javadoc.jar" module-name="renting" />
+          <element id="library" level="module" name="spring-core-4.3.4.RELEASE-sources.jar" module-name="renting" />
+          <element id="library" level="module" name="spring-core-4.3.4.RELEASE.jar" module-name="renting" />
+          <element id="library" level="module" name="spring-expression-4.3.4.RELEASE-javadoc.jar" module-name="renting" />
+          <element id="library" level="module" name="spring-expression-4.3.4.RELEASE-sources.jar" module-name="renting" />
+          <element id="library" level="module" name="spring-expression-4.3.4.RELEASE.jar" module-name="renting" />
+          <element id="library" level="module" name="spring-instrument-4.3.4.RELEASE-javadoc.jar" module-name="renting" />
+          <element id="library" level="module" name="spring-instrument-4.3.4.RELEASE-sources.jar" module-name="renting" />
+          <element id="library" level="module" name="spring-instrument-4.3.4.RELEASE.jar" module-name="renting" />
+          <element id="library" level="module" name="spring-instrument-tomcat-4.3.4.RELEASE-javadoc.jar" module-name="renting" />
+          <element id="library" level="module" name="spring-instrument-tomcat-4.3.4.RELEASE-sources.jar" module-name="renting" />
+          <element id="library" level="module" name="spring-instrument-tomcat-4.3.4.RELEASE.jar" module-name="renting" />
+          <element id="library" level="module" name="spring-jdbc-4.3.4.RELEASE-javadoc.jar" module-name="renting" />
+          <element id="library" level="module" name="spring-jdbc-4.3.4.RELEASE-sources.jar" module-name="renting" />
+          <element id="library" level="module" name="spring-jdbc-4.3.4.RELEASE.jar" module-name="renting" />
+          <element id="library" level="module" name="spring-jms-4.3.4.RELEASE-javadoc.jar" module-name="renting" />
+          <element id="library" level="module" name="spring-jms-4.3.4.RELEASE-sources.jar" module-name="renting" />
+          <element id="library" level="module" name="spring-jms-4.3.4.RELEASE.jar" module-name="renting" />
+          <element id="library" level="module" name="spring-messaging-4.3.4.RELEASE-javadoc.jar" module-name="renting" />
+          <element id="library" level="module" name="spring-messaging-4.3.4.RELEASE-sources.jar" module-name="renting" />
+          <element id="library" level="module" name="spring-messaging-4.3.4.RELEASE.jar" module-name="renting" />
+          <element id="library" level="module" name="spring-orm-4.3.4.RELEASE-javadoc.jar" module-name="renting" />
+          <element id="library" level="module" name="spring-orm-4.3.4.RELEASE-sources.jar" module-name="renting" />
+          <element id="library" level="module" name="spring-orm-4.3.4.RELEASE.jar" module-name="renting" />
+          <element id="library" level="module" name="spring-oxm-4.3.4.RELEASE-javadoc.jar" module-name="renting" />
+          <element id="library" level="module" name="spring-oxm-4.3.4.RELEASE-sources.jar" module-name="renting" />
+          <element id="library" level="module" name="spring-oxm-4.3.4.RELEASE.jar" module-name="renting" />
+          <element id="library" level="module" name="spring-test-4.3.4.RELEASE-javadoc.jar" module-name="renting" />
+          <element id="library" level="module" name="spring-test-4.3.4.RELEASE-sources.jar" module-name="renting" />
+          <element id="library" level="module" name="spring-test-4.3.4.RELEASE.jar" module-name="renting" />
+          <element id="library" level="module" name="spring-tx-4.3.4.RELEASE-javadoc.jar" module-name="renting" />
+          <element id="library" level="module" name="spring-tx-4.3.4.RELEASE-sources.jar" module-name="renting" />
+          <element id="library" level="module" name="spring-tx-4.3.4.RELEASE.jar" module-name="renting" />
+          <element id="library" level="module" name="spring-web-4.3.4.RELEASE-javadoc.jar" module-name="renting" />
+          <element id="library" level="module" name="spring-web-4.3.4.RELEASE-sources.jar" module-name="renting" />
+          <element id="library" level="module" name="spring-web-4.3.4.RELEASE.jar" module-name="renting" />
+          <element id="library" level="module" name="spring-webmvc-4.3.4.RELEASE-javadoc.jar" module-name="renting" />
+          <element id="library" level="module" name="spring-webmvc-4.3.4.RELEASE-sources.jar" module-name="renting" />
+          <element id="library" level="module" name="spring-webmvc-4.3.4.RELEASE.jar" module-name="renting" />
+          <element id="library" level="module" name="spring-webmvc-portlet-4.3.4.RELEASE-javadoc.jar" module-name="renting" />
+          <element id="library" level="module" name="spring-webmvc-portlet-4.3.4.RELEASE-sources.jar" module-name="renting" />
+          <element id="library" level="module" name="spring-webmvc-portlet-4.3.4.RELEASE.jar" module-name="renting" />
+          <element id="library" level="module" name="spring-websocket-4.3.4.RELEASE-javadoc.jar" module-name="renting" />
+          <element id="library" level="module" name="spring-websocket-4.3.4.RELEASE-sources.jar" module-name="renting" />
+          <element id="library" level="module" name="spring-websocket-4.3.4.RELEASE.jar" module-name="renting" />
+          <element id="library" level="module" name="hibernate-envers-5.2.6.Final.jar" module-name="renting" />
+          <element id="library" level="module" name="hibernate-jpamodelgen-5.2.6.Final.jar" module-name="renting" />
+          <element id="library" level="module" name="hibernate-osgi-5.2.6.Final.jar" module-name="renting" />
+          <element id="library" level="module" name="org.osgi.compendium-4.3.1.jar" module-name="renting" />
+          <element id="library" level="module" name="org.osgi.core-4.3.1.jar" module-name="renting" />
+          <element id="library" level="module" name="antlr-2.7.7.jar" module-name="renting" />
+          <element id="library" level="module" name="cdi-api-1.1.jar" module-name="renting" />
+          <element id="library" level="module" name="classmate-1.3.0.jar" module-name="renting" />
+          <element id="library" level="module" name="dom4j-1.6.1.jar" module-name="renting" />
+          <element id="library" level="module" name="geronimo-jta_1.1_spec-1.1.1.jar" module-name="renting" />
+          <element id="library" level="module" name="hibernate-commons-annotations-5.0.1.Final.jar" module-name="renting" />
+          <element id="library" level="module" name="hibernate-core-5.2.6.Final.jar" module-name="renting" />
+          <element id="library" level="module" name="hibernate-jpa-2.1-api-1.0.0.Final.jar" module-name="renting" />
+          <element id="library" level="module" name="jandex-2.0.3.Final.jar" module-name="renting" />
+          <element id="library" level="module" name="javassist-3.20.0-GA.jar" module-name="renting" />
+          <element id="library" level="module" name="javax.inject-1.jar" module-name="renting" />
+          <element id="library" level="module" name="jboss-interceptors-api_1.1_spec-1.0.0.Beta1.jar" module-name="renting" />
+          <element id="library" level="module" name="jboss-logging-3.3.0.Final.jar" module-name="renting" />
+          <element id="library" level="module" name="jsr250-api-1.0.jar" module-name="renting" />
+          <element id="library" level="module" name="c3p0-0.9.5.2.jar" module-name="renting" />
+          <element id="library" level="module" name="hibernate-c3p0-5.2.6.Final.jar" module-name="renting" />
+          <element id="library" level="module" name="mchange-commons-java-0.2.11.jar" module-name="renting" />
+          <element id="library" level="module" name="ehcache-2.10.3.jar" module-name="renting" />
+          <element id="library" level="module" name="hibernate-ehcache-5.2.6.Final.jar" module-name="renting" />
+          <element id="library" level="module" name="lib/hibernate/optional/ehcache/slf4j-api-1.7.7.jar" module-name="renting" />
+          <element id="library" level="module" name="hibernate-infinispan-5.2.6.Final-tests.jar" module-name="renting" />
+          <element id="library" level="module" name="hibernate-infinispan-5.2.6.Final.jar" module-name="renting" />
+          <element id="library" level="module" name="infinispan-commons-8.2.5.Final.jar" module-name="renting" />
+          <element id="library" level="module" name="infinispan-core-8.2.5.Final.jar" module-name="renting" />
+          <element id="library" level="module" name="jboss-marshalling-osgi-1.4.10.Final.jar" module-name="renting" />
+          <element id="library" level="module" name="jboss-transaction-api_1.1_spec-1.0.1.Final.jar" module-name="renting" />
+          <element id="library" level="module" name="jgroups-3.6.7.Final.jar" module-name="renting" />
+          <element id="library" level="module" name="hibernate-proxool-5.2.6.Final.jar" module-name="renting" />
+          <element id="library" level="module" name="proxool-0.8.3.jar" module-name="renting" />
+          <element id="library" level="module" name="log4j-1.2.17.jar" module-name="renting" />
+          <element id="library" level="module" name="commons-logging-1.1.1.jar" module-name="renting" />
+          <element id="library" level="module" name="javax.mail.jar" module-name="renting" />
+          <element id="library" level="module" name="junit4" module-name="renting" />
+          <element id="library" level="module" name="commons-beanutils-1.7.0.jar" module-name="renting" />
+          <element id="library" level="module" name="commons-collections-3.2.1.jar" module-name="renting" />
+          <element id="library" level="module" name="commons-httpclient-3.1.jar" module-name="renting" />
+          <element id="library" level="module" name="ezmorph-1.0.3.jar" module-name="renting" />
+          <element id="library" level="module" name="json-lib-2.2.3-jdk15.jar" module-name="renting" />
+          <element id="library" level="module" name="commons-lang-2.4.jar" module-name="renting" />
+          <element id="library" level="module" name="jackson-annotations-2.7.0.jar" module-name="renting" />
+          <element id="library" level="module" name="jackson-core-2.7.7.jar" module-name="renting" />
+          <element id="library" level="module" name="jackson-databind-2.7.8.jar" module-name="renting" />
+          <element id="library" level="module" name="commons-fileupload-1.3.1.jar" module-name="renting" />
+          <element id="library" level="module" name="wsdl4j-1.6.3.jar" module-name="renting" />
+          <element id="library" level="module" name="commons-io-2.4.jar" module-name="renting" />
+        </element>
+      </element>
+      <element id="javaee-facet-resources" facet="renting/web/Web" />
+    </root>
+  </artifact>
+</component>

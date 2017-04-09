@@ -1,130 +1,166 @@
 package com.ncu.table.bean;
 
 import java.util.ArrayList;
-import java.util.Date;
 
-import javax.annotation.PostConstruct;
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.Id;
-import javax.persistence.Table;
-import javax.persistence.Transient;
-import javax.persistence.UniqueConstraint;
-
+import com.ncu.util.beanUtil.BeanUtil;
+import javax.persistence.*
+;import java.util.Date;
+import java.io.Serializable;
 import com.ncu.table.ivalue.IHouseValue;
-import com.ncu.table.ivalue.IUserValue;
-import com.ncu.util.BeanUtil;
+
 @Entity
-@Table(name = "house") 
-public class HouseBean implements IHouseValue{
-	@Id
-	@Column(name = IHouseValue.S_HouseId)
-    private long houseId; 
-	
-	@Column(name = IHouseValue.S_HouseName)
-    private String houseName;
-	
-	@Column(name = IHouseValue.S_HouseDsc)
-	private String houseDsc;
-	
-	@Column(name = IHouseValue.S_HouseMoney)
-	private float houseMoney;
-	
-	@Column(name = IHouseValue.S_DelFlag)
-    private int delFlag;
-    
-    @Column(name = IHouseValue.S_CreateDate)
-    private Date createDate;
-    
-    @Column(name = IHouseValue.S_ModifyDate)
-    private Date modifyDate;
-    
-    @Column(name = IHouseValue.S_OperId)
-    private long operId;
-    
-    @Transient
-	public static Class beanClass = HouseBean.class;
-    
-    @Transient
-	public static ArrayList<String> primaryKey = BeanUtil.initPK(beanClass);
+@Table(name ="house")
+public class HouseBean implements IHouseValue,Serializable{
 
-	@Override
-	public void setHouseId(long value) {
-		this.houseId = value;
-	}
+  @Id
+  @GeneratedValue(strategy = GenerationType.IDENTITY)
+  @Column(name = IHouseValue.S_HouseId)
+  private Long houseId;
 
-	@Override
-	public void setHouseName(String value) {
-		this.houseName = value;
-	}
+  @Column(name = IHouseValue.S_LandlordId)
+  private Long landlordId;
 
-	@Override
-	public void setHouseDsc(String value) {
-		this.houseDsc = value;
-	}
+  @Column(name = IHouseValue.S_HouseName)
+  private String houseName;
 
-	@Override
-	public void setHouseMoney(float value) {
-		this.houseMoney = value;
-	}
+  @Column(name = IHouseValue.S_HouseType)
+  private String houseType;
 
-	@Override
-	public void setDelFlag(int value) {
-		this.delFlag = value;
-	}
+  @Column(name = IHouseValue.S_RentType)
+  private String rentType;
 
-	@Override
-	public void setCreateDate(Date value) {
-		this.createDate = value;
-	}
+  @Column(name = IHouseValue.S_HouseArea)
+  private Long houseArea;
 
-	@Override
-	public void setModifyDate(Date value) {
-		this.modifyDate = value;
-	}
+  @Column(name = IHouseValue.S_HouseAddress)
+  private String houseAddress;
 
-	@Override
-	public void setOperId(long value) {
-		this.operId = value;
-	}
+  @Column(name = IHouseValue.S_Information)
+  private String information;
 
-	@Override
-	public long getHouseId() {
-		return this.houseId;
-	}
+  @Column(name = IHouseValue.S_DepositType)
+  private String depositType;
 
-	@Override
-	public String getHouseName() {
-		return this.houseName;
-	}
+  @Column(name = IHouseValue.S_Money)
+  private Long money;
 
-	@Override
-	public String getHouseDsc() {
-		return this.houseDsc;
-	}
+  @Column(name = IHouseValue.S_CreateDate)
+  private Date createDate;
 
-	@Override
-	public float getHouseMoney() {
-		return this.houseMoney;
-	}
+  @Column(name = IHouseValue.S_ModifyDate)
+  private Date modifyDate;
 
-	@Override
-	public int getDelFlag() {
-		return this.delFlag;
-	}
+  @Column(name = IHouseValue.S_DelFlag)
+  private Long delFlag;
 
-	@Override
-	public Date getCreateDate() {
-		return this.createDate;
-	}
+  @Transient
+  public static Class beanClass = HouseBean.class;
 
-	@Override
-	public Date getModifyDate() {
-		return this.modifyDate;
-	}
+  @Transient
+  public static ArrayList<String> primaryKey = BeanUtil.initPK(beanClass);
 
-	@Override
-	public long getOperId() {
-		return this.operId;
-	}
+  public void setHouseId(Long value){
+    this.houseId = value;
+  }
+
+  public Long getHouseId(){
+    return houseId;
+  }
+
+  public void setLandlordId(Long value){
+    this.landlordId = value;
+  }
+
+  public Long getLandlordId(){
+    return landlordId;
+  }
+
+  public void setHouseName(String value){
+    this.houseName = value;
+  }
+
+  public String getHouseName(){
+    return houseName;
+  }
+
+  public void setHouseType(String value){
+    this.houseType = value;
+  }
+
+  public String getHouseType(){
+    return houseType;
+  }
+
+  public void setRentType(String value){
+    this.rentType = value;
+  }
+
+  public String getRentType(){
+    return rentType;
+  }
+
+  public void setHouseArea(Long value){
+    this.houseArea = value;
+  }
+
+  public Long getHouseArea(){
+    return houseArea;
+  }
+
+  public void setHouseAddress(String value){
+    this.houseAddress = value;
+  }
+
+  public String getHouseAddress(){
+    return houseAddress;
+  }
+
+  public void setInformation(String value){
+    this.information = value;
+  }
+
+  public String getInformation(){
+    return information;
+  }
+
+  public void setDepositType(String value){
+    this.depositType = value;
+  }
+
+  public String getDepositType(){
+    return depositType;
+  }
+
+  public void setMoney(Long value){
+    this.money = value;
+  }
+
+  public Long getMoney(){
+    return money;
+  }
+
+  public void setCreateDate(Date value){
+    this.createDate = value;
+  }
+
+  public Date getCreateDate(){
+    return createDate;
+  }
+
+  public void setModifyDate(Date value){
+    this.modifyDate = value;
+  }
+
+  public Date getModifyDate(){
+    return modifyDate;
+  }
+
+  public void setDelFlag(Long value){
+    this.delFlag = value;
+  }
+
+  public Long getDelFlag(){
+    return delFlag;
+  }
+
 }

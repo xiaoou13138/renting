@@ -1,31 +1,210 @@
 @CHARSET "UTF-8";
-body, html{
-    height: 100%;
- 	background-repeat: no-repeat;
- 	background:url();
- 	font-family: 'Oxygen', sans-serif;
-	background-size: cover;
-}
-h1.title { 
-	font-size: 50px;
-	font-family: 'Passion One', cursive; 
-	font-weight: 400; 
-}
-hr{
-	width: 10%;
-	color: #fff;
-}
-label{
-	margin-bottom: 15px;
-}
-
-input,
-input::-webkit-input-placeholder {
-    font-size: 11px;
-    padding-top: 3px;
-}
-
 .baseFont{
 	color:black;
 	font-weight:bold;
 }
+.edit-row{
+	height:100px;
+	margin:10px 10px 10px 10px
+}
+.row-left{
+	width:20%;
+	height:50px;
+	margin:25px 0px 25px 10px;
+	text-align:right;
+}
+.row-right{
+	width:70%;
+	height:50px;
+	margin:25px 10px 25px 0px;
+	text-align:left;
+}
+.headFont{
+	font-size:20px;
+	font-weight:normal !important;
+	height:100%;
+	line-height:50px;
+	padding-left:10px;
+	padding-right:20px;
+}
+.float-left{
+	float:left;
+}
+.float-right{
+	float:right;
+}
+.star{
+	color:red;
+	font-size:30px;
+	height:100%;
+	line-height:60px;
+}
+.label{
+	text-align: right;
+	font-family: "Arial","Microsoft YaHei","黑体","宋体",sans-serif;
+}
+.success-image{
+	width: 100%;
+	height: 100%;
+	background: url(../images/success.png);
+	background-repeat: no-repeat;
+	background-size: cover;
+}
+.friend{
+	height: 50px; width: 100%;margin: 10px 10px 10px 10px;text-align: left;
+}
+.userInfobg {width: 100%;height: 100%;padding: 100px 0;text-align: center;background: url(../images/userInfoBG.jpg) no-repeat bottom center;background-size: cover ;}
+.base-boder{
+	border-style:solid;
+	border-color: #D0D0D0;
+	border-width :thin ;
+}
+.divColor{
+	background-color: #F8F8F8;
+}
+.house-info{
+	width:100%;
+	height: 250px;
+	color: #000;
+	border:1px solid #000000;
+	margin: 5px 5px 5px 5px ;
+}
+.house-picture-div{
+	margin: 5px 5px 5px 5px;
+	height:95%;
+	width: 25%;
+	line-height: 200px;
+}
+.house-text-div{
+	margin: 5px 5px 5px 5px;
+	width:56%;
+	height:95%;
+	font-size:20px
+}
+.money-div{
+	margin: 5px 5px 5px 5px;
+	width:16%;
+	height:95%;
+	line-height: 200px;
+}
+
+@CHARSET "UTF-8";
+/*
+/* Created by Filipe Pina
+ * Specific styles of signin, register, component
+ */
+/*
+ * General styles
+ */
+.grid-total{
+	width:100%;
+	padding-right:7%;
+	padding-left:7%;
+
+}
+.grid-left{
+	width:80%;
+	float:left;
+	height:200px;
+}
+.grid-right{
+	width:20%;
+	float:left;
+	height:200px;
+}
+.grid-search-left{
+	width:25% ;
+	float:left;
+}
+.grid-search-center{
+	width:50% ;
+}
+.grid-search-right{
+	width:25% ;
+	float:right;
+
+}
+.search-button{
+	display: inline-block;
+	padding: 6px 12px;
+	margin-bottom: 0;
+	font-size: 14px;
+	font-weight: normal;
+	line-height: 1.42857143;
+	text-align: center;
+	white-space: nowrap;
+	vertical-align: middle;
+	-ms-touch-action: manipulation;
+	touch-action: manipulation;
+	cursor: pointer;
+	-webkit-user-select: none;
+	-moz-user-select: none;
+	-ms-user-select: none;
+	user-select: none;
+	background-image: none;
+	border: 1px solid transparent;
+	height: 34px;
+}
+
+.myform-control{
+	display: block;
+	width: 100%;
+	height: 34px;
+	padding: 6px 12px;
+	font-size: 14px;
+	line-height: 1.42857143;
+	color: #555;
+	background-color: #fff;
+	background-image: none;
+	border: 1px solid #ccc;
+	-webkit-box-shadow: inset 0 1px 1px rgba(0, 0, 0, .075);
+	box-shadow: inset 0 1px 1px rgba(0, 0, 0, .075);
+	-webkit-transition: border-color ease-in-out .15s, -webkit-box-shadow ease-in-out .15s;
+	-o-transition: border-color ease-in-out .15s, box-shadow ease-in-out .15s;
+	transition: border-color ease-in-out .15s, box-shadow ease-in-out .15s;
+}
+
+.grid-options{
+	width:100%;
+}
+.house-picture{
+	width:25%;
+	float:left;
+}
+.product{
+	height:150px;
+	width:100%;
+	background:#FFFFFF;
+}
+.products{
+	width:80%;
+	background:#FFFFFF;
+}
+.has-check .help-block,
+.has-check .control-label,
+.has-check .radio,
+.has-check .checkbox,
+.has-check .radio-inline,
+.has-check .checkbox-inline,
+.has-check.radio label,
+.has-check.checkbox label,
+.has-check.radio-inline label,
+.has-check.checkbox-inline label {
+	color: #cc3333;
+}
+
+.hide{
+	display: none;
+}
+.house-details{
+	margin: 50px 200px auto 200px;
+}
+.house-details-text-div{
+	margin-top: 15px;
+	margin-bottom: 15px;
+ }
+.house-details-block{
+	margin-top: 100px;
+	margin-bottom: 100px;
+}
+
