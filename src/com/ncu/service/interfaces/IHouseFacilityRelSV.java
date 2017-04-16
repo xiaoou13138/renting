@@ -7,7 +7,7 @@ import java.util.List;
  */
 public interface IHouseFacilityRelSV {
     public void save(IHouseFacilityRelValue value) throws Exception;
-    public List<IHouseFacilityRelValue> queryHouseFacilityRelByHouseId(String houseId) throws Exception;
+    public List<IHouseFacilityRelValue> queryHouseFacilityRelByHouseId(long houseId) throws Exception;
 
     public void saveFacilityHouseRel(long houseId,String codeType) throws Exception;
 }

@@ -15,6 +15,9 @@ public class GroupsEngine{
   public List queryByCondition(String condition , HashMap<String,String> params,int beginPage ,int endPage) throws Exception{
     return beanUtil.queryByCondition(condition, params, beginPage, endPage, GroupsBean.beanClass.getSimpleName());
   }
+  public long queryCountByCondition(String condition , HashMap<String,String> params)throws Exception{
+    return beanUtil.getCount(condition,params,GroupsBean.beanClass.getSimpleName());
+  }
   public void save(Object value) throws Exception{
     beanUtil.save(value);
   }

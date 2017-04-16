@@ -29,11 +29,11 @@ public class HousePictureRelSVImpl implements IHousePictureRelSV {
      * @return
      * @throws Exception
      */
-    public List<IHousePictureRelValue> queryHousePictureRelByHouseId(String houseId) throws Exception {
-        if(StringUtils.isNotBlank(houseId)){
+    public List<IHousePictureRelValue> queryHousePictureRelByHouseId(long houseId) throws Exception {
+        if(houseId >0){
             StringBuilder condition = new StringBuilder();
             HashMap params = new HashMap();
-            SQLCon.connectSQL(IHousePictureRelValue.S_HouseId,Long.parseLong(houseId),condition,params,false);
+            SQLCon.connectSQL(IHousePictureRelValue.S_HouseId,houseId,condition,params,false);
             return housePictureRelDAO.getHousePictureRelByCondition(condition.toString(),params,-1,-1);
         }
         return null;
@@ -51,13 +51,17 @@ public class HousePictureRelSVImpl implements IHousePictureRelSV {
      * @return
      * @throws Exception
      */
-    public List<IHousePictureRelValue> queryMainHousePicture(String houseId) throws Exception{
-        if(StringUtils.isNotBlank(houseId)){
+    public IHousePictureRelValue queryMainHousePicture(long houseId) throws Exception{
+        if(houseId >0){
             StringBuilder condition = new StringBuilder();
             HashMap params = new HashMap();
-            SQLCon.connectSQL(IHousePictureRelValue.S_HouseId,Long.parseLong(houseId),condition,params,false);
+            SQLCon.connectSQL(IHousePictureRelValue.S_HouseId,houseId,condition,params,false);
             SQLCon.connectSQL(IHousePictureRelValue.S_PictureType,"MAIN",condition,params,false);
-            return housePictureRelDAO.getHousePictureRelByCondition(condition.toString(),params,-1,-1);
+            List<IHousePictureRelValue> list = housePictureRelDAO.getHousePictureRelByCondition(condition.toString(),params,-1,-1);
+            if(list != null && list.size()>0){
+                return list.get(0);
+            }
+
         }
         return null;
     }

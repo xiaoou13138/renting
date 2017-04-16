@@ -171,7 +171,6 @@ function regist(){
 	var sexVal = $("#sex").val();
 	var userType = getParam("choiceType");
 	var userName = userNameObj.val();
-alert("test");
 	  var json = {
 					"code":codeVal,
 					"password":passwordVal,

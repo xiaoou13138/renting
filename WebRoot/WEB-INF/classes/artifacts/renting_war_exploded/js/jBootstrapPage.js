@@ -1,6 +1,5 @@
 (function($) {
     $.fn.jBootstrapPage = function(config) {
-debugger;
         if (this.length != 1)
             $.error('请为这个插件提供一个唯一的编号');
         var c = {

@@ -22,21 +22,6 @@ public class APPUtil {
 	}
 
 	/**
-	 * 从session里面安全获取值 如果没有key就返回一个空字符串
-	 * @param session
-	 * @param paramName
-	 * @return
-	 */
-	public static String getSafeParamsFromSession(HttpSession session, String paramName){
-		Object paramsVal = session.getAttribute(paramName);
-		if(paramsVal != null){
-			return paramsVal.toString();
-		}
-		return "";
-	}
-
-
-	/**
 	 * 从json串里面安全获取值 如果没有key就返回一个空字符串
 	 * @param object
 	 * @param key
@@ -51,4 +36,18 @@ public class APPUtil {
 		}
 		return rtnValue;
 	}
+
+	/**
+	 *  从json串中安全过去long类型的值
+	 * @param object
+	 * @param key
+	 * @return
+	 */
+	public static long getSafeLongParamFromJSONObject(JSONObject object,String key){
+		if(object.containsKey(key)){
+			return object.getLong(key);
+		}
+		return 0L;
+	}
+
 }

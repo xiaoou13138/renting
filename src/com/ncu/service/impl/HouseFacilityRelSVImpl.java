@@ -30,11 +30,11 @@ public class HouseFacilityRelSVImpl implements IHouseFacilityRelSV {
      * @return
      * @throws Exception
      */
-    public List<IHouseFacilityRelValue> queryHouseFacilityRelByHouseId(String houseId) throws Exception {
-        if(StringUtils.isNotBlank(houseId)){
+    public List<IHouseFacilityRelValue> queryHouseFacilityRelByHouseId(long houseId) throws Exception {
+        if(houseId >0){
             StringBuilder condition = new StringBuilder();
             HashMap params = new HashMap();
-            SQLCon.connectSQL(IHouseFacilityRelValue.S_HouseId,Long.parseLong(houseId),condition,params,false);
+            SQLCon.connectSQL(IHouseFacilityRelValue.S_HouseId,houseId,condition,params,false);
             return houseFacilityRelDAO.queryHouseFacilityRelByCondition(condition.toString(),params,-1,-1);
         }
         return null;

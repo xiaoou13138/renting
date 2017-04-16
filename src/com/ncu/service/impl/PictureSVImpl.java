@@ -1,8 +1,10 @@
 package com.ncu.service.impl;
 
 import com.ncu.dao.interfaces.IPictureDAO;
+import com.ncu.service.interfaces.IHousePictureRelSV;
 import com.ncu.service.interfaces.IPictureSV;
 import com.ncu.table.bean.PictureBean;
+import com.ncu.table.ivalue.IHousePictureRelValue;
 import com.ncu.table.ivalue.IPictureValue;
 import com.ncu.util.SQLCon;
 import com.ncu.util.TimeUtil;
@@ -23,17 +25,19 @@ public class PictureSVImpl implements IPictureSV {
     @Resource(name="PictureDAOImpl")
     private IPictureDAO pictureDAO;
 
+    @Resource(name="HousePictureRelSVImpl")
+    private IHousePictureRelSV housePictureRelSV;
     /**
      * 根据照片的ID查找照片的信息
      * @param pictureId
      * @return
      * @throws Exception
      */
-    public IPictureValue queryPictureInfoByPictureId(String pictureId) throws Exception {
-        if(StringUtils.isNotBlank(pictureId)){
+    public IPictureValue queryPictureInfoByPictureId(long pictureId) throws Exception {
+        if(pictureId != 0){
             StringBuilder condition = new StringBuilder();
             HashMap params = new HashMap();
-            SQLCon.connectSQL(IPictureValue.S_PictureId,Long.parseLong(pictureId),condition,params,false);
+            SQLCon.connectSQL(IPictureValue.S_PictureId,pictureId,condition,params,false);
             SQLCon.connectSQL(IPictureValue.S_DelFlag,1L,condition,params,false);
             List<IPictureValue> list =  pictureDAO.getPictureByCondition(condition.toString(),params,-1,-1);
             if(list !=null && list.size()>0){
@@ -66,5 +70,24 @@ public class PictureSVImpl implements IPictureSV {
             return bean.getPictureId();
         }
         return 0L;
+    }
+
+    /**
+     * 查询房子的主照片
+     * @param houseId
+     * @throws Exception
+     */
+    public IPictureValue queryMainPictureByHouseId(long houseId) throws Exception{
+        if(houseId > 0){
+            IHousePictureRelValue housePictureRelValue = housePictureRelSV.queryMainHousePicture(houseId);
+            if(housePictureRelValue != null){
+                long pictureId = housePictureRelValue.getHousePictureId();
+                IPictureValue pictureValue = queryPictureInfoByPictureId(pictureId);
+                if (pictureValue != null) {
+                    return pictureValue;
+                }
+            }
+        }
+        return null;
     }
 }

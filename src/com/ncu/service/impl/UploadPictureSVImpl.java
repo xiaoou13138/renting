@@ -35,7 +35,6 @@ public class UploadPictureSVImpl implements IUploadPictureSV{
 	 */
 	@Override
 	public String saveImageByUploadPicture(MultipartFile file) throws Exception{
-		try {
 			String fileName = getFileName(file);
 			String filePath = cache.getStaticDataByCode("physicalPath").get(0).getCodeValue()+fileName;
 			File imageFile = new File(filePath);
@@ -47,10 +46,6 @@ public class UploadPictureSVImpl implements IUploadPictureSV{
 			file.transferTo(imageFile);
 			imageFile.createNewFile();
 			return fileName;
-		} catch (Exception e) {
-			e.printStackTrace();
-		}
-		return "";
 	}
 	/**
 	 * 获取文件的名称

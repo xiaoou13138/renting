@@ -10,4 +10,6 @@ import java.util.List;
 public interface IGroupRenterRelDAO {
     public void save(IGroupsRenterRelValue value) throws Exception;
     public List<IGroupsRenterRelValue> queryGroupsRenterRelInfoByCondition(String condition, HashMap params,int begin,int end) throws Exception;
+    public void delete(IGroupsRenterRelValue value) throws Exception;
+    public long queryGroupsRenterRelCountByCondition(String condition, HashMap params)throws Exception;
 }

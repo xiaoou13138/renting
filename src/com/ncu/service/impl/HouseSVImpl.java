@@ -39,6 +39,9 @@ public class HouseSVImpl implements IHouseSV{
 	private StaticDataCache cache;
 	@Resource(name="UserSVImpl")
 	private IUserSV userSV;
+	@Resource(name="HouseCollectSVImpl")
+	private IHouseCollectSV houseCollectSV;
+
 
 	/**
 	 * 查询页面展示的信息
@@ -48,11 +51,8 @@ public class HouseSVImpl implements IHouseSV{
 	 * @return
 	 * @throws Exception
 	 */
-	public HashMap queryHouseInfoByCondtion(Map condition, String beginI, String endI) throws  Exception{
+	public HashMap queryHouseInfoByCondition(Map condition, String beginI, String endI) throws  Exception{
 		HashMap rtnMap = new HashMap();
-		if(StringUtils.isBlank(beginI) || StringUtils.isBlank(endI)){
-			 throw new Exception("分页不正确");
-		}
 		int begin = Integer.parseInt(beginI);
 		int end = Integer.parseInt(endI);
 		Object searchContent = condition.get("searchContent");
@@ -81,7 +81,7 @@ public class HouseSVImpl implements IHouseSV{
 				map.put("money",houseList.get(i).getMoney());
 
 				//查询房屋带有的设备
-				String houseId = String.valueOf(houseList.get(i).getHouseId());
+				long houseId = houseList.get(i).getHouseId();
 				List<IHouseFacilityRelValue> houseFacilityRelValueList = houseFacilityRelSV.queryHouseFacilityRelByHouseId(houseId);
 				if(houseFacilityRelValueList!= null){
 					ArrayList facilityList = new ArrayList();
@@ -92,14 +92,9 @@ public class HouseSVImpl implements IHouseSV{
 					map.put("facility",facilityList);
 				}
 				//查询房子对应的图片
-				List<IHousePictureRelValue> housePictureRelValueLis = housePictureRelSV.queryMainHousePicture(houseId);
-				if(housePictureRelValueLis!= null&& housePictureRelValueLis.size()>0){
-					long pictureId = housePictureRelValueLis.get(0).getHousePictureId();
-					IPictureValue pictureValue = pictureSV.queryPictureInfoByPictureId(String.valueOf(pictureId));
-					if(pictureValue !=null){
-						map.put("mainPicture",pictureValue.getPicturePath());
-					}
-
+				IPictureValue pictureValue = pictureSV.queryMainPictureByHouseId(houseId);
+				if(pictureValue !=null){
+					map.put("mainPicture",pictureValue.getPicturePath());
 				}
 				rtnList.add(map);
 			}
@@ -109,7 +104,60 @@ public class HouseSVImpl implements IHouseSV{
 		rtnMap.put("count",count);
 		return rtnMap;
 	}
+	/**
+	 *  查询用户收藏的房子
+	 * @param userId
+	 * @return
+	 * @throws Exception
+	 */
+	public HashMap queryCollectHouseInfoByUserId(long userId,int begin,int end) throws Exception{
+		HashMap rtnMap = new HashMap();
+		if(userId >0){
+			List<IHouseCollectValue> list = houseCollectSV.queryCollectHouseByUserId(userId,begin,end);
+			long count = houseCollectSV.queryCollectHouseCountByUserId(userId);
+			if(list  != null && list.size()>0){
+				ArrayList rtnList = new ArrayList();
+				int length = list.size();
+				for(int i = 0;i<length;i++){
+					long houseId = list.get(i).getHouseId();
+					IHouseValue houseValue = queryHouseDefInfoByHouseId(houseId);
+					if(houseValue != null){
+						HashMap map = new HashMap();
+						map.put("houseId",houseValue.getHouseId());//房源ID
+						map.put("landlord_id",houseValue.getLandlordId());//房东ID
+						map.put("houseName",houseValue.getHouseName());//
+						map.put("houseType",houseValue.getHouseType());
+						map.put("houseArea",houseValue.getHouseArea());
+						map.put("houseAddress",houseValue.getHouseAddress());
+						map.put("information",houseValue.getInformation());
+						map.put("money",houseValue.getMoney());
 
+
+						//查询房屋带有的设备
+						List<IHouseFacilityRelValue> houseFacilityRelValueList = houseFacilityRelSV.queryHouseFacilityRelByHouseId(houseId);
+						if(houseFacilityRelValueList!= null){
+							ArrayList facilityList = new ArrayList();
+							int relLength = houseFacilityRelValueList.size();
+							for(int j =0;j<relLength;j++){
+								facilityList.add(houseFacilityRelValueList.get(j).getCodeType());
+							}
+							map.put("facility",facilityList);
+						}
+						//查询房子对应的图片
+						IPictureValue pictureValue = pictureSV.queryMainPictureByHouseId(houseId);
+						if(pictureValue !=null){
+							map.put("mainPicture",pictureValue.getPicturePath());
+						}
+						rtnList.add(map);
+						rtnMap.put("houseView",rtnList);
+						rtnMap.put("count",count);
+					}
+				}
+			}
+		}
+
+		return rtnMap;
+	}
 
 	/***
 	 * 保存房源定义表
@@ -180,11 +228,11 @@ public class HouseSVImpl implements IHouseSV{
 	 * @return
 	 * @throws Exception
 	 */
-	public IHouseValue queryHouseDefInfoByHouseId(String houseId) throws Exception{
-		if(StringUtils.isNotBlank(houseId)){
+	public IHouseValue queryHouseDefInfoByHouseId(long houseId) throws Exception{
+		if(houseId >0){
 			StringBuilder condition = new StringBuilder();
 			HashMap params = new HashMap();
-			SQLCon.connectSQL(IHouseValue.S_HouseId,Long.parseLong(houseId),condition,params,false);
+			SQLCon.connectSQL(IHouseValue.S_HouseId,houseId,condition,params,false);
 			SQLCon.connectSQL(IHouseValue.S_DelFlag,1L,condition,params,false);
 			List<IHouseValue> list = houseDAO.getHouseInfoByCondition(condition.toString(),params,-1,-1);
 			if(list != null  && list.size()>0){
@@ -201,7 +249,7 @@ public class HouseSVImpl implements IHouseSV{
 	 * @return
 	 * @throws Exception
 	 */
-	public HashMap queryDetailsByHouseId(String houseId) throws Exception{
+	public HashMap queryDetailsByHouseId(long userId,long houseId) throws Exception{
 		HashMap detailMap = new HashMap();
 		//先查询房源定义表
 		IHouseValue houseValue = queryHouseDefInfoByHouseId(houseId);
@@ -215,10 +263,20 @@ public class HouseSVImpl implements IHouseSV{
 			detailMap.put("information",houseValue.getInformation());
 			detailMap.put("money",houseValue.getMoney());
 		}
+		//查询收藏的信息,是否收藏过
+		boolean collect = false;
+		if(userId >0){
+			IHouseCollectValue houseCollectValue = houseCollectSV.queryCollectInfoByUserIdAndHouseId(userId,houseId);
+			if(houseCollectValue != null){
+				collect = true;
+			}
+		}
+		detailMap.put("collect",collect);
+		//
 		//房子的房东的信息
 		long landlordId = houseValue.getLandlordId();
 		//获取房东的手机号码
-		IUserValue userValue = userSV.queryUserInfoByUserId(String.valueOf(landlordId));
+		IUserValue userValue = userSV.queryUserInfoByUserId(landlordId);
 		if(userValue == null){
 			throw new Exception("房子没有所有者");
 		}
@@ -230,7 +288,7 @@ public class HouseSVImpl implements IHouseSV{
 			int length = housePictureRelValueList.size();
 			for(int i = 0;i<length;i++){
 				long pictureId = housePictureRelValueList.get(i).getHousePictureId();
-				IPictureValue pictureValue = pictureSV.queryPictureInfoByPictureId(String.valueOf(pictureId));
+				IPictureValue pictureValue = pictureSV.queryPictureInfoByPictureId(pictureId);
 				if(pictureValue != null){
 					pictureList.add(pictureValue.getPicturePath());
 				}
@@ -257,5 +315,112 @@ public class HouseSVImpl implements IHouseSV{
 			}
 		}
 		return  detailMap;
+	}
+
+	/**
+	 * 查询房东的房源信息
+	 * @param landlordId
+	 * @param begin
+	 * @param end
+	 * @return
+	 * @throws Exception
+	 */
+	public HashMap queryHouseInfoByLandlordIdForController(long landlordId,int begin,int end) throws Exception{
+		HashMap rtnMap = new HashMap();
+		List<IHouseValue> list =  queryHouseInfoByLandlordId(landlordId,begin,end);
+		long count = queryHouseInfoCountByLandlordId(landlordId);
+		if(list != null && list.size()>0){
+			ArrayList rtnList= new ArrayList();
+			int length = list.size();
+			for(int i = 0;i<length;i++){
+				IHouseValue houseValue =list.get(i);
+				HashMap map =  new HashMap();
+				map.put("houseId",houseValue.getHouseId());
+				map.put("houseName",houseValue.getHouseName());
+				long houseId = houseValue.getHouseId();
+				//查询房子对应的图片
+				IPictureValue pictureValue = pictureSV.queryMainPictureByHouseId(houseId);
+				if(pictureValue !=null){
+					map.put("mainPicture",pictureValue.getPicturePath());
+				}
+				rtnList.add(map);
+			}
+			rtnMap.put("houseView",rtnList);
+			rtnMap.put("count",count);
+		}
+
+		return rtnMap;
+	}
+
+	/**
+	 * 查询房子信息
+	 * @param landlordId
+	 * @param begin
+	 * @param end
+	 * @return
+	 * @throws Exception
+	 */
+	public List<IHouseValue> queryHouseInfoByLandlordId(long landlordId,int begin,int end) throws Exception{
+		StringBuilder condition = new StringBuilder();
+		HashMap params = new HashMap();
+		if(landlordId>0){
+			SQLCon.connectSQL(IHouseValue.S_LandlordId,landlordId,condition,params,false);
+		}
+		SQLCon.connectSQL(IHouseValue.S_DelFlag,1L,condition,params,false);
+		return houseDAO.getHouseInfoByCondition(condition.toString(),params,begin,end);
+	}
+
+	/**
+	 * 查询数量
+	 * @param landlordId
+	 * @return
+	 * @throws Exception
+	 */
+	public long queryHouseInfoCountByLandlordId(long landlordId) throws Exception{
+		StringBuilder condition = new StringBuilder();
+		HashMap params = new HashMap();
+		if(landlordId>0){
+			SQLCon.connectSQL(IHouseValue.S_LandlordId,landlordId,condition,params,false);
+		}
+		SQLCon.connectSQL(IHouseValue.S_DelFlag,1L,condition,params,false);
+		return houseDAO.getCount(condition.toString(),params);
+	}
+
+	/**
+	 * 查询房子的信息
+	 * @param userId
+	 * @param houseId
+	 * @return
+	 * @throws Exception
+	 */
+	public IHouseValue queryHouseByUserIdAndHouseId(long userId,long houseId)  throws Exception{
+		StringBuilder condition = new StringBuilder();
+		HashMap params = new HashMap();
+		if(userId > 0){
+			SQLCon.connectSQL(IHouseValue.S_LandlordId,userId,condition,params,false);
+		}
+		if( houseId > 0){
+			SQLCon.connectSQL(IHouseValue.S_HouseId,houseId,condition,params,false);
+		}
+		List<IHouseValue> list = houseDAO.getHouseInfoByCondition(condition.toString(),params,-1,-1);
+		if(list != null && list.size()>0){
+			return list.get(0);
+		}
+		return null;
+	}
+	/**
+	 * 删除房子的信息
+	 * @param userId
+	 * @param houseId
+	 * @throws Exception
+	 */
+	@Transactional(propagation = Propagation.REQUIRED)
+	public void delHouseInfoByUserIdAndHouseId(long userId,long houseId)  throws Exception{
+		IHouseValue houseValue = queryHouseByUserIdAndHouseId(userId, houseId);
+		if(houseValue == null){
+			throw new Exception("用户没有对应的房源");
+		}
+		houseValue.setDelFlag(0L);
+		houseDAO.save(houseValue);
 	}
 }

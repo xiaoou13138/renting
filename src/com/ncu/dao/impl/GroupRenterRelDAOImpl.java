@@ -25,5 +25,14 @@ public class GroupRenterRelDAOImpl implements IGroupRenterRelDAO {
     public void save(IGroupsRenterRelValue value) throws Exception {
         groupsRenterRelEngine.save(value);
     }
+
+    @Override
+    public void delete(IGroupsRenterRelValue value) throws Exception {
+        groupsRenterRelEngine.delete(value);
+    }
+    public long queryGroupsRenterRelCountByCondition(String condition, HashMap params)throws Exception{
+        return groupsRenterRelEngine.queryCountByCondition(condition,params);
+    }
+
 }
 

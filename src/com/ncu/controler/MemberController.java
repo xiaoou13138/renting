@@ -4,6 +4,7 @@ import com.ncu.data.ViewData;
 import com.ncu.service.interfaces.IGroupsSV;
 import com.ncu.util.APPUtil;
 import net.sf.json.JSONObject;
+import org.apache.commons.lang.StringUtils;
 import org.springframework.context.annotation.Scope;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -43,8 +44,10 @@ public class MemberController extends BaseController {
             String groupId = APPUtil.getSafeStringFromJSONObject(viewObject,"groupId");
             int begin = -1;
             int end = -1;
-            List list = groupsSV.queryUserInfoByGroupId(groupId,begin,end);
-            rtnObject.put("userList",list);
+            if(StringUtils.isNotBlank(groupId)){
+                List list = groupsSV.queryUserInfoByGroupId(Long.parseLong(groupId),begin,end);
+                rtnObject.put("userList",list);
+            }
         }catch (Exception e){
             e.printStackTrace();
         }

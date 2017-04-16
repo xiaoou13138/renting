@@ -15,11 +15,11 @@ public class HouseDAOImpl implements IHouseDAO{
 	HouseEngine houseEngine;
 	@Override
 	public List<IHouseValue> getHouseInfoByCondition(String condition,
-			HashMap<String, String> params, int beginPage, int endPage)
+			HashMap params, int beginPage, int endPage)
 			throws Exception {
 		return (List<IHouseValue>) houseEngine.queryByCondition(condition, params, beginPage, endPage);
 	}
-	public long getCount(String condition, HashMap<String, String> params)throws Exception{
+	public long getCount(String condition, HashMap params)throws Exception{
 		return houseEngine.getCount(condition,params);
 	}
 

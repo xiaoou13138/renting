@@ -60,7 +60,7 @@ public interface IUserSV {
 	 * @return
 	 * @throws Exception
 	 */
-	public IUserValue queryUserInfoByUserId(String userId)  throws Exception;
+	public IUserValue queryUserInfoByUserId(long userId)  throws Exception;
 
 	/**
 	 * 根据用户的cookie校验用户
@@ -76,7 +76,7 @@ public interface IUserSV {
 	 * @return
 	 * @throws Exception
 	 */
-	public HashMap getEditViewInitData(String userId) throws Exception;
+	public HashMap getEditViewInitData(long userId) throws Exception;
 
 
 	/**

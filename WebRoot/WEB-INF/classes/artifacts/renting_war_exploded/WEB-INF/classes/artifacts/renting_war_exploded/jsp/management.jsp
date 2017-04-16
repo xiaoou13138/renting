@@ -8,35 +8,41 @@
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <html>
 <head>
-    <title>Title</title>
+    <title>信息管理</title>
     <script src="js/head.js"></script>
+    <style>
+        .panel-body {
+            height: 750px;
+        }
+    </style>
 <body>
-<div class ="userInfobg" style="padding: 50px 250px 150px 250px;">
-    <div style="height:800px;">
-        <div style="float: left; width:20%; height: 800px;" class="base-boder">
-            <div style="height: 24%; margin:0 auto;" class="divColor">
-                <a style=" " href="#"  id="" style="float: right;margin-right: 150px">
-                    <img class="img-circle" src="showImage?imageFile=default_user_image.png">
-                </a>
+<div class="bg">
+    <div class="container">
+        <div class="row">
+            <div class="col-md-3">
+                <div style="height: 24%;" >
+                    <a style=" " href="javascript:void 0">
+                        <img class="img-circle" src="showImage?imageFile=default_user_image.png">
+                    </a>
+                </div>
+                <div style="height: 70%">
+                    <ul class="nav nav-pills nav-stacked" id="managementTab">
+                        <li role="presentation"><a href="javascript:void(0)" data-toggle="tab" onclick="manageChange('./editUserInfo')">个人信息维护</a></li>
+                        <li role="presentation"><a href="javascript:void(0)" data-toggle="tab" onclick="manageChange('./group')">已加入组</a></li>
+                        <li role="presentation"><a href="javascript:void(0)" data-toggle="tab" onclick="manageChange('./collectHouseShow');">收藏列表</a></li>
+                        <li role="presentation"><a href="javascript:void(0)" data-toggle="tab" onclick="manageChange('./myHouse')">我的房源</a></li>
+                    </ul>
+                </div>
             </div>
-            <div style="height: 70%" class="divColor">
-                <ul class="nav nav-pills nav-stacked" id="managementTab">
-                    <li role="presentation"><a href="#upLoadHouseInfo" data-toggle="tab" onclick="">上传房屋信息</a></li>
-                    <li role="presentation"><a href="#editUserInfo" data-toggle="tab" onclick="">个人信息维护</a></li>
-                    <li role="presentation"><a href="#group" data-toggle="tab" onclick="groupViewInit()">组团</a></li>
-                </ul>
-            </div>
-        </div>
-        <div style="float:left; width:80%;  height: 800px;"  class="divColor">
-            <div class="tab-content">
-                <div class="tab-pane active" id="upLoadHouseInfo"><jsp:include page="upLoadHouseInfo.jsp"></jsp:include></div>
-                <div class="tab-pane" id="editUserInfo"><jsp:include page="editUserInfo.jsp"></jsp:include></div>
-                <div class="tab-pane" id="group"><jsp:include page="group.jsp"></jsp:include></div>
+            <div class="col-md-9">
+                <div class="tab-content" style="height: 820px">
+                    <div class="tab-pane active" id="main"><iframe src="./editUserInfo" width="100%" height="100%" allowTransparency="true" id="rightFrame"></iframe></div>
+                </div>
             </div>
         </div>
     </div>
-
 </div>
+
 <script>
     $(document).ready(function(){
         $('#managementTab a:first').tab('show');//初始化显示哪个tab
@@ -46,14 +52,8 @@
             $(this).tab('show');//显示当前选中的链接及关联的content
         });
     });
-    function choiceCertificationType(){
-        uploader.addButton({
-            id: '#filePicker',
-            innerHTML: '点击选择图片'
-        });
-    }
-    function getMap() {
-        loadScript();
+    function manageChange(address){
+        $("#rightFrame").attr("src",address);
     }
 </script>
 

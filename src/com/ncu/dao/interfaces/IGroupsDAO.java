@@ -11,4 +11,5 @@ import java.util.List;
 public interface IGroupsDAO {
     public void save(IGroupsValue value) throws Exception;
     public List<IGroupsValue> queryGroupsInfoByCondition(String condtion, HashMap params,int begin,int end) throws  Exception;
+    public long getCountByCondition(String condition,HashMap  params)throws  Exception;
 }

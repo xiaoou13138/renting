@@ -53,14 +53,10 @@
 .friend{
 	height: 50px; width: 100%;margin: 10px 10px 10px 10px;text-align: left;
 }
-.userInfobg {width: 100%;height: 100%;padding: 100px 0;text-align: center;background: url(../images/userInfoBG.jpg) no-repeat bottom center;background-size: cover ;}
 .base-boder{
 	border-style:solid;
 	border-color: #D0D0D0;
 	border-width :thin ;
-}
-.divColor{
-	background-color: #F8F8F8;
 }
 .house-info{
 	width:100%;
@@ -82,20 +78,11 @@
 	font-size:20px
 }
 .money-div{
-	margin: 5px 5px 5px 5px;
-	width:16%;
-	height:95%;
+	height:100%;
 	line-height: 200px;
+	font-size: 25px;
+	color: red;
 }
-
-@CHARSET "UTF-8";
-/*
-/* Created by Filipe Pina
- * Specific styles of signin, register, component
- */
-/*
- * General styles
- */
 .grid-total{
 	width:100%;
 	padding-right:7%;
@@ -105,12 +92,12 @@
 .grid-left{
 	width:80%;
 	float:left;
-	height:200px;
+	height:100px;
 }
 .grid-right{
 	width:20%;
 	float:left;
-	height:200px;
+	height:100px;
 }
 .grid-search-left{
 	width:25% ;
@@ -164,22 +151,7 @@
 	transition: border-color ease-in-out .15s, box-shadow ease-in-out .15s;
 }
 
-.grid-options{
-	width:100%;
-}
-.house-picture{
-	width:25%;
-	float:left;
-}
-.product{
-	height:150px;
-	width:100%;
-	background:#FFFFFF;
-}
-.products{
-	width:80%;
-	background:#FFFFFF;
-}
+
 .has-check .help-block,
 .has-check .control-label,
 .has-check .radio,
@@ -196,15 +168,56 @@
 .hide{
 	display: none;
 }
-.house-details{
-	margin: 50px 200px auto 200px;
-}
-.house-details-text-div{
-	margin-top: 15px;
-	margin-bottom: 15px;
- }
-.house-details-block{
-	margin-top: 100px;
-	margin-bottom: 100px;
-}
 
+.bg {display: table;
+	width: 100%;
+	height: 100%;
+	padding: 100px 0;
+	text-align: center;
+	color: #000000;
+	background-color: #e7e9ff;
+	background-size: cover;
+}
+.bg h1{
+	color: #000000;
+}
+.postBar-picture{
+	height: 150px;
+	width: 150px;
+	margin: 10px;
+}
+.bottom-shadow{
+	-webkit-box-shadow: 0px 3px 3px;
+	-moz-box-shadow: 0px 3px 3px;
+	box-shadow: 0px 3px 3px;
+}
+.box-border{
+	border:1px solid rgba(20, 8, 10, 0.37);
+}
+.border-just-right{
+	border-right:1px solid rgba(20, 8, 10, 0.37);
+}
+.border-just-bottom{
+	border-bottom:1px solid rgba(20, 8, 10, 0.37);
+}
+.border-just-bottom-top{
+	border-bottom:1px solid rgba(20, 8, 10, 0.37);
+	border-top:1px solid rgba(20, 8, 10, 0.37);
+}
+.house-show-block{
+	height:200px;
+	background-color: #FFFFFF;
+	margin-bottom: 25px;
+}
+.house-show-title{
+	font-size: 25px;
+	height:40px;
+}
+.house-show-content{
+	font-size: 20px;
+	height: 80px;
+}
+.house-show-address{
+	font-size: 18px;
+	margin-bottom: 20px;
+}

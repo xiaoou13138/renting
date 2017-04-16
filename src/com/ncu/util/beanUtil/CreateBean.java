@@ -18,7 +18,7 @@ import java.sql.SQLException;
  */
 public class CreateBean {
 	String path = "D:/studyWorkSpace/renting/src/com/ncu/table";
-	String tableName = "house";
+	String tableName = "groups_renter_rel";
 	String driver = "com.mysql.jdbc.Driver";
 	String url = "jdbc:mysql://192.168.191.5:3306/renting";
 	String user = "zuowy";
@@ -228,6 +228,7 @@ public class CreateBean {
 		.append("import java.util.HashMap;\r\n")
 		.append("import java.util.List;\r\n")
 		.append("import org.springframework.stereotype.Repository;\r\n")
+		.append("import org.springframework.beans.factory.annotation.Autowired;\r\n")
 		.append("import ")
 		.append(beanPath)
 		.append(".")
@@ -240,11 +241,18 @@ public class CreateBean {
 		.append("Engine{\r\n")
 				.append("@Autowired\r\nBeanUtil beanUtil;\r\n\r\n")
 		.append("  public List queryByCondition(String condition , HashMap<String,String> params,int beginPage ,int endPage) throws Exception{\r\n")
-		.append("    return beanUtil.queryByConditionBase(condition, params, beginPage, endPage, ")
+		.append("    return beanUtil.queryByCondition(condition, params, beginPage, endPage, ")
 		.append(beanName)
 		.append(".beanClass.getSimpleName());\r\n")
 		.append("  }\r\n")
-		.append("  public void save(Object value) throws Exception{\r\n    beanUtil.save(value);\r\n  }\r\n}");
+		.append("  public void save(Object value) throws Exception{\r\n    beanUtil.save(value);\r\n  }\r\n")
+		.append("  public long queryCountByCondition(String condition , HashMap<String,String> params)throws Exception{\r\n  ")
+		.append("  return beanUtil.getCount(condition,params,")
+		.append(beanName)
+		.append(".beanClass.getSimpleName());\r\n  }\r\n")
+				.append("  public void delete (Object value)throws Exception{")
+				.append("  \r\n    beanUtil.delete(value);\r\n  }")
+		.append("\r\n}\r\n");
 		return content.toString();
 	}
 	public String createIvalueContent(){

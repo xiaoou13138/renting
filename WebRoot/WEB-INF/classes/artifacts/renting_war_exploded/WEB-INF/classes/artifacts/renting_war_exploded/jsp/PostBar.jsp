@@ -9,64 +9,115 @@
 <html>
 <head>
     <title>贴吧</title>
-    <style type="text/css">
-        html, body {width:100%;height:100%;} /*非常重要的样式让背景图片100%适应整个屏幕*/
-        .bg {display: table;width: 100%;height: 100%;padding: 100px 0;text-align: center;color: #fff;background: url(http://www.xiandanke.cn/Image/intro-bg.jpg) no-repeat bottom center;background-color: #000;background-size: cover;}
-        .my-navbar {padding:20px 0;transition: background 0.5s ease-in-out, padding 0.5s ease-in-out;}
-        .my-navbar a{background:transparent !important;color:#fff !important}
-        .my-navbar a:hover {color:#45bcf9 !important;background:transparent;outline:0}
-        .my-navbar a {transition: color 0.5s ease-in-out;}/*-webkit-transition ;-moz-transition*/
-        .top-nav {padding:0;background:#000;}
-        button.navbar-toggle {background-color:#fbfbfb;}/*整个背景都是transparent透明的，会看不到，所以再次覆盖一下*/
-        button.navbar-toggle > span.icon-bar {background-color:#dedede}
-    </style>
+    <script src="js/head.js"></script>
 </head>
 <body>
-<nav class="navbar navbar-fixed-top my-navbar" role="navigation">
-    <div class="container-fluid">
-        <div >
-            <a class="navbar-brand" href="#"  id="userHref" style="float: right;margin-right: 150px">
-                <div class="fa" id="hrefContent"></div>
-            </a>
-        </div>
-        <div >
-            <a class="navbar-brand" href="#"  id="tieba1" style="float: right;margin-right: 150px">
-                贴吧
-            </a>
-        </div>
-        <div >
-            <a class="navbar-brand" href="./upLoadHouseInfo"  id="upLoadHouseInfo" style="float: right;margin-right: 150px">
-                上传房源
-            </a>
-        </div>
-    </div>
-</nav>
-<div class="bg">
-    <div class="grid-total" align="center">
-        <div class="grid-search-left"></div>
-        <div class="grid-search-center">
-            <div class="grid-left"><input type="text"  class="myform-control" id="searchContent"></div>
-            <div class="grid-right"><a class="search-button btn-primary no-line " onclick="firstSearch()">搜索</a></div>
-        </div>
-        <div class="grid-search-right"></div>
-        <div style="clear:both"></div>
-
-        <div class="grid-options">
-
-        </div>
-        <div class="grid-sort"></div>
-        <div id="postBarList" class="products">
-
-        </div>
-        <div style="padding-left:100px;">
-            <ul class="pagination"></ul>
+<div class="bg" style="background-color: #e7e9ff;">
+    <div style="width: 80%;margin:auto">
+        <div class="container-fluid" >
+            <div class="row">
+                <div class="col-md-offset-3 col-md-5"><input type="text"  class="form-control" id="searchContent"></div>
+                <a class="col-md-1 search-button btn-primary no-line" onclick="firstSearch()">搜索</a>
+            </div>
+            <div class="row" style="margin-top: 50px">
+                <div class="col-md-9" style="background-color: #e7e9ff" id="card">
+                    <div class="row">
+                        <div class=" col-md-offset-2 col-md-2">
+                            <select class="form-control" id ="houseLimit">
+                                <option value="0">请选择</option>
+                                <option value="1">有房</option>
+                                <option value="2">无房</option>
+                            </select>
+                        </div>
+                        <div class=" col-md-offset-2 col-md-2">
+                            <select class="form-control" id ="sexLimit">
+                                <option value="">请选择</option>
+                                <option value="男">男</option>
+                                <option value="女">女</option>
+                            </select>
+                        </div>
+                    </div>
+                    <div class="container-fluid" id="cards" style="background-color: #ffffff">
+                    </div>
+                    <div>
+                        <ul class="pagination"></ul>
+                    </div>
+                </div>
+                <div class="col-md-3">
+                    <div class="row">
+                        <div class="col-md-6"><button type="button" class="btn btn-primary pull-left" style="margin-left: 16%;" onclick="createCard()">发布帖子</button></div>
+                    </div>
+                </div>
+            </div>
         </div>
     </div>
 </div>
 <script>
-    function init() {
-        $("#postBarList").html();
-        postBarList
+    $(document).ready(function () {
+        //获取帖子的内容
+        getPostCardInfo(0,10,true);
+    });
+    function getPostCardInfo(begin,end,isFirst){
+        try{
+            var searchContent =$("#searchContent").val();
+            var houseLimit = $("#houseLimit").val();//是否有发房
+            var sexLimit =  $("#sexLimit").val();//性别限制
+            var json = {
+                "begin":begin,
+                "end":end,
+                "searchContent":searchContent,
+                "houseLimit":houseLimit,
+                "sexLimit":sexLimit
+            };
+            doPostAjax("postBar_getPostCardInfo",json,function (data) {
+                if(data.result =="Y"){
+                    var htmlArray  = new Array();
+                    $.each(data["postBarList"],function (index,value,array) {
+                        htmlArray.push(createPostInfoHtml(value));
+                    });
+                    $("#cards").html(String.prototype.concat.apply("", htmlArray));
+                    if(isFirst){
+                        setPage(data.count,function (begin,end) {
+                            getPostCardInfo(begin,end,false);
+                        });
+                    }
+                }
+            });
+        }catch (e){
+            alert(e);
+        }
+    }
+    function createPostInfoHtml(value){
+        debugger;
+        var pictureHtmlArray  = new Array();
+        if(value["pictureList"]){
+            $.each(value["pictureList"],function (index,value,array) {
+                pictureHtmlArray.push(createPictureHtml(value));
+            });
+        }
+        var html = "<div class='row' style='padding: 10px;border-bottom:1px solid #502c26;'><div class='row' style='padding: 10px;'><a href='./cardDetail?postId="
+            +value.postId+"'><p class='lead text-left'>"+value.title+"</p></a></div><div class='row ' style='text-align: left; color: #000;padding: 10px;'>"
+            +value.content+"</div><div class='row'>"+
+            String.prototype.concat.apply("", pictureHtmlArray)
+            +"</div></div>"
+        return html;
+    }
+    function createPictureHtml(value){
+        return "<div class='postBar-picture pull-left' style=\"background:url('./showImage?imageFile="+value
+        +"');background-repeat: no-repeat;background-position: center center;background-size:150px 150px; \"></div>"
+
+    }
+    //发布帖子
+    function createCard(){
+        layer.open({
+            type: 2,
+            title: '发布帖子',
+            shadeClose: true,
+            shade: false,
+            maxmin: true, //开启最大化最小化按钮
+            area: ['893px', '600px'],
+            content: './createCard'
+        });
     }
 </script>
 </body>

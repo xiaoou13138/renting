@@ -87,7 +87,10 @@ public class BeanUtil {
 	public void save(Object value){
 		template.save(value);
 	}
-	
+
+	public void delete(Object value){
+		template.delete(value);
+	}
 	
 	/**
 	 * 给bean初始化主键

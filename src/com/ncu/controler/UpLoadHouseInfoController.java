@@ -16,6 +16,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.multipart.MultipartFile;
+import org.springframework.web.multipart.support.DefaultMultipartHttpServletRequest;
 import org.springframework.web.servlet.ModelAndView;
 
 import javax.annotation.Resource;
@@ -24,6 +25,7 @@ import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.Map;
 
 /**
  * Created by xiaoou on 2017/4/1.
@@ -91,40 +93,5 @@ public class UpLoadHouseInfoController extends BaseController {
 
         rtnObject.put("result",rtn);
         return rtnObject;
-    }
-
-    /**
-     * 用户上传文件
-     * @return
-     * @throws Exception
-     */
-
-    @RequestMapping(value="/uploadImage")
-    @ResponseBody
-    public void  fileUpload(@RequestParam("file") MultipartFile fileUpload, HttpServletRequest request, HttpServletResponse response){
-        String path = cache.getStaticDataByCode("physicalPath").get(0).getCodeValue();
-        try{
-            long userId = getLongParamFromSession("userId");
-            //保存图片和用户的信息  保存图片路径的信息
-            String fileName = uploadPictureSV.saveImageByUploadPicture(fileUpload);
-            long pictureId = pictureSV.savePictureInfoByPictureName(fileName);
-            HttpSession session = this.getSession();
-            String type="NORMAL";
-            Object object = session.getAttribute("pictureList");
-            ArrayList pictureList = null;
-            if(object == null){
-                pictureList = new ArrayList();
-                session.setAttribute("pictureList",pictureList);
-                type = "MAIN";
-            }else{
-                pictureList = (ArrayList)object;
-            }
-            HashMap map = new HashMap();
-            map.put("TYPE",type);
-            map.put("PICTURE",pictureId);
-            pictureList.add(map);
-        }catch (Exception e){
-            e.printStackTrace();
-        }
     }
 }

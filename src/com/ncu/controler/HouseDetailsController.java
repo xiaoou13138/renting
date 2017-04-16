@@ -1,6 +1,8 @@
 package com.ncu.controler;
 
 import com.ncu.data.ViewData;
+import com.ncu.service.interfaces.IAppointmentSV;
+import com.ncu.service.interfaces.IHouseCollectSV;
 import com.ncu.service.interfaces.IHouseSV;
 import com.ncu.util.APPUtil;
 import net.sf.json.JSONObject;
@@ -23,6 +25,12 @@ public class HouseDetailsController extends BaseController {
     @Resource(name="HouseSVImpl")
     private IHouseSV houseSV;
 
+    @Resource(name="HouseCollectSVImpl")
+    private IHouseCollectSV houseCollectSV;
+
+    @Resource(name="AppointmentSVImpl")
+    private IAppointmentSV appointmentSV;
+
     @RequestMapping(value="/houseDetails")
     public ModelAndView getView()throws Exception{
         ModelAndView mv = this.getModelAndView();
@@ -32,6 +40,10 @@ public class HouseDetailsController extends BaseController {
         return mv;
     }
 
+    /**
+     * 获取页面信息
+     * @return
+     */
     @RequestMapping(value="/houseDetails_getBaseInfo",produces="application/json;charset=UTF-8")
     @ResponseBody
     public Object getBaseInfo(){
@@ -39,12 +51,74 @@ public class HouseDetailsController extends BaseController {
         try{
             ViewData viewData = this.getViewData();
             JSONObject viewObject = viewData.getJSONObject("DATA");
-            String  houseId = APPUtil.getSafeStringFromJSONObject(viewObject,"houseId");
-            HashMap map = houseSV.queryDetailsByHouseId(houseId);
+            long  houseId = APPUtil.getSafeLongParamFromJSONObject(viewObject,"houseId");
+            long userId = getLongParamFromSession("userId");
+            HashMap map = houseSV.queryDetailsByHouseId(userId,houseId);
             rtnObject.putAll(map);
         }catch (Exception e){
             e.printStackTrace();
         }
+        return rtnObject;
+    }
+
+    /**
+     * 收藏
+     * @return
+     */
+    @RequestMapping(value="/houseDetail_collect",produces="application/json;charset=UTF-8")
+    @ResponseBody
+    public Object collect(){
+        JSONObject rtnObject = this.getRtnJSONObject();
+        String rtn = "Y";
+        try{
+            ViewData viewData = this.getViewData();
+            JSONObject viewObject = viewData.getJSONObject("DATA");
+            long houseId = APPUtil.getSafeLongParamFromJSONObject(viewObject,"houseId");
+            long userId = getLongParamFromSession("userId");
+            boolean collectState  = viewObject.getBoolean("collectState");//true 取消收藏
+            if(userId >0){
+                if(!collectState){
+                    houseCollectSV.deleteHouseCollectByUserIdAndHouseId(userId,houseId);
+                }else{
+                    houseCollectSV.saveCollectInfoByUserIdAndHouseId(userId,houseId);
+                }
+
+            }else{
+                rtnObject.put("rtnMessage","用户请重新登录");
+            }
+        }catch (Exception e){
+            rtn = "N";
+            rtnObject.put("rtnMessage",e.getMessage());
+        }
+        rtnObject.put("result",rtn);
+        return rtnObject;
+    }
+
+    /**
+     * 预约（个人、团体）
+     */
+    @RequestMapping(value="/houseDetail_appointment",produces="application/json;charset=UTF-8")
+    @ResponseBody
+    public Object appointment(){
+        JSONObject rtnObject = this.getRtnJSONObject();
+        String rtn = "Y";
+        try{
+            ViewData viewData = this.getViewData();
+            JSONObject viewObject = viewData.getJSONObject("DATA");
+            long houseId = APPUtil.getSafeLongParamFromJSONObject(viewObject,"houseId");
+            long userId = getLongParamFromSession("userId");
+            long appointmentType = APPUtil.getSafeLongParamFromJSONObject(viewObject,"appointmentType");
+            if(userId >0){
+                appointmentSV.saveAppointmentInfo(userId,houseId,appointmentType);
+            }else{
+                rtn = "N";
+                rtnObject.put("rtnMessage","用户请重新登录");
+            }
+        }catch (Exception e){
+            rtn = "N";
+            rtnObject.put("rtnMessage",e.getMessage());
+        }
+        rtnObject.put("result",rtn);
         return rtnObject;
     }
 

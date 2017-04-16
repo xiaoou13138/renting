@@ -38,7 +38,7 @@ public class BaseController {
 			if(session != null){
 				long userId = getLongParamFromSession("userId");
 				String userName = getStringParamFromSession("userName");
-				if(userId == -1){//如果session里面获取不到userId,就尝试从cookie里面获取用户登录的信息
+				if(userId == 0){//如果session里面获取不到userId,就尝试从cookie里面获取用户登录的信息
 					Cookie[] cookies  = request.getCookies();
 					HashMap map =userSV.checkUserInfoByCookie(cookies);
 					userId = (long)map.get("userId");
@@ -100,7 +100,7 @@ public class BaseController {
 	 */
 	public long getLongParamFromSession(String code) throws Exception{
 		Object value = session.getAttribute(code);
-		if(code != null){
+		if(value != null){
 			return  (long)  value;
 		}
 		return 0;
@@ -114,7 +114,7 @@ public class BaseController {
 	 */
 	public String getStringParamFromSession(String code)throws Exception{
 		Object value = session.getAttribute(code);
-		if(code != null){
+		if(value != null){
 			return  (String)  value;
 		}
 		return null;
@@ -123,5 +123,7 @@ public class BaseController {
 	public JSONObject getRtnJSONObject(){
 		return rtnJSONObject;
 	}
+
+
 
 }

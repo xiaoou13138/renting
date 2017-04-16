@@ -8,7 +8,7 @@ import java.util.List;
  */
 public interface IPictureSV {
     public void save(IPictureValue value)throws Exception;
-    public IPictureValue queryPictureInfoByPictureId(String pictureId) throws Exception;
+    public IPictureValue queryPictureInfoByPictureId(long pictureId) throws Exception;
 
     /**
      * 保存图片的信息
@@ -16,4 +16,11 @@ public interface IPictureSV {
      * @throws Exception
      */
     public long savePictureInfoByPictureName(String pictureName) throws Exception ;
+
+    /**
+     * 查询房子的主照片
+     * @param houseId
+     * @throws Exception
+     */
+    public IPictureValue queryMainPictureByHouseId(long houseId) throws Exception;
 }

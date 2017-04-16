@@ -25,4 +25,7 @@ public class GroupsDAOImpl implements IGroupsDAO{
     public void save(IGroupsValue value) throws Exception {
         groupsEngine.save(value);
     }
+    public long getCountByCondition(String condition,HashMap  params)throws  Exception{
+        return groupsEngine.queryCountByCondition(condition,params);
+    }
 }

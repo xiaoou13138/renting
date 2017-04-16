@@ -72,7 +72,7 @@ public class UserSVImpl implements IUserSV {
 	public IUserValue getUserInfoByCode(String code) throws Exception {
 		if(StringUtils.isNotBlank(code)){
 			StringBuilder condition = new StringBuilder("");
-			HashMap<String,String> params = new HashMap<String, String>();
+			HashMap params = new HashMap();
 			SQLCon.connectSQL(IUserValue.S_UserAccountCode, code, condition, params, false);
 			List<IUserValue> iUserValues = dao.queryUserInfoByCondition(condition.toString(), params);
 			if(iUserValues!=null){
@@ -153,10 +153,10 @@ public class UserSVImpl implements IUserSV {
 	 * @return
 	 * @throws Exception
 	 */
-	public IUserValue queryUserInfoByUserId(String userId) throws Exception {
+	public IUserValue queryUserInfoByUserId(long userId) throws Exception {
 		StringBuilder condition = new StringBuilder();
 		HashMap params = new HashMap();
-		SQLCon.connectSQL(IUserValue.S_UserId,Long.parseLong(userId),condition,params,false);
+		SQLCon.connectSQL(IUserValue.S_UserId,userId,condition,params,false);
 		List<IUserValue> list = dao.queryUserInfoByCondition(condition.toString(),params,-1,-1);
 		if( list != null && list.size()>0){
 			return list.get(0);
@@ -172,7 +172,7 @@ public class UserSVImpl implements IUserSV {
 	 */
 	public HashMap checkUserInfoByCookie(Cookie[] cookies) throws Exception {
 		HashMap map = new HashMap();
-		String rtnUserId = "";
+		long rtnUserId = 0;
 		String rtnName = "";
 		String cookieUserId = "";
 		String cookiePassword = "";
@@ -189,7 +189,7 @@ public class UserSVImpl implements IUserSV {
 			}
 			HashMap checkMap = checkUserInfo(cookieUserId,cookiePassword);
 			if((boolean)checkMap.get("result")){
-				rtnUserId = String.valueOf(checkMap.get("userId"));
+				rtnUserId = (long)checkMap.get("userId");
 				rtnName = String.valueOf(checkMap.get("userName"));
 			}
 		}
@@ -204,9 +204,9 @@ public class UserSVImpl implements IUserSV {
 	 * @return
 	 * @throws Exception
 	 */
-	public HashMap getEditViewInitData(String userId) throws Exception{
+	public HashMap getEditViewInitData(long userId) throws Exception{
 		HashMap rtnMap = new HashMap();
-		if(StringUtils.isNotBlank(userId)){
+		if(userId !=0){
 			IUserValue value = queryUserInfoByUserId(userId);
 			if(value != null){
 				//需要用户的手机号码   真实名称  性别

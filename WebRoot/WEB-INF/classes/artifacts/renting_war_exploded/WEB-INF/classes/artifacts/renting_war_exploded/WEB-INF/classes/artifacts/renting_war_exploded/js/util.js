@@ -116,6 +116,7 @@ function doPostAjaxAndDealPage(url,data,callback) {
  */
 function setPage(total,callback){
 	try{
+		debugger;
         $(".pagination").jBootstrapPage({
             pageSize : pageSizeVal,
             total : total,
@@ -130,5 +131,30 @@ function setPage(total,callback){
 	}catch(e){
 		alert(e);
 	}
+}
+function setPageById(id,total,callback) {
+    try{
+        debugger;
+        $("#"+id).jBootstrapPage({
+            pageSize : pageSizeVal,
+            total : total,
+            maxPageButton:buttonNumVal,
+            onPageClicked: function(obj, pageIndex) {
+                var index = parseInt(pageIndex);
+                var begin = index*pageSizeVal;
+                var end = (index+1)*pageSizeVal;
+                callback.call(this,begin,end);
+            }
+        });
+    }catch(e){
+        alert(e);
+    }
+}
+function getCurrentTimeMillis(){
+    return (new Date()).valueOf();
+}
 
+function createImageHtml(pictureName,height,width){
+    var style = "background: url('./showImage?imageFile="+pictureName+"');background-repeat: no-repeat;background-position: center center;background-size:"+height+"px "+width+"px;height: 100%;width: 100%";
+    return style;
 }

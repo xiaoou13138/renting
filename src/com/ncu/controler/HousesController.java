@@ -48,17 +48,48 @@ public class HousesController extends BaseController{
 			JSONObject dataJSONObject = data.getJSONObject("DATA");
 			String begin = APPUtil.getSafeStringFromJSONObject(dataJSONObject,"begin");
 			String end = APPUtil.getSafeStringFromJSONObject(dataJSONObject,"end");
-			String searchContent = APPUtil.getSafeStringFromJSONObject(dataJSONObject,"searchContent");
-			HashMap condition = new HashMap();
-			condition.put("searchContent",searchContent);
-			HashMap map = houseSV.queryHouseInfoByCondtion(condition,begin,end);
-			rtnJSONObject.putAll(map);
+			long showType = dataJSONObject.getLong("showType");
+			long userId = getLongParamFromSession("userId");
+			if(showType == 1){
+				HashMap map = houseSV.queryCollectHouseInfoByUserId(userId,Integer.parseInt(begin),Integer.parseInt(end));
+				rtnJSONObject.putAll(map);
+			}else if(showType == 2){
+				//查询用户上传的房源
+				HashMap map = houseSV.queryHouseInfoByLandlordIdForController(userId,Integer.parseInt(begin),Integer.parseInt(end));
+				rtnJSONObject.putAll(map);
+			} else{
+				String searchContent = APPUtil.getSafeStringFromJSONObject(dataJSONObject,"searchContent");
+				HashMap condition = new HashMap();
+				condition.put("searchContent",searchContent);
+				HashMap map = houseSV.queryHouseInfoByCondition(condition,begin,end);
+				rtnJSONObject.putAll(map);
+			}
+
 		}catch (Exception e){
 			e.printStackTrace();
 		}
 		return rtnJSONObject;
 	}
-	
+	@RequestMapping(value="/house_delHouse",produces="application/json;charset=UTF-8")
+	@ResponseBody
+	public Object delHouse(){
+		String rtn = "Y";
+		JSONObject rtnJSONObject = this.getRtnJSONObject();
+		ViewData data = this.getViewData();
+		try{
+			JSONObject dataJSONObject = data.getJSONObject("DATA");
+			long userId = getLongParamFromSession("userId");
+			long houseId = APPUtil.getSafeLongParamFromJSONObject(dataJSONObject,"houseId");
+			if(userId > 0 && houseId >0){
+				houseSV.delHouseInfoByUserIdAndHouseId(userId,houseId);
+			}
+		}catch (Exception e){
+			rtn = "N";
+			rtnJSONObject.put("rtnMessage",e.getMessage());
+		}
+		rtnJSONObject.put("result",rtn);
+		return rtnJSONObject;
+	}
 	
 	
 }
