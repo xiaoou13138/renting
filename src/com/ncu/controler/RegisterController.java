@@ -58,7 +58,7 @@ public class RegisterController extends BaseController{
 			rtnObject.put("result", "Y");
 		}catch (Exception e){
 			rtnObject.put("result", "N");
-			e.printStackTrace();
+			rtnObject.put("rtnMessage",e.getMessage());
 		}
 		return rtnObject;
 	}

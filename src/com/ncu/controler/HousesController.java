@@ -31,7 +31,7 @@ public class HousesController extends BaseController{
 	 * @return
 	 */
 	@RequestMapping(value="/houses")
-	public ModelAndView toLogin()throws Exception{
+	public ModelAndView getView()throws Exception{
 		ModelAndView mv = this.getModelAndView();
 		ViewData data = this.getRtnViewData();
 		mv.setViewName("houses");
@@ -51,17 +51,20 @@ public class HousesController extends BaseController{
 			long showType = dataJSONObject.getLong("showType");
 			long userId = getLongParamFromSession("userId");
 			if(showType == 1){
-				HashMap map = houseSV.queryCollectHouseInfoByUserId(userId,Integer.parseInt(begin),Integer.parseInt(end));
+				HashMap map = houseSV.queryHouseInfoByUserIdAndQueryType(userId,1,Integer.parseInt(begin),Integer.parseInt(end));
 				rtnJSONObject.putAll(map);
 			}else if(showType == 2){
 				//查询用户上传的房源
 				HashMap map = houseSV.queryHouseInfoByLandlordIdForController(userId,Integer.parseInt(begin),Integer.parseInt(end));
 				rtnJSONObject.putAll(map);
-			} else{
+			} else if(showType ==3){
 				String searchContent = APPUtil.getSafeStringFromJSONObject(dataJSONObject,"searchContent");
 				HashMap condition = new HashMap();
 				condition.put("searchContent",searchContent);
 				HashMap map = houseSV.queryHouseInfoByCondition(condition,begin,end);
+				rtnJSONObject.putAll(map);
+			}else if(showType == 4){
+				HashMap map = houseSV.queryHouseInfoByUserIdAndQueryType(userId,2,Integer.parseInt(begin),Integer.parseInt(end));
 				rtnJSONObject.putAll(map);
 			}
 

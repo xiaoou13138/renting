@@ -31,12 +31,15 @@ public interface IHouseSV {
 	public IHouseValue queryHouseDefInfoByHouseId(long houseId) throws Exception;
 
 	/**
-	 *  查询用户收藏的房子
+	 * 根据用户的主键和查询类型查询房子的信息
 	 * @param userId
+	 * @param queryType 1是收藏的房子  2是预约的房子
+	 * @param begin
+	 * @param end
 	 * @return
 	 * @throws Exception
 	 */
-	public HashMap queryCollectHouseInfoByUserId(long userId,int begin,int end) throws Exception;
+	public HashMap queryHouseInfoByUserIdAndQueryType(long userId,int queryType,int begin,int end) throws Exception;
 
 	/**
 	 * 查询房东的房源信息

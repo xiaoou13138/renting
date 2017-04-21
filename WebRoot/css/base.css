@@ -176,7 +176,7 @@
 	text-align: center;
 	color: #000000;
 	background-color: #e7e9ff;
-	background-size: cover;
+	overflow: auto;
 }
 .bg h1{
 	color: #000000;
@@ -220,4 +220,12 @@
 .house-show-address{
 	font-size: 18px;
 	margin-bottom: 20px;
+}
+
+.house-details-text-div{
+	font-size: 24px;
+	margin: 20px 20px 0px 15px;
+}
+.house-details-block{
+	text-align: left;
 }

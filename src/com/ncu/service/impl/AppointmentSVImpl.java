@@ -24,26 +24,25 @@ public class AppointmentSVImpl implements IAppointmentSV {
 
     /**
      * 保存预约信息
-     * @param entityId
+     * @param userId
      * @param houseId
      * @param appointmentType
      * @throws Exception
      */
     @Transactional(propagation = Propagation.REQUIRED)
-    public void saveAppointmentInfo(long entityId,long houseId,long appointmentType) throws Exception{
-        IAppointmentValue  appointmentValue = queryAppointment(entityId,houseId,appointmentType);
+    public void saveAppointmentInfo(long userId,long groupId,long houseId,long appointmentType) throws Exception{
+        IAppointmentValue  appointmentValue = queryAppointment(userId,groupId,houseId,appointmentType);
         if(appointmentValue != null){
             throw new Exception("此用户已经预约过!");
         }
-        if(entityId >0 && houseId >0){
-            AppointmentBean bean = new AppointmentBean();
-            bean.setHouseId(houseId);
-            bean.setDelFlag(1L);
-            bean.setOrderDate(TimeUtil.getCurrentTimeyyyyMMddhhmmss());
-            bean.setRenterId(entityId);
-            bean.setRenterType(appointmentType);
-            appointmentDAO.save(bean);
-        }
+        AppointmentBean bean = new AppointmentBean();
+        bean.setHouseId(houseId);
+        bean.setDelFlag(1L);
+        bean.setOrderDate(TimeUtil.getCurrentTimeyyyyMMddhhmmss());
+        bean.setRenterId(userId);
+        bean.setGroupId(groupId);
+        bean.setRenterType(appointmentType);
+        appointmentDAO.save(bean);
     }
 
     /**
@@ -54,19 +53,54 @@ public class AppointmentSVImpl implements IAppointmentSV {
      * @return
      * @throws Exception
      */
-    public IAppointmentValue queryAppointment(long userId, long houseId, long appointmentType)throws Exception{
-        if(userId > 0 && houseId >0 ){
-            StringBuilder condition = new StringBuilder();
-            HashMap params = new HashMap();
+    public IAppointmentValue queryAppointment(long userId,long groupId, long houseId, long appointmentType)throws Exception{
+        StringBuilder condition = new StringBuilder();
+        HashMap params = new HashMap();
+        SQLCon.connectSQL(IAppointmentValue.S_RenterType,appointmentType,condition,params,false);
+        if(userId > 0){
             SQLCon.connectSQL(IAppointmentValue.S_RenterId,userId,condition,params,false);
+        }
+        if(houseId > 0 ){
             SQLCon.connectSQL(IAppointmentValue.S_HouseId,houseId,condition,params,false);
-            SQLCon.connectSQL(IAppointmentValue.S_RenterType,appointmentType,condition,params,false);
-            List<IAppointmentValue> list = appointmentDAO.queryAppointmentByCondition(condition.toString(),params,-1,-1);
-            if(list != null && list.size()>0){
-                return list.get(0);
-            }
+        }
+        if(groupId > 0 ){
+            SQLCon.connectSQL(IAppointmentValue.S_GroupId,groupId,condition,params,false);
+        }
+        List<IAppointmentValue> list = appointmentDAO.queryAppointmentByCondition(condition.toString(),params,-1,-1);
+        if(list != null && list.size()>0){
+            return list.get(0);
         }
         return null;
     }
+
+    /**
+     * 查询用户预约的房子
+     * @param userId
+     * @param begin
+     * @param end
+     * @return
+     * @throws Exception
+     */
+    public List<IAppointmentValue> queryAppointmentHouseByUserId(long userId,int begin,int end) throws Exception{
+        if( userId > 0){
+            StringBuilder condition = new StringBuilder();
+            HashMap params = new HashMap();
+            SQLCon.connectSQL(IAppointmentValue.S_RenterId,userId,condition,params,false);
+            SQLCon.connectSQL(IAppointmentValue.S_DelFlag,1L,condition,params,false);
+            return appointmentDAO.queryAppointmentByCondition(condition.toString(),params,-1,-1);
+        }
+        return null;
+    }
+    public long queryAppointmentHouseCountByUserId(long userId) throws Exception{
+        if( userId > 0){
+            StringBuilder condition = new StringBuilder();
+            HashMap params = new HashMap();
+            SQLCon.connectSQL(IAppointmentValue.S_RenterId,userId,condition,params,false);
+            SQLCon.connectSQL(IAppointmentValue.S_DelFlag,1L,condition,params,false);
+            return appointmentDAO.queryAppointmentCountByCondition(condition.toString(),params);
+        }
+        return 0L;
+    }
+
 
 }

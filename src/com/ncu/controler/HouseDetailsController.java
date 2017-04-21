@@ -109,7 +109,7 @@ public class HouseDetailsController extends BaseController {
             long userId = getLongParamFromSession("userId");
             long appointmentType = APPUtil.getSafeLongParamFromJSONObject(viewObject,"appointmentType");
             if(userId >0){
-                appointmentSV.saveAppointmentInfo(userId,houseId,appointmentType);
+                appointmentSV.saveAppointmentInfo(userId,0,houseId,appointmentType);
             }else{
                 rtn = "N";
                 rtnObject.put("rtnMessage","用户请重新登录");

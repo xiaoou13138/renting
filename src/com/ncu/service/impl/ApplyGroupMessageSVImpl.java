@@ -134,6 +134,7 @@ public class ApplyGroupMessageSVImpl implements IApplyGroupMessageSV {
         if(applyGroupMessageValue != null){
             if("accept".equals(dealType)){
                 applyGroupMessageValue.setState(2L);//2是批准
+                groupRenterRelSV.saveAddGroupInfo(applyId,applyGroupMessageValue.getApplyGroupId(),2L);
             }else if("refuse".equals(dealType)){
                 applyGroupMessageValue.setState(3L);//3是拒绝
             }else{

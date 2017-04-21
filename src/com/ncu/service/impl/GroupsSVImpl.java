@@ -146,7 +146,10 @@ public class GroupsSVImpl implements IGroupsSV{
                     map.put("userTypeInGroup",roleStr);
                     map.put("name",userValue.getUserName());
                     map.put("sex",userValue.getUserSex());
-                    map.put("age",userValue.getUserAge());
+                    if(userValue.getUserAge() != null){
+                        map.put("age",userValue.getUserAge());
+                    }
+
                     map.put("phoneNum",userValue.getUserPhone());
                     rtnList.add(map);
                 }

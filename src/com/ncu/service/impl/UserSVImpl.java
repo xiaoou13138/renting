@@ -226,7 +226,6 @@ public class UserSVImpl implements IUserSV {
 		String code = viewObject.getString("code");
 		String password = viewObject.getString("password");
 		String telPhone = viewObject.getString("telPhone");
-		String name = viewObject.getString("name");
 		String sex = viewObject.getString("sex");
 		String userType = viewObject.getString("userType");
 		String userName = viewObject.getString("userName");
@@ -242,10 +241,16 @@ public class UserSVImpl implements IUserSV {
 		valueNew.setPassword(password);
 		valueNew.setDelFlag(1L);
 		valueNew.setUserPhone(Long.parseLong(telPhone));
-		valueNew.setUserName(name);
 		valueNew.setUserSex(sex);
 		valueNew.setUserType(userType);
 		valueNew.setCreateDate(date);
+		valueNew.setUserName(userName);
+		if(viewObject.containsKey("age")){
+			valueNew.setUserAge(viewObject.getLong("age"));
+		}
+		if(viewObject.containsKey("name")){
+			valueNew.setRealName(viewObject.getString("name"));
+		}
 		//存储用户的信息
 		save(valueNew);
 	}

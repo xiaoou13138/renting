@@ -961,6 +961,10 @@ img {
 }
 .img-circle {
   border-radius: 50%;
+  width: auto;
+  height: auto;
+  clip: auto;
+
 }
 hr {
   margin-top: 20px;

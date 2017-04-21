@@ -75,10 +75,11 @@ public class AppointmentGroupTableShowController extends BaseController {
             JSONObject viewObject= viewData.getJSONObject("DATA");
             long userId = getLongParamFromSession("userId");
             long houseId = APPUtil.getSafeLongParamFromJSONObject(viewObject,"houseId");
+            long groupId = APPUtil.getSafeLongParamFromJSONObject(viewObject,"groupId");
             if(userId < 0){
                 rtnJSONObject.put("rtnMessage","用户请先登录");
             }
-            appointmentSV.saveAppointmentInfo(userId,houseId,2L);
+            appointmentSV.saveAppointmentInfo(userId,groupId,houseId,2L);
         }catch (Exception e){
             rtnJSONObject.put("rtnMessage",e.getMessage());
             rtn = "N";

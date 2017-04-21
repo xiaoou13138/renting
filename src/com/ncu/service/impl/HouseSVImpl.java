@@ -41,6 +41,8 @@ public class HouseSVImpl implements IHouseSV{
 	private IUserSV userSV;
 	@Resource(name="HouseCollectSVImpl")
 	private IHouseCollectSV houseCollectSV;
+	@Resource(name="AppointmentSVImpl")
+	private IAppointmentSV appointmentSV;
 
 
 	/**
@@ -104,22 +106,43 @@ public class HouseSVImpl implements IHouseSV{
 		rtnMap.put("count",count);
 		return rtnMap;
 	}
+
 	/**
-	 *  查询用户收藏的房子
+	 * 根据用户的主键和查询类型查询房子的信息
 	 * @param userId
+	 * @param queryType 1是收藏的房子  2是预约的房子
+	 * @param begin
+	 * @param end
 	 * @return
 	 * @throws Exception
 	 */
-	public HashMap queryCollectHouseInfoByUserId(long userId,int begin,int end) throws Exception{
+	public HashMap queryHouseInfoByUserIdAndQueryType(long userId,int queryType,int begin,int end) throws Exception{
 		HashMap rtnMap = new HashMap();
 		if(userId >0){
-			List<IHouseCollectValue> list = houseCollectSV.queryCollectHouseByUserId(userId,begin,end);
-			long count = houseCollectSV.queryCollectHouseCountByUserId(userId);
+			List list = null;
+			long count = 0;
+
+			if(queryType ==1){
+				list = houseCollectSV.queryCollectHouseByUserId(userId,begin,end);
+				count = houseCollectSV.queryCollectHouseCountByUserId(userId);
+			}else if(queryType ==2){
+				list = appointmentSV.queryAppointmentHouseByUserId(userId,begin,end);
+				count = appointmentSV.queryAppointmentHouseCountByUserId(userId);
+			}
 			if(list  != null && list.size()>0){
 				ArrayList rtnList = new ArrayList();
 				int length = list.size();
 				for(int i = 0;i<length;i++){
-					long houseId = list.get(i).getHouseId();
+					long houseId = 0;
+					long appointmentType = 0;
+					if(queryType ==1 ){
+						IHouseCollectValue houseCollectValue = (IHouseCollectValue)list.get(i);
+						houseId =houseCollectValue.getHouseId();
+					}else{
+						IAppointmentValue appointmentValue = (IAppointmentValue)list.get(i);
+						houseId = appointmentValue.getHouseId();
+						appointmentType = appointmentValue.getRenterType();
+					}
 					IHouseValue houseValue = queryHouseDefInfoByHouseId(houseId);
 					if(houseValue != null){
 						HashMap map = new HashMap();
@@ -131,6 +154,9 @@ public class HouseSVImpl implements IHouseSV{
 						map.put("houseAddress",houseValue.getHouseAddress());
 						map.put("information",houseValue.getInformation());
 						map.put("money",houseValue.getMoney());
+						if(appointmentType != 0){
+							map.put("appointmentType",appointmentType);
+						}
 
 
 						//查询房屋带有的设备
@@ -423,4 +449,6 @@ public class HouseSVImpl implements IHouseSV{
 		houseValue.setDelFlag(0L);
 		houseDAO.save(houseValue);
 	}
+
+
 }

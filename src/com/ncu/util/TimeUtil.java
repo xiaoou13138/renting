@@ -35,7 +35,7 @@ public class TimeUtil {
 		return "";
 	}
 	public static String getCurrentTimeyyyyMMddhhmmssStr(){
-		SimpleDateFormat sdf = new SimpleDateFormat("yyyyMMddhhmmss");
+		SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd hh:mm:ss");
 		try{
 			return sdf.format(new Date());
 		}catch(Exception e){

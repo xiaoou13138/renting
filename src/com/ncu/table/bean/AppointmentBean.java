@@ -23,6 +23,9 @@ public class AppointmentBean implements IAppointmentValue,Serializable{
   @Column(name = IAppointmentValue.S_RenterId)
   private Long renterId;
 
+  @Column(name = IAppointmentValue.S_GroupId)
+  private Long groupId;
+
   @Column(name = IAppointmentValue.S_RenterType)
   private Long renterType;
 
@@ -60,6 +63,14 @@ public class AppointmentBean implements IAppointmentValue,Serializable{
 
   public Long getRenterId(){
     return renterId;
+  }
+
+  public void setGroupId(Long value){
+    this.groupId = value;
+  }
+
+  public Long getGroupId(){
+    return groupId;
   }
 
   public void setRenterType(Long value){
