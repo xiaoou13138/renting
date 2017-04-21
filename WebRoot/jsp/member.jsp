@@ -39,31 +39,42 @@
     });
     //页面的初始化方法
     function groupViewInit(){
+        debugger;
         groupId = getParam("groupId");
         getGroupViewData(groupId,0,10)
     }
     function getGroupViewData(groupId,begin,end){
-        doPostAjax("member_getInfo",{"groupId":groupId,"begin":begin,"end":end},function (data) {
-            $.each(data.userList,function (index,value,array) {
-                $("#memberTable tbody").html(createmenberTableHtml(value));
+        try{
+            doPostAjax("member_getInfo",{"groupId":groupId,"begin":begin,"end":end},function (data) {
+                $.each(data.userList,function (index,value,array) {
+                    $("#memberTable tbody").html(createMemberTableHtml(value));
+                });
+                setPage( data.count,function (begin,end) {
+                    getGroupViewData(groupId,begin,end);
+                });
             });
-            setPage(pageSize, buttonNum, data.count,function (begin,end) {
-                getGroupViewData(groupId,begin,end);
-            });
-        });
+        }catch (e){
+            alert(e);
+        }
+
     }
-    function createmenberTableHtml(viewVlaue) {
+    function createMemberTableHtml(viewValue) {
         var html = "<tr>";
         var userId = "";
+
         $.each($("#memberTable thead tr td"),function (index,value,array) {
             var key =$(value).attr("id");
 
             if(key != undefined){
                 if(key == "userId"){
-                    html = html+"<td class='hide'>"+viewVlaue[key]+"</td>";
+                    html = html+"<td class='hide'>"+viewValue[key]+"</td>";
                     userId = viewVlaue[key];
                 }else{
-                    html = html+"<td>"+viewVlaue[key]+"</td>";
+                    if(viewValue[key] == undefined){
+                        html = html+"<td></td>";
+                    }else{
+                        html = html+"<td>"+viewValue[key]+"</td>";
+                    }
                 }
 
             }

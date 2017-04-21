@@ -14,21 +14,32 @@
     <div class="house-details ">
         <div class="container" style="background-color: #ffffff">
             <div class="row house-details-block">
-                <div class="col-md-6 box-border" style="height: 500px">
-                    <div id="gallery" class="ad-gallery">
-                        <div class="ad-image-wrapper"></div>
-                        <div class="ad-controls"></div>
-                        <div class="ad-nav">
-                            <div class="ad-thumbs">
-                                <ul class="ad-thumb-list" id="detailImageList">
+                <div class="col-md-5 box-border">
+                    <div class="magnifier" id="magnifier1">
+                        <div class="magnifier-container">
+                            <div class="images-cover" id="imageCover">
+
+                            </div>
+                            <div class="move-view"></div>
+                        </div>
+                        <div class="magnifier-assembly">
+                            <div class="magnifier-btn">
+                                <span>&lt;</span>
+                                <span>&gt;</span>
+                            </div>
+                            <div class="magnifier-line">
+                                <ul class="clearfix animation03" id="detailImageList">
+
                                 </ul>
                             </div>
                         </div>
+                        <div class="magnifier-view"></div>
                     </div>
                 </div>
 
-                <div class="col-md-6 box-border" style="height: 500px">
-                    <div class="row house-details-text-div ">
+
+                <div class="col-md-7 box-border" style="height: 400px">
+                    <div class="row house-details-text-div " style="margin-top: 30px">
                         <div class="col-md-3 text-right" >租金:</div>
                         <div class="col-md-9 text-left" id="price"></div>
                     </div>
@@ -38,7 +49,7 @@
                     </div>
                     <div class="row house-details-text-div">
                         <div class="col-md-3 text-right" >地址:</div>
-                        <div class="col-md-9 text-left" id="address"></div>
+                        <div class="col-md-9 text-left" ><a id="address" href="#allmap"></a></div>
                     </div>
                     <div class="row house-details-text-div">
                         <div class="col-md-3 text-right" >手机号码:</div>
@@ -62,15 +73,15 @@
             </div>
 
             <div class="row house-details-block box-border" id="information">
-                <h1 class="h1">房源描述</h1>
+                <h2 class="h2">&nbsp;&nbsp;房源描述</h2>
             </div>
 
             <div class="row house-details-block box-border" id="facility">
-                <h1 class="h1">配套设施</h1>
+                <h2 class="h2">&nbsp;&nbsp;配套设施</h2>
             </div>
 
             <div class="row house-details-block " style="height: 500px;">
-                <h1 class="h1">地图</h1>
+                <h2 class="h2">&nbsp;&nbsp;地图</h2>
                 <div id="allmap"></div>
             </div>
         </div>
@@ -90,12 +101,22 @@
         doPostAjax("houseDetails_getBaseInfo",{"houseId":houseId},function (data) {
             var pictureHtmlArray = new Array;
             $.each(data.pictures,function (index,value,array) {
+                if(index == 1){
+                    $("#imageCover").html("<img src='"+value+"' />");
+                }
                 pictureHtmlArray.push(createImageHtml(value));
             });
+            debugger;
             $("#detailImageList").html(String.prototype.concat.apply("", pictureHtmlArray));
-            $('.ad-gallery').adGallery();//先初始化图片插件
+
+            magnifier({
+                width : 460,//主容器宽
+                height : 300,//主容器高
+                magnifier : "#magnifier1",//主容器
+            });//先初始化图片插件
             //图片右边的信息的添加
             $("#price").text(data.money+"元/月");
+
             $("#dsc").text(data.houseArea+"平方米  "+data.houseType);
             $("#address").text(data.houseAddress);
             $("#phone").text(data.phone);
@@ -120,8 +141,8 @@
     }
 
     function createImageHtml(imageName){
-       var  html="<li><a href='showImage?imageFile="+imageName+"'><img src='showImage?imageFile="+imageName+"'/></a></li>";
-       return html;
+        var html = "<li><div class='small-img'><img src='showImage?imageFile="+imageName+"'/></div></li>";
+        return html;
     }
     
     function map(address) {

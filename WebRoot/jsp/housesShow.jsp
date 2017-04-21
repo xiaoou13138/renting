@@ -13,7 +13,7 @@
 </head>
 <body>
 <div class="bg">
-    <div class="container" style="height: 100%">
+    <div class="container" style="height:100%">
         <div class="row">
             <div class="grid-search-center center-block" style="margin-top: 50px">
                 <div class="grid-left"><input type="text"  class="myform-control" id="searchContent"></div>
@@ -72,15 +72,15 @@
         +"<div class='row text-left house-show-title'>"
         +"<a href = './houseDetails?houseId="+info.houseId+"'>"+info.houseName+"</a>"
         +"</div>"
-        +"<div class='row house-show-content text-left'>"+"描述:"
-        +info.houseType+"&nbsp;"+info.houseArea+"平方米"+"&nbsp;"+info.information
+        +"<div class='row house-show-content text-left'><FONT color=#000000>"
+        +info.houseType+"&nbsp;"+info.houseArea+"平方米" +"<p><FONT color=#666666>描述:"+info.information
         +"</div>"
-        +"<div class='row house-show-content text-left'>"
+        +"<div class='row house-show-content text-left'><FONT color=#03A89E>"
         +"地址:"+info.houseAddress
         +"</div>"
         +"</div>"
         +"</div>"
-        +"<div class='col-md-3 money-div'>"
+        +"<div class='col-md-3 money-div'><FONT color=#FF9912>"
         +info.money+"元/月"
         +"</div>"
         +"</div>";

@@ -15,43 +15,49 @@
 <body>
 <div class="bg">
     <div class="container">
-        <div class="row"  style='padding: 10px;border-bottom:1px solid #502c26; margin-bottom: 20px' id="head">
+
+        <div class="row"  style='padding: 10px;border-bottom:2px solid #502c26; margin-bottom: 20px' id="head">
             <div class="col-md-2">
-                <a style=" " href="#"  >
-                    <img class="img-circle" src="showImage?imageFile=default_user_image.png" id="headImg">
-                </a>
+                    <img class="img-circle"style=" hight:100%;weight:100%;" src="showImage?imageFile=default_user_image.png" id="headImg">
+                </div>
+            <div class="col-md-1" style="color: #0f0f0f">
+            </div>
+        <div class="col-md-7" style="color: #0f0f0f">
+            <div class="row"style="hight:20px">
+                <p>&nbsp;</p>
+            </div>
+            <div class="row">
+                <p class='lead text-left' id="title">标题</p>
+            </div>
+            <div style='text-align: left; color: #000;' id="headContent">
+                内容
+            </div>
+        </div>
+        <div class="col-md-2"><button type="button" class="btn btn-primary pull-left" style="margin-left: 16%;" onclick="reply()">回复</button></div>
+    </div>
+    <div class="row" id="cardList">
+        <div class="row">
+            <div class="col-md-1" style="color: #0f0f0f">
+            </div>
+            <div class="col-md-2">
+                <div class>
+                    < class="img-circle"style=" hight:100%;weight:100%;" src="showImage?imageFile=default_user_image.png">
+            </div>
+            <div class="col-md-1" style="color: #0f0f0f">
             </div>
             <div class="col-md-8" style="color: #0f0f0f">
-                <div class="row">
-                    <p class='lead text-left' id="title">标题</p>
-                </div>
-                <div style='text-align: left; color: #000;' id="headContent">
+                <div style='text-align: left; color: #000;'>
                     内容
                 </div>
-            </div>
-            <div class="col-md-2"><button type="button" class="btn btn-primary pull-left" style="margin-left: 16%;" onclick="reply()">回复</button></div>
-        </div>
-        <div class="row" id="cardList">
-            <div class="row">
-                <div class="col-md-2">
-                    <a style=" " href="#"  >
-                        <img class="img-circle" src="showImage?imageFile=default_user_image.png">
-                    </a>
-                </div>
-
-                <div class="col-md-10" style="color: #0f0f0f">
-                    <div style='text-align: left; color: #000;'>
-                        内容
-                    </div>
-                    <div id="pictureList1">
-                    </div>
+                <div id="pictureList1">
                 </div>
             </div>
-        </div>
-        <div style="">
-            <ul class="pagination" id="detailPage"></ul>
         </div>
     </div>
+    <div style="">
+        <ul class="pagination" id="detailPage"></ul>
+    </div>
+</div>
 </div>
 <script>
     var postId = 0;
@@ -90,17 +96,21 @@
     }
     function createCardHtml(value){
         var html="<div class='row'>"
-        +"<div class='col-md-2'>"
-        +"<a style=' ' href='#'  >"
-        +"<img class='img-circle' src='showImage?imageFile=default_user_image.png'>"
-        +"</a>"
-        +" </div>"
-        +"<div class='col-md-10' style='color: #0f0f0f'>"
-        +"<div style='text-align: left; color: #000;'>"
-        +value["content"]
-        +"</div>"
-        +"</div>"
-        +"</div>";
+            +"<div class='col-md-1' style='color: #0f0f0f'>"
+            +" </div>"
+            +"<div class='col-md-2'>"
+            +"<a style=' ' href='#'  >"
+            +"<img class='img-circle'  src='showImage?imageFile=default_user_image.png'>"
+            +"</a>"
+            +" </div>"
+            +"<div class='col-md-1' style='color: #0f0f0f'>"
+            +" </div>"
+            +"<div class='col-md-8' style='color: #0f0f0f'>"
+            +"<div style='text-align: left; color: #000;'>"
+            +value["content"]
+            +"</div>"
+            +"</div>"
+            +"</div>";
         return html;
     }
 

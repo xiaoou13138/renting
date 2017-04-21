@@ -25,7 +25,7 @@
                 <button type="button" class="btn btn-primary pull-right" style="margin-right: 1%;" onclick="showGroupMessage()">消息<span class="badge">4</span></button>
             </div>
             <div class="row">
-                <table class="table table-bordered" style="width: 800px; margin: auto" id="groupTable">
+                <table class="table table-bordered" style=" margin: 10px" id="groupTable">
                     <thead>
                     <tr>
                         <td id="groupId" class="hide">组ID</td>
@@ -41,7 +41,7 @@
                     <tbody>
                     </tbody>
                 </table>
-                <div>
+                <div class="text-center">
                     <ul class="pagination" id="groupShowPage"></ul>
                 </div>
             </div>

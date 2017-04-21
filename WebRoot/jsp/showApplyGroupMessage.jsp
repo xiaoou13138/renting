@@ -6,7 +6,7 @@
   To change this template use File | Settings | File Templates.
 --%>
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
-<html>
+<!doctype html>
 <head>
     <title>Title</title>
     <script src="js/head.js"></script>
@@ -88,7 +88,10 @@
         }
         doPostAjax("showMessage_dealMessage",{"applyId":applyId,"dealType":dealTypeStr},function (data) {
             if(data.result =="Y"){
-
+                layer.confirm('批准成功', {
+                    btn: ['确定'] //按钮
+                });
+                location.reload();
             }
         })
     }

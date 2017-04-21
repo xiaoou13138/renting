@@ -17,8 +17,8 @@
         button.navbar-toggle > span.icon-bar {background-color:#dedede}
     </style>
 <body>
-<nav class="navbar navbar-fixed-top my-navbar bottom-shadow" role="navigation">
-    <div class="container-fluid">
+<nav class="navbar navbar-fixed-top my-navbar bottom-shadow" role="navigation" style="background-color:#87CEEB">
+    <div class="container-fluid" style="background-color:#87CEEB">
 		<div >
 			<a class="navbar-brand" onclick="change('./housesShow')"  style="float: left;margin-right: 40px">
 				主页
@@ -41,12 +41,12 @@
 		</div>
 		<div >
 			<a class="navbar-brand" onclick="change('./addGroup')"   style="float: right;margin-right: 40px">
-				组团
+				合租组团
 			</a>
 		</div>
     </div>
 </nav>
-<div style="height: 100%;">
+<div style="height:100%">
 	<iframe src="./housesShow" width="100%" height="100%" allowTransparency="true" id="bottonFrame"></iframe>
 </div>
 <script>
