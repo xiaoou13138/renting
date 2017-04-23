@@ -116,7 +116,6 @@ function doPostAjaxAndDealPage(url,data,callback) {
  */
 function setPage(total,callback){
 	try{
-		debugger;
         $(".pagination").jBootstrapPage({
             pageSize : pageSizeVal,
             total : total,

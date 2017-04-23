@@ -7,8 +7,8 @@
 <title>注册</title>
 </head>
 <body>
-<div class="container" >
-	<div class="center-block" style="width: 500px;margin: 100px auto">
+<div class="container" style="background-color: #F0FFFF">
+	<div class="center-block" style="width: 500px;margin: 40px auto">
 		<form class="form-horizontal">
 			<div class="form-group" style="text-align: center;font-size: 40px;">
 				<label  class="col-sm-6 control-label">注册</label>
@@ -45,18 +45,18 @@
 			<div class="form-group has-check">
 				<label for="telphone" class="col-sm-3 control-label">手机号码:</label>
 				<div class="col-sm-8">
-					<input onkeyup="checkTelphone()" type="text" class="form-control" id="telphone"  placeholder="请输入手机号码">
+					<input onblur="checkTelphone()" type="text" class="form-control" id="telphone"  placeholder="请输入手机号码">
 				</div>
 			</div>
 
-			<div class="form-group has-check">
+			<div class="form-group ">
 				<label for="name" class="col-sm-3 control-label">真实姓名:</label>
 				<div class="col-sm-8">
-					<input onblur="checkName()" type="text" class="form-control" id="name"  placeholder="请输入姓名">
+					<input  type="text" class="form-control" id="name"  placeholder="请输入姓名">
 				</div>
 			</div>
 
-			<div class="form-group has-check">
+			<div class="form-group ">
 				<label for="name" class="col-sm-3 control-label">年龄:</label>
 				<div class="col-sm-8">
 					<input onblur="validateNum(this)" type="text" class="form-control" id="age"  placeholder="请输入年龄">
@@ -67,9 +67,9 @@
 				<label for="sex" class="col-sm-3 control-label">性别:</label>
 				<div class="col-sm-8">
 					<select class="form-control" id ="sex">
-						<option>男</option>
-						<option>女</option>
-						<option>不公开</option>
+						<option value="男">男</option>
+						<option value="女">女</option>
+						<option value="不公开">不公开</option>
 					</select>
 				</div>
 			</div>
@@ -149,21 +149,11 @@ function checkPassword(){
 		return;
 	}
 }
-//校验名字
-function checkName(){
-	var nameVal = nameObj.val();
-	nameObj.qtip('destroy',true);
-	if(nameVal == ""){
-		nameObj.qtip(getRentingTips('姓名不能为空'));
-		nameObj.focus();
-		return;
-	}
-}
+
 function regist(){
     checkTelphone();
     checkTrueMail();
     checkPassword();
-    checkName();
 	var codeVal = codeObj.val();//账号的值
 	var passwordVal = passwordObj.val();//密码的值
 	var telphoneVal = telphoneObj.val();
@@ -171,23 +161,33 @@ function regist(){
 	var sexVal = $("#sex").val();
 	var userType = getParam("choiceType");
 	var userName = userNameObj.val();
+	var age =  $("#age").val();
 	  var json = {
 					"code":codeVal,
 					"password":passwordVal,
 					"time":new Date().getTime(),
 					"telPhone":telphoneVal,
-					"name":nameVal,
 					"sex":sexVal,
 					"userType":userType,
-					"userName":userName
+					"userName":userName,
 	  };
+	  if(age != ""){
+          json.age =age;
+	  }
+	  if(nameVal !=""){
+	      json.name=nameVal;
+	  }
 	  //调用ajax保存用户的信息
 	doPostAjax("regist_regist",json,function (data) {
         if("Y" == data.result){
             //跳转到注册成功的页面
-            window.location.href="./successRegist?code="+codeVal;
-        }else if("codeError" == data.result){
-            $("#code").qtip(getRentingTips('账号已经被人使用'));
+            layer.confirm('注册成功！', {
+                btn: ['确定'] //按钮
+            }, function(){
+                location.href="./login";
+            });
+        }else {
+            $("#code").qtip(getRentingTips(data.rtnMessage));
             $("#code").focus();
         }
     });

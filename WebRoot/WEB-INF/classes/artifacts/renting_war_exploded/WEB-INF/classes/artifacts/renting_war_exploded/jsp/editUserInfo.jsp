@@ -27,14 +27,14 @@
                 </div>
 
                 <div class="form-group has-check">
-                    <label for="name" class="col-sm-3 control-label">真实姓名:</label>
+                    <label for="realName" class="col-sm-3 control-label">真实姓名:</label>
                     <div class="col-sm-4">
-                        <input onblur="checkName()" type="text" class="form-control" id="name" hasCheck="true" placeholder="请输入姓名">
+                        <input onblur="checkName()" type="text" class="form-control" id="realName" hasCheck="true" placeholder="请输入姓名">
                     </div>
                 </div>
 
                 <div class="form-group has-check">
-                    <label for="name" class="col-sm-3 control-label">年龄:</label>
+                    <label for="age" class="col-sm-3 control-label">年龄:</label>
                     <div class="col-sm-4">
                         <input onblur="validateNum()" type="text" class="form-control" id="age" hasCheck="true" placeholder="请输入年龄">
                     </div>
@@ -51,10 +51,43 @@
                     </div>
                 </div>
 
-                <button type="button" class="btn btn-primary btn-lg btn-block center-block" style="width: 200px;margin-bottom: 50px" onclick="saveInfo()">提交</button>
+                <button type="button" class="btn btn-primary btn-lg btn-block center-block" style="width: 200px;margin-bottom: 50px" onclick="updateUserInfo()">保存修改</button>
             </form>
         </div>
     </div>
 </div>
+<script>
+    $(document).ready(function () {
+        var telphone = '${data.telphone}';
+        var realName = '${data.realName}';
+        var age = '${data.age}';
+        var sex = '${data.sex}';
+        if(telphone){
+            $("#telphone").val(telphone);
+        }
+        if(realName){
+            $("#realName").val(realName);
+        }
+        if(age){
+            $("#age").val(age);
+        }
+        $("#sex").val(sex);
+    });
+    function updateUserInfo() {
+        var telphone =  $("#telphone").val();
+        var realName =  $("#realName").val();
+        var age =  $("#age").val();
+        var sex =  $("#sex").val();
+        var json = {telphone:telphone,realName:realName,age:age,sex:sex};
+        json.actionType = 1;
+        doPostAjax("editUserInfo_viewAction",json,function (data) {
+            if(data.result == "Y"){
+                layer.confirm('保存成功', {
+                    btn: ['确定'] //按钮
+                });
+            }
+        });
+    }
+</script>
 </body>
 </html>

@@ -6,7 +6,7 @@
   To change this template use File | Settings | File Templates.
 --%>
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
-<html>
+<!doctype html>
 <head>
     <title>已经加入的组</title>
     <script src="js/head.js"></script>
@@ -22,7 +22,7 @@
             <div class="row">
                 <button type="button" class="btn btn-primary pull-left" style="margin-left: 1%;" onclick="addGroup()">加入组</button>
                 <button type="button" class="btn btn-primary pull-left" style="margin-left: 2%;" onclick="createGroup()">新增组</button>
-                <button type="button" class="btn btn-primary pull-right" style="margin-right: 1%;" onclick="showGroupMessage()">消息<span class="badge">4</span></button>
+                <button type="button" class="btn btn-primary pull-right" style="margin-right: 1%;" onclick="showGroupMessage()">消息<span class="badge" id="messageNum"></span></button>
             </div>
             <div class="row">
                 <table class="table table-bordered" style=" margin: 10px" id="groupTable">
@@ -62,7 +62,7 @@
     function queryGroupMessgae() {
         doPostAjax("group_queryGroupMessage",{},function (data) {
             if(data.result == "Y"){
-
+                $("#messageNum").text(data.messageNum);
             }
         });
     }
@@ -106,7 +106,7 @@
             }
         });
         html = html+"<td><a onclick='openGroupView("+groupId+")'>成员查看/</a><a onclick='exitGroup("+groupId+")'>退出</a></td>"+"</tr>";
-        return html;
+        return html;z
     }
     //查看组的详细内容
     function openGroupView(groupId){
@@ -172,4 +172,4 @@
     }
 </script>
 </body>
-</html>
+</doctypehtml>

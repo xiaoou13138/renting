@@ -40,8 +40,7 @@
             <div class="col-md-1" style="color: #0f0f0f">
             </div>
             <div class="col-md-2">
-                <div class>
-                    < class="img-circle"style=" hight:100%;weight:100%;" src="showImage?imageFile=default_user_image.png">
+                <div class="img-circle"style=" hight:100%;weight:100%;" src="showImage?imageFile=default_user_image.png">
             </div>
             <div class="col-md-1" style="color: #0f0f0f">
             </div>

@@ -21,7 +21,7 @@
         <div class="row">
             <div class="col-md-3">
                 <div style="height: 40%;" >
-                    <a style=" " href="javascript:void 0">
+                    <a href="javascript:void 0">
                         <img class="img-circle"style="height:100%; weight:100%;"  src="showImage?imageFile=default_user_image.png">
                     </a>
                 </div>
@@ -34,6 +34,7 @@
                         <li role="presentation"><a href="javascript:void(0)" data-toggle="tab" onclick="manageChange('./collectHouseShow');">收藏列表</a></li>
                         <li role="presentation"><a href="javascript:void(0)" data-toggle="tab" onclick="manageChange('./orderHouseShow');">我的预约</a></li>
                         <li role="presentation"><a href="javascript:void(0)" data-toggle="tab" onclick="manageChange('./myHouse')">我的房源</a></li>
+                        <li role="presentation"><a href="javascript:void(0)" data-toggle="tab" onclick="manageChange('./message')">我的私信</a></li>
                     </ul>
                 </div>
             </div>

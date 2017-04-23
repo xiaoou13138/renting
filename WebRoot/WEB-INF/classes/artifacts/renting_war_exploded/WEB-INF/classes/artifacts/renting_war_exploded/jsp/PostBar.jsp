@@ -16,13 +16,13 @@
     <div style="width: 80%;margin:auto">
         <div class="container-fluid" >
             <div class="row">
-                <div class="col-md-offset-3 col-md-5"><input type="text"  class="form-control" id="searchContent"></div>
+                <div class="col-md-offset-2 col-md-5"><input type="text"  class="form-control" id="searchContent"></div>
                 <a class="col-md-1 search-button btn-primary no-line" onclick="firstSearch()">搜索</a>
             </div>
             <div class="row" style="margin-top: 50px">
                 <div class="col-md-9" style="background-color: #e7e9ff" id="card">
                     <div class="row">
-                        <div class=" col-md-offset-2 col-md-2">
+                        <div class=" col-md-offset-4 col-md-2">
                             <select class="form-control" id ="houseLimit">
                                 <option value="0">请选择</option>
                                 <option value="1">有房</option>
@@ -36,6 +36,9 @@
                                 <option value="女">女</option>
                             </select>
                         </div>
+                    </div>
+                    <div class="row" style="hight:20px">
+                        <p>&nbsp;</p>
                     </div>
                     <div class="container-fluid" id="cards" style="background-color: #ffffff">
                     </div>
@@ -115,7 +118,7 @@
             shadeClose: true,
             shade: false,
             maxmin: true, //开启最大化最小化按钮
-            area: ['893px', '600px'],
+            area: ['893px', '500px'],
             content: './createCard'
         });
     }

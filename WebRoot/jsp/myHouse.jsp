@@ -71,12 +71,25 @@
             +"<div class='col-xs-8 text-left house-show-title'>"
             +"<a href = './houseDetails?houseId="+info.houseId+"'>"+info.houseName+"</a>"
             +"</div>"
-            +"<div class='col-xs-2'><a href='javascript:void(0)' onclick='updateInfo("+info.houseId+")'>修改</a><a href='javascript:void(0)' onclick='delInfo("+info.houseId+")'>/删除</a></div>"
+            +"<div class='col-xs-2'><div class='row'><div class='col-xs-12'><a href='javascript:void(0)' onclick='updateInfo("+info.houseId+")'>修改</a><a href='javascript:void(0)' onclick='delInfo("+info.houseId+")'>/删除</a></div></div>"
+            +"<div class='row'><div class='col-xs-12'><a onclick='appointmentDetail("+info.houseId+")'>预约详细</a><span class='label label-warning' style='font-size:16px'>"+info.appointmentCount+"</span></div></div>"
+            +"</div>"
             +"</div>";
         return html;
     }
     function updateInfo(houseId) {
 
+    }
+    function appointmentDetail(houseId) {
+        layer.open({
+            type: 2,
+            title: '预约详细',
+            shadeClose: true,
+            shade: false,
+            maxmin: true, //开启最大化最小化按钮
+            area: ['893px', '600px'],
+            content: './houseAppointment?houseId='+houseId
+        });
     }
     function delInfo(houseId) {
         layer.confirm('去顶删除吗', {

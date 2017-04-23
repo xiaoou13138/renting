@@ -6,8 +6,8 @@
 		<title>登录</title>
 	</head>
 	<body>
-		<div class="container " >
-			<div class="center-block" style="width: 500px;margin: 100px auto">
+		<div class="container " style="background-color: #F0FFFF">
+			<div class="center-block" style="width: 600px;margin: 200px auto">
 				<form class="form-horizontal">
 					<div class="form-group">
 						<label for="code" class="col-sm-2 control-label">账号:</label>

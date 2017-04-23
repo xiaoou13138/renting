@@ -17,8 +17,8 @@
         button.navbar-toggle > span.icon-bar {background-color:#dedede}
     </style>
 <body>
-<nav class="navbar navbar-fixed-top my-navbar bottom-shadow" role="navigation">
-    <div class="container-fluid">
+<nav class="navbar navbar-fixed-top my-navbar bottom-shadow" role="navigation" style="background-color:#87CEEB">
+    <div class="container-fluid" style="background-color:#87CEEB">
 		<div >
 			<a class="navbar-brand" onclick="change('./housesShow')"  style="float: left;margin-right: 40px">
 				主页
@@ -41,44 +41,45 @@
 		</div>
 		<div >
 			<a class="navbar-brand" onclick="change('./addGroup')"   style="float: right;margin-right: 40px">
-				组团
+				合租组团
+			</a>
+		</div>
+		<div >
+			<a class="navbar-brand" onclick="change('./administratorsMain')"   style="float: right;margin-right: 40px">
+				系统管理员
 			</a>
 		</div>
     </div>
 </nav>
-<div style="height: 100%;">
+<div style="height:100%">
 	<iframe src="./housesShow" width="100%" height="100%" allowTransparency="true" id="bottonFrame"></iframe>
 </div>
 <script>
 	//查询条件和分页的参数
+    var userName =  "";
+    var messageNum = 0;
+    var userId = "";
 	 $(document).ready(function(){
 		 $(window).scroll(function () {
 			 if ($(".navbar").offset().top > 50) {$(".navbar-fixed-top").addClass("top-nav");
 			 }else {$(".navbar-fixed-top").removeClass("top-nav");}
-		 })
+		 });
+         userId =  '${data.userId}';
+         userName =  '${data.userName}';
+         messageNum = '${data.messageNum}';
+         //判断用户是否已经登录，如果登录
+         if(userName != "" && messageNum !=""){
+             changeUserIcon(true,userName);
+         }else{
+             changeUserIcon(false,userName);
+         }
+         if(userName != ""){
+             $("#userHref").qtip(showUserMessage());
+         }
 	 });
 	 function change(address){
          $("#bottonFrame",parent.document.body).attr("src",address);
 	 }
-    var userName =  "";
-    var messageNum = 0;
-    var userId = "";
-    jQuery(function() {
-        userId =  '${userId}';
-        userName =  '${userName}';
-        messageNum = '${messageNum}';
-        messageNum =2;
-        //判断用户是否已经登录，如果登录
-        if(userName != "" && messageNum !=""){
-            changeUserIcon(true,userName);
-        }else{
-            changeUserIcon(false,userName);
-        }
-        if(userName != ""){
-            $("#userHref").qtip(showUserMessage());
-        }
-
-    });
     //根据是否有用户改变样式
     function changeUserIcon(hasUserInfo,userName){
         if(hasUserInfo == true){
@@ -134,6 +135,7 @@
         });
         changeUserIcon(false)
     }
+
 </script>
         
 </body>

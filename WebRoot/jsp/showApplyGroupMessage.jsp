@@ -22,7 +22,7 @@
                 <td id="applyUserName">申请人名称</td>
                 <td id="groupId">申请的团编码</td>
                 <td id="groupName">申请的团的名称</td>
-                <td ></td>
+                <td >状态</td>
             </tr>
             </thead>
             <tbody>
@@ -35,13 +35,8 @@
 </div>
 <script>
     $(document).ready(function () {
-        showMessageViewInit();
-    });
-    function showMessageViewInit(){
-        //先获得消息列表
-
         getMessage();
-    }
+    });
     function getMessage(){
 
         doPostAjax("showMessage_getMessage",{},function (data) {
