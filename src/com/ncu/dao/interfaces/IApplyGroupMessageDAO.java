@@ -12,4 +12,5 @@ import java.util.HashMap;
 public interface IApplyGroupMessageDAO {
     public void save(IApplyGroupMessageValue value) throws Exception;
     public List<IApplyGroupMessageValue> queryApplyGroupMessageInfoByCondition(String condition, HashMap params,int begin,int end) throws Exception;
+    public long queryApplyGroupMessageCountByCondition(String condition, HashMap params) throws Exception;
 }

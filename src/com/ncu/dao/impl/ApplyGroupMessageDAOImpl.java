@@ -26,4 +26,7 @@ public class ApplyGroupMessageDAOImpl implements IApplyGroupMessageDAO {
     public void save(IApplyGroupMessageValue value) throws Exception {
         applyGroupMessageEngine.save(value);
     }
+    public long queryApplyGroupMessageCountByCondition(String condition, HashMap params) throws Exception{
+        return applyGroupMessageEngine.queryCountByCondition(condition,params);
+    }
 }

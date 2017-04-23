@@ -73,7 +73,6 @@ public class BeanUtil {
 						query.setParameter(key,value);
 					}
 				}
-
 				List list = query.list();
 				if(list != null && list.size()>0){
 					long countObject= (long)list.get(0);

@@ -70,14 +70,6 @@ public interface IUserSV {
 	 */
 	public HashMap checkUserInfoByCookie(Cookie cookies[]) throws Exception;
 
-	/**
-	 * 根据用户的主键查询修改用户信息页面的信息
-	 * @param userId
-	 * @return
-	 * @throws Exception
-	 */
-	public HashMap getEditViewInitData(long userId) throws Exception;
-
 
 	/**
 	 * 根据用户页面传进来的数据保存用户信息
@@ -85,6 +77,22 @@ public interface IUserSV {
 	 * @throws Exception
 	 */
 	public void saveUserInfoByViewData(JSONObject viewObject)throws  Exception;
+
+	/**
+	 * 修改个人信息时获取的信息
+	 * @param userId
+	 * @return
+	 * @throws Exception
+	 */
+	public JSONObject queryUserInfoByForEditView(long userId)throws Exception;
+
+	/**
+	 * 更新用户信息
+	 * @param object
+	 * @throws Exception
+	 */
+	public void updateUserInfo(long userId,JSONObject object)throws Exception;
+
 
 
 

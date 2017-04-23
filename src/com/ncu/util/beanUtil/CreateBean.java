@@ -17,13 +17,12 @@ import java.sql.SQLException;
  *
  */
 public class CreateBean {
-	String path = "D:/Users3/xiaozuo/git/renting/src/com/ncu/table";
-	String tableName = "appointment";
+	String path = "D:/studyWorkSpace/renting/src/com/ncu/table";
+	String tableName = "apply_group_message";
 	String driver = "com.mysql.jdbc.Driver";
-	String url = "jdbc:mysql://localhost:3306/renting";
-	String user = "root";
+	String url = "jdbc:mysql://192.168.191.5:3306/renting";
+	String user = "zuowy";
 	String password = "123456";
-	
 	Connection con = null;
 
 	Table table = null;

@@ -33,7 +33,7 @@ public class HousesController extends BaseController{
 	@RequestMapping(value="/houses")
 	public ModelAndView getView()throws Exception{
 		ModelAndView mv = this.getModelAndView();
-		ViewData data = this.getRtnViewData();
+		JSONObject data = this.getRtnJSONObject();
 		mv.setViewName("houses");
 		mv.addObject("data",data);
 		return mv;

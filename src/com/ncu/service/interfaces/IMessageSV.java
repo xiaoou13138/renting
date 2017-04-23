@@ -2,6 +2,8 @@ package com.ncu.service.interfaces;
 
 import com.ncu.table.ivalue.IMessageValue;
 
+import java.util.HashMap;
+import java.util.List;
 /**
  * Created by xiaoou on 2017/4/13.
  */
@@ -20,5 +22,34 @@ public interface IMessageSV {
      * @param content
      * @throws Exception
      */
-    public void saveMessageByUserIdAndContent(long userId,long postId,String content) throws Exception;
+    public void saveMessageByUserIdAndContent(long userId,long postId,String content,long isPrivate,long receiverId) throws Exception;
+
+    /**
+     * 查询私信信息
+     * @param userId
+     * @param begin
+     * @param end
+     * @return
+     * @throws Exception
+     */
+    public List<IMessageValue> queryMessageByUserId(long userId,int begin,int end) throws Exception;
+
+    /**
+     * 查询数量
+     * @param userId
+     * @return
+     * @throws Exception
+     */
+    public long queryMessageCountByUserId(long userId) throws Exception;
+    /**
+     * 查询私信信息
+     * @param userId
+     * @param begin
+     * @param end
+     * @return
+     * @throws Exception
+     */
+    public HashMap queryMessageByUserIdForController(long userId,int begin,int end) throws Exception;
+
+
 }

@@ -369,6 +369,9 @@ public class HouseSVImpl implements IHouseSV{
 				if(pictureValue !=null){
 					map.put("mainPicture",pictureValue.getPicturePath());
 				}
+				//查询房子的预约信息有多少
+				long appointmentCount = appointmentSV.queryAppointmentCountByHouseId(houseValue.getHouseId());
+				map.put("appointmentCount",appointmentCount);
 				rtnList.add(map);
 			}
 			rtnMap.put("houseView",rtnList);
@@ -449,6 +452,4 @@ public class HouseSVImpl implements IHouseSV{
 		houseValue.setDelFlag(0L);
 		houseDAO.save(houseValue);
 	}
-
-
 }

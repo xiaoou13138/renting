@@ -26,9 +26,9 @@ public class TimeUtil {
 	}
 
 	public static String formatTimeyyyyMMddhhmmss(Date date){
-		SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd hh:mm:ss");
+		SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
 		try{
-			return sdf.format(new Date());
+			return sdf.format(date);
 		}catch(Exception e){
 			e.printStackTrace();
 		}

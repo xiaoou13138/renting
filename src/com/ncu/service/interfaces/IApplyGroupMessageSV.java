@@ -50,4 +50,22 @@ public interface IApplyGroupMessageSV {
      */
     public IApplyGroupMessageValue queryApplyGroupMessageByApplyId(long applyId) throws Exception;
 
+    /**
+     * 查询申请信息
+     * @param userId 申请人
+     * @param acceptUserId 被申请人
+     * @param groupId 申请的组
+     * @return
+     * @throws Exception
+     */
+    public IApplyGroupMessageValue queryApplyGroupMessage(long userId,long acceptUserId,long groupId)throws Exception;
+
+    /**
+     * 查询用户带审核消息的数量
+     * @param userId
+     * @return
+     * @throws Exception
+     */
+    public long queryApplyMessageCountByUserId(long userId)throws Exception;
+
 }

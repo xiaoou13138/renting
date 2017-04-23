@@ -1,11 +1,13 @@
 package com.ncu.controler;
 
 import javax.annotation.PostConstruct;
+import javax.annotation.Resource;
 import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 
 import com.fasterxml.jackson.databind.util.JSONPObject;
+import com.ncu.service.interfaces.IMessageNoticeQueueSV;
 import com.ncu.service.interfaces.IUserSV;
 import com.ncu.util.APPUtil;
 import net.sf.json.JSONObject;
@@ -30,6 +32,9 @@ public class BaseController {
 	@Qualifier("UserSVImpl")
 	private IUserSV userSV;
 
+	@Resource(name="MessageNoticeQueueSVImpl")
+	private IMessageNoticeQueueSV messageNoticeQueueSV;
+
 	@PostConstruct
 	public void init(){
 		try{
@@ -45,6 +50,11 @@ public class BaseController {
 					userName = (String)map.get("userName");
 					session.setAttribute("userId",userId);
 					session.setAttribute("userName",userName);
+				}else{
+					//查询用户有多少条没有查阅过的私信
+					long messageNum = messageNoticeQueueSV.getMessageNum(userId);
+					rtnViewData.put("messageNum",messageNum);
+					rtnJSONObject.put("messageNum",messageNum);
 				}
 				rtnViewData.put("userId",userId);
 				rtnViewData.put("userName",userName);

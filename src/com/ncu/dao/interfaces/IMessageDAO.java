@@ -10,4 +10,5 @@ import java.util.HashMap;
 public interface IMessageDAO {
     public void save(IMessageValue value) throws Exception;
     public List<IMessageValue> queryMessageByCondition(String condtion, HashMap params,int begin,int end) throws Exception;
+    public long queryMessageCountByCondition(String condition, HashMap params) throws Exception;
 }

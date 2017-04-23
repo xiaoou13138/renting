@@ -169,19 +169,19 @@ public class GroupController extends BaseController {
         try{
             long userId = getLongParamFromSession("userId");
             if(userId == 0){
-                rtnMessage = "用户没有登录，请登录。";
+                throw new Exception("用户没有登录，请登录。");
             }
             ViewData viewData = this.getViewData();
             JSONObject viewObject= viewData.getJSONObject("DATA");
             //查询用户是否有申请的消息
-           // groupsSV.saveGroup(userId,viewObject);
+            long messageNum = applyGroupMessageSV.queryApplyMessageCountByUserId(userId);
+            rtnJSONObject.put("messageNum",messageNum);
         }catch (Exception e){
             rtn = "N";
-            rtnMessage = e.getMessage();
+            rtnJSONObject.put("rtnMessage",e.getMessage());
             e.printStackTrace();
         }
         rtnJSONObject.put("result",rtn);
-        rtnJSONObject.put("rtnMessage",rtnMessage);
         return rtnJSONObject;
     }
 

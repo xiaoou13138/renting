@@ -18,4 +18,10 @@ BeanUtil beanUtil;
   public void save(Object value) throws Exception{
     beanUtil.save(value);
   }
+  public long queryCountByCondition(String condition , HashMap<String,String> params)throws Exception{
+    return beanUtil.getCount(condition,params,ApplyGroupMessageBean.beanClass.getSimpleName());
+  }
+  public void delete (Object value)throws Exception{  
+    beanUtil.delete(value);
+  }
 }

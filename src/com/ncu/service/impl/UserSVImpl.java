@@ -7,6 +7,7 @@ import java.util.HashMap;
 import java.util.List;
 
 import com.ncu.dao.interfaces.ICommonDAO;
+import com.ncu.service.interfaces.IMessageNoticeQueueSV;
 import com.ncu.table.bean.ParamsDefine;
 import com.ncu.table.bean.UserBean;
 import com.ncu.util.TimeUtil;
@@ -23,6 +24,7 @@ import com.ncu.service.interfaces.IUserSV;
 import com.ncu.table.ivalue.IUserValue;
 import com.ncu.util.SQLCon;
 
+import javax.annotation.Resource;
 import javax.servlet.http.Cookie;
 
 @Service("UserSVImpl")
@@ -32,6 +34,9 @@ public class UserSVImpl implements IUserSV {
 	@Autowired
 	@Qualifier("CommonDAOImpl")
 	private ICommonDAO commonDAO;
+
+	@Resource(name="MessageNoticeQueueSVImpl")
+	private IMessageNoticeQueueSV messageNoticeQueueSV;
 
 	/**
 	 * 保存用户的信息
@@ -198,29 +203,6 @@ public class UserSVImpl implements IUserSV {
 		return map;
 	}
 
-	/**
-	 * 根据用户的主键查询修改用户信息页面的信息
-	 * @param userId
-	 * @return
-	 * @throws Exception
-	 */
-	public HashMap getEditViewInitData(long userId) throws Exception{
-		HashMap rtnMap = new HashMap();
-		if(userId !=0){
-			IUserValue value = queryUserInfoByUserId(userId);
-			if(value != null){
-				//需要用户的手机号码   真实名称  性别
-				rtnMap.put("phoneNum",value.getUserPhone());
-				rtnMap.put("realName",value.getRealName());
-				rtnMap.put("sex",value.getUserSex());
-			}else{
-				rtnMap.put("phoneNum","");
-				rtnMap.put("realName","");
-				rtnMap.put("sex","");
-			}
-		}
-		return rtnMap;
-	}
 	@Transactional(propagation = Propagation.REQUIRED)
 	public void saveUserInfoByViewData(JSONObject viewObject)throws  Exception{
 		String code = viewObject.getString("code");
@@ -253,5 +235,58 @@ public class UserSVImpl implements IUserSV {
 		}
 		//存储用户的信息
 		save(valueNew);
+
+		messageNoticeQueueSV.saveMessageNoticeQueue(valueNew.getUserId(),0,true);
+	}
+
+	/**
+	 * 修改个人信息时获取的信息
+	 * @param userId
+	 * @return
+	 * @throws Exception
+	 */
+	public JSONObject queryUserInfoByForEditView(long userId)throws Exception{
+		JSONObject rtnObject = new JSONObject();
+		IUserValue userValue =  queryUserInfoByUserId(userId);
+		if(userValue != null){
+			if(userValue.getUserPhone() != null){
+				rtnObject.put("telphone",userValue.getUserPhone());
+			}
+			if(userValue.getRealName() != null){
+				rtnObject.put("realName",userValue.getRealName());
+			}
+			if(userValue.getUserAge() != null){
+				rtnObject.put("age",userValue.getUserAge());
+			}
+			if(userValue.getUserSex() != null){
+				rtnObject.put("sex",userValue.getUserSex());
+			}
+		}
+		return rtnObject;
+	}
+
+	/**
+	 * 更新用户信息
+	 * @param object
+	 * @throws Exception
+	 */
+	@Transactional(propagation = Propagation.REQUIRED)
+	public void updateUserInfo(long userId,JSONObject object)throws Exception{
+		IUserValue userValue = queryUserInfoByUserId(userId);
+		if(userValue == null){
+			throw new Exception("用户没有找到");
+		}
+		if(object.containsKey("telphone")){
+			userValue.setUserPhone(object.getLong("telphone"));
+		}
+		if(object.containsKey("realName")){
+			userValue.setRealName(object.getString("realName"));
+		}
+		if(object.containsKey("age")){
+			userValue.setUserAge(object.getLong("age"));
+		}
+		if(object.containsKey("sex")){
+			userValue.setUserSex(object.getString("sex"));
+		}
 	}
 }

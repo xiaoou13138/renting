@@ -75,7 +75,7 @@ public class CardDetailContoller extends BaseController {
             long userId = getLongParamFromSession("userId");
             long postId = APPUtil.getSafeLongParamFromJSONObject(viewObject,"postId");
             String content = APPUtil.getSafeStringFromJSONObject(viewObject,"content");
-            messageSV.saveMessageByUserIdAndContent(userId,postId,content);
+            messageSV.saveMessageByUserIdAndContent(userId,postId,content,0L,0L);
         }catch (Exception e){
             rtn="N";
         }

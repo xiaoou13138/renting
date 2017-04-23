@@ -67,10 +67,20 @@ public class ApplyGroupMessageSVImpl implements IApplyGroupMessageSV {
     public void saveApplyGroupMessageForController(long userId, long groupId) throws Exception {
         //首先先查出创建团的人是谁
         if(userId != 0&& groupId !=0){
+            //查询用户是否已经在组里面
+            IGroupsRenterRelValue value =  groupRenterRelSV.queryGroupRenterRelByUserIdAndGroupId(userId,groupId);
+            if(value != null){
+                throw new Exception("您已经加入该组");
+            }
+
             IGroupsRenterRelValue groupsRenterRelValue = groupRenterRelSV.queryGroupHeader(groupId);
             if(groupsRenterRelValue != null){
                 long acceptUserId = groupsRenterRelValue.getRenterId();
-
+                //查询是否已经申请过
+                IApplyGroupMessageValue applyGroupMessageValue = queryApplyGroupMessage(userId,acceptUserId,groupId);
+                if(applyGroupMessageValue != null){
+                    throw new Exception("不能重复申请加入组");
+                }
                 ApplyGroupMessageBean bean = new ApplyGroupMessageBean();
                 bean.setAcceptApplyUserId(acceptUserId);
                 bean.setApplyGroupId(groupId);
@@ -78,6 +88,8 @@ public class ApplyGroupMessageSVImpl implements IApplyGroupMessageSV {
                 bean.setState(1L);
                 bean.setCreateDate(TimeUtil.getCurrentTimeyyyyMMddhhmmss());
                 applyGroupMessageDAO.save(bean);
+            }else{
+                throw new Exception("该组没有组长");
             }
         }
 
@@ -161,4 +173,38 @@ public class ApplyGroupMessageSVImpl implements IApplyGroupMessageSV {
         return null;
     }
 
+    /**
+     * 查询申请信息
+     * @param userId 申请人
+     * @param acceptUserId 被申请人
+     * @param groupId 申请的组
+     * @return
+     * @throws Exception
+     */
+    public IApplyGroupMessageValue queryApplyGroupMessage(long userId,long acceptUserId,long groupId)throws Exception{
+        StringBuilder condition = new StringBuilder();
+        HashMap params =  new HashMap();
+        SQLCon.connectSQL(IApplyGroupMessageValue.S_ApplyUserId,userId,condition,params,false);
+        SQLCon.connectSQL(IApplyGroupMessageValue.S_AcceptApplyUserId,acceptUserId,condition,params,false);
+        SQLCon.connectSQL(IApplyGroupMessageValue.S_ApplyGroupId,groupId,condition,params,false);
+        List<IApplyGroupMessageValue> list= applyGroupMessageDAO.queryApplyGroupMessageInfoByCondition(condition.toString(),params,-1,-1);
+        if(list != null && list.size()>0){
+            return list.get(0);
+        }
+        return null;
+    }
+
+    /**
+     * 查询用户带审核消息的数量
+     * @param userId
+     * @return
+     * @throws Exception
+     */
+    public long queryApplyMessageCountByUserId(long userId)throws Exception{
+        StringBuilder condition = new StringBuilder();
+        HashMap params =  new HashMap();
+        SQLCon.connectSQL(IApplyGroupMessageValue.S_AcceptApplyUserId,userId,condition,params,false);
+        SQLCon.connectSQL(IApplyGroupMessageValue.S_State,1L,condition,params,false);
+        return applyGroupMessageDAO.queryApplyGroupMessageCountByCondition(condition.toString(),params);
+    }
 }

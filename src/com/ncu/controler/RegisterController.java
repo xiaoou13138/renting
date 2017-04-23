@@ -4,6 +4,7 @@ import java.util.Date;
 
 import javax.annotation.Resource;
 
+import com.ncu.service.interfaces.IMessageNoticeQueueSV;
 import com.ncu.util.APPUtil;
 import net.sf.json.JSONObject;
 
@@ -25,6 +26,8 @@ import com.ncu.util.TimeUtil;
 public class RegisterController extends BaseController{
 	@Resource(name="UserSVImpl")
 	private IUserSV sv;
+
+
 	
 	public static Logger log = Logger.getLogger(LoginController.class);
 	/**
@@ -55,6 +58,8 @@ public class RegisterController extends BaseController{
 			//获取用户的信息
 			JSONObject userInfoObject = data.getJSONObject("DATA");
 			sv.saveUserInfoByViewData(userInfoObject);
+			//用户通知表自动存一条记录
+
 			rtnObject.put("result", "Y");
 		}catch (Exception e){
 			rtnObject.put("result", "N");

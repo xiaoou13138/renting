@@ -62,4 +62,6 @@ public interface IGroupRenterRelSV {
      */
     public List<IGroupsRenterRelValue> queryGroupRenterRelByUserIdAndRole(long userId, long role,int begin, int end) throws Exception;
     public long queryGroupRenterRelCountByUserIdAndRole(long userId, long role) throws Exception;
+
+
 }

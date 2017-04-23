@@ -22,4 +22,7 @@ public class MessageDAOImpl implements IMessageDAO {
     public List<IMessageValue> queryMessageByCondition(String condition, HashMap params, int begin, int end) throws Exception{
         return messageEngine.queryByCondition(condition,params,begin,end);
     }
+    public long queryMessageCountByCondition(String condition, HashMap params) throws Exception{
+        return messageEngine.queryCountByCondition(condition,params);
+    }
 }
