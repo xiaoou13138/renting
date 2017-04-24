@@ -91,8 +91,6 @@
 
 
     <!-- 静态资源的引入 -->
-    <mvc:resources mapping="/adGallery/css/**" location="/plugInUnit/adGallery/css/" />
-    <mvc:resources mapping="/adGallery/js/**" location="/plugInUnit/adGallery/js/" />
     <mvc:resources mapping="/cityPicker/css/**" location="/plugInUnit/cityPicker/css/" />
     <mvc:resources mapping="/cityPicker/js/**" location="/plugInUnit/cityPicker/js/" />
     <mvc:resources mapping="/layer/css/**" location="/plugInUnit/layer/skin/" />
