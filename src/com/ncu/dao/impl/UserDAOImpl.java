@@ -19,7 +19,7 @@ public class UserDAOImpl {
 	private UserEngine engine;
 	/**
 	 * 保存用户信息
-	 * @param user
+	 * @param value
 	 */
 	public void save(IUserValue value){
 		hibernateTemplate.save(value);
@@ -48,5 +48,11 @@ public class UserDAOImpl {
 	public List<IUserValue> queryUserInfoByCondition(String condition , HashMap<String,String> params,int begin,int end) throws Exception{
 		return (List<IUserValue>) engine.queryByCondition(condition, params,begin,end);
 	}
+
+	public long queryUserCountByCondition(String condition , HashMap<String,String> params)throws Exception{
+		return engine.queryCountByCondition(condition,params);
+	}
+
+
 
 }

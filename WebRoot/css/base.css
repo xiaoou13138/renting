@@ -81,7 +81,12 @@
 	height:100%;
 	line-height: 200px;
 	font-size: 25px;
-	color: red;
+	color: #FF9912;
+}
+.admin-money-div{
+	line-height: 170px;
+	font-size: 25px;
+	color: #FF9912;
 }
 .grid-total{
 	width:100%;

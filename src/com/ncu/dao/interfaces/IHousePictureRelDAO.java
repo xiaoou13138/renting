@@ -14,4 +14,6 @@ public interface IHousePictureRelDAO {
 	 */
 	public List<IHousePictureRelValue> getHousePictureRelByCondition(String condition, HashMap params, int begin, int end) throws Exception;
 	public void save(IHousePictureRelValue value) throws  Exception;
+	public long getHousePictureRelCountByCondition(String condition, HashMap params)throws Exception;
+	public void deleteHousePictureRel(IHousePictureRelValue value)throws Exception;
 }

@@ -1,5 +1,6 @@
 package com.ncu.service.impl;
 
+import com.ncu.cache.StaticDataCache;
 import com.ncu.dao.interfaces.IPostDAO;
 import com.ncu.service.interfaces.*;
 import com.ncu.table.bean.PostBean;
@@ -40,6 +41,9 @@ public class PostSVImpl implements IPostSV {
 
     @Resource(name="UserSVImpl")
     private IUserSV userSV;
+
+    @Resource(name="StaticDataCache")
+    private StaticDataCache staticDataCache;
 
     /**
      * 根据页面传进来的数据保存帖子
@@ -113,9 +117,12 @@ public class PostSVImpl implements IPostSV {
                 map.put("createDate",TimeUtil.formatTimeyyyyMMddhhmmss(value.getCrateDate()));
                 map.put("hostId",value.getHostId());
                 if(value.getIsNoHouse() != null){
-                    map.put("houseLimit",value.getIsNoHouse());
+                    map.put("houseLimit",staticDataCache.getCodeNameByCodeTypeAndValue("houseLimit",String.valueOf(value.getIsNoHouse())));
                 }
-                map.put("sexLimit",value.getSexLimit());
+                if(value.getSexLimit() != null){
+                    map.put("sexLimit",value.getSexLimit());
+                }
+
                 List<IPostPictureRelValue> pictureList = postPictureRelSV.queryPostPictureRelInfoByPostId(value.getPostId());
                 if(pictureList != null && pictureList.size()>0){
                     int pictureListlength = pictureList.size();
@@ -162,20 +169,19 @@ public class PostSVImpl implements IPostSV {
                 rtnMap.put("head",postMap);
             }
             //查询帖下面的评论的内容
-            List<IPostMessageRelValue> postMessageRelValueList = postMessageRelSV.queryMessageRelByPostId(postId,begin,end);
-            long count = postMessageRelSV.queryMessageRelCountByPostId(postId);
+            List<IMessageValue> messageValueList = messageSV.queryMessageByPostId(postId,begin,end);
+            long count = messageSV.queryMessageCountByPostId(postId);
             rtnMap.put("count",count);
-            if(postMessageRelValueList != null & postMessageRelValueList.size()>0){
+            if(messageValueList != null & messageValueList.size()>0){
                 ArrayList cardList = new ArrayList();
-                int length = postMessageRelValueList.size();
+                int length = messageValueList.size();
                 for(int i= 0;i<length;i++){
-                    IPostMessageRelValue postMessageRelValue = postMessageRelValueList.get(i);
-                    long messageId = postMessageRelValue.getMessageId();
-                    IMessageValue messageValue = messageSV.queryMessageByMessageId(messageId);
+                    IMessageValue messageValue = messageValueList.get(i);
                     if(messageValue != null){
                         HashMap messageMap = new HashMap();
                         messageMap.put("content",messageValue.getContent());
                         messageMap.put("sendDate",messageValue.getSenderDate());
+                        messageMap.put("messageId",messageValue.getMessageId());
                         long senderId = messageValue.getSenderId();
                         //查询用户的信息
                         IUserValue userValue = userSV.queryUserInfoByUserId(senderId);
@@ -211,5 +217,20 @@ public class PostSVImpl implements IPostSV {
             }
         }
         return null;
+    }
+
+    /**
+     * 删除帖子
+     * @param postId
+     * @throws Exception
+     */
+    @Transactional(propagation = Propagation.REQUIRED)
+    public void deletePostInfoByPostId(long postId)throws Exception{
+        IPostValue postValue = queryPostInfoByPostId(postId);
+        if(postValue == null){
+            throw new Exception("帖子不存在");
+        }
+        postValue.setDelFlag(0L);
+        postDAO.save(postValue);
     }
 }

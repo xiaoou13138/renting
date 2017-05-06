@@ -78,7 +78,7 @@
         return html;
     }
     function updateInfo(houseId) {
-
+        window.open("./upLoadHouseInfo?viewType=2&houseId="+houseId);
     }
     function appointmentDetail(houseId) {
         layer.open({
@@ -92,7 +92,7 @@
         });
     }
     function delInfo(houseId) {
-        layer.confirm('去顶删除吗', {
+        layer.confirm('确定删除吗', {
             btn: ['确定','取消'] //按钮
         },function () {
             var load = layer.load(1, {

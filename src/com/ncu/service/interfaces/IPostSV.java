@@ -41,4 +41,11 @@ public interface IPostSV {
      */
     public IPostValue queryPostInfoByPostId(long postId) throws Exception;
 
+    /**
+     * 删除帖子
+     * @param postId
+     * @throws Exception
+     */
+    public void deletePostInfoByPostId(long postId)throws Exception;
+
 }

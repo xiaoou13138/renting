@@ -10,7 +10,9 @@ import com.ncu.dao.interfaces.ICommonDAO;
 import com.ncu.service.interfaces.IMessageNoticeQueueSV;
 import com.ncu.table.bean.ParamsDefine;
 import com.ncu.table.bean.UserBean;
+import com.ncu.util.APPUtil;
 import com.ncu.util.TimeUtil;
+import net.sf.json.JSONArray;
 import net.sf.json.JSONObject;
 import org.apache.commons.lang.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -64,6 +66,7 @@ public class UserSVImpl implements IUserSV {
 				rtnMap.put("result",true);
 				rtnMap.put("userId",value.getUserId());
 				rtnMap.put("userName",value.getUserName());
+				rtnMap.put("userType",value.getUserType());
 			}
 		}
 		return rtnMap;
@@ -179,6 +182,7 @@ public class UserSVImpl implements IUserSV {
 		HashMap map = new HashMap();
 		long rtnUserId = 0;
 		String rtnName = "";
+		String userType= "";
 		String cookieUserId = "";
 		String cookiePassword = "";
 		if(cookies != null && cookies.length>0){
@@ -196,10 +200,12 @@ public class UserSVImpl implements IUserSV {
 			if((boolean)checkMap.get("result")){
 				rtnUserId = (long)checkMap.get("userId");
 				rtnName = String.valueOf(checkMap.get("userName"));
+				userType = String.valueOf(checkMap.get("userType"));
 			}
 		}
 		map.put("userId",rtnUserId);
 		map.put("userName",rtnName);
+		map.put("userType",userType);
 		return map;
 	}
 
@@ -289,4 +295,118 @@ public class UserSVImpl implements IUserSV {
 			userValue.setUserSex(object.getString("sex"));
 		}
 	}
+
+	/**
+	 * 改变用户的类型
+	 * @param userId
+	 * @param userType
+	 * @throws Exception
+	 */
+	@Transactional(propagation = Propagation.REQUIRED)
+	public void changeUserType(long userId,String userType)throws Exception{
+		IUserValue userValue = queryUserInfoByUserId(userId);
+		if(userValue ==  null){
+			throw new Exception("用户不存在");
+		}
+		userValue.setUserType(userType);
+		save(userValue);
+	}
+
+
+	/**
+	 * 查询用户的信息
+	 * @param searchContent
+	 * @param searchType
+	 * @param begin
+	 * @param end
+	 * @return
+	 */
+	public HashMap queryUserForControllerByCondition(String searchContent,int searchType,int begin,int end)throws Exception {
+		HashMap rtnMap = new HashMap();
+		List<IUserValue> userList = queryUserByCondition(searchContent,searchType,begin,end);
+		long count = queryUserCountByCondition(searchContent,searchType);
+		rtnMap.put("count",count);
+		if(userList != null && userList.size()>0){
+			ArrayList rtnList = new ArrayList();
+			int length = userList.size();
+			for(int i = 0;i<length;i++){
+				IUserValue userValue = userList.get(i);
+				HashMap map = new HashMap();
+				map.put("userId",userValue.getUserId());
+				map.put("userCode",userValue.getUserAccountCode());
+				map.put("userName",userValue.getUserName());
+				if(userValue.getRealName() != null){
+					map.put("realName",userValue.getRealName());
+				}
+				if(userValue.getUserPhone() != null){
+					map.put("phone",userValue.getUserPhone());
+				}
+				if(userValue.getUserAge() != null){
+					map.put("age",userValue.getUserAge());
+				}
+				if(userValue.getUserSex() != null){
+					map.put("sex",userValue.getUserSex());
+				}
+				if(userValue.getCreateDate() != null){
+					map.put("createDate",TimeUtil.formatTimeyyyyMMddhhmmss(userValue.getCreateDate()));
+				}
+				rtnList.add(map);
+			}
+			rtnMap.put("userList",rtnList);
+		}
+		return rtnMap;
+	}
+	/**
+	 * 查询用户信息
+	 * @param searchContent
+	 * @param searchType
+	 * @param begin
+	 * @param end
+	 * @return
+	 * @throws Exception
+	 */
+	public List<IUserValue> queryUserByCondition(String searchContent,int searchType,int begin,int end) throws Exception {
+		StringBuilder condition = new StringBuilder();
+		HashMap params = new HashMap();
+		if(searchType == 1){
+			SQLCon.connectSQL(IUserValue.S_UserAccountCode,searchContent,condition,params,false);
+		}else{
+			SQLCon.connectSQL(IUserValue.S_UserName,searchContent,condition,params,true);
+		}
+		SQLCon.connectSQL(IUserValue.S_DelFlag,1L,condition,params,false);
+		return dao.queryUserInfoByCondition(condition.toString(),params,begin,end);
+
+	}
+	public long queryUserCountByCondition(String searchContent,int searchType) throws Exception {
+		StringBuilder condition = new StringBuilder();
+		HashMap params = new HashMap();
+		if(searchType == 1){
+			SQLCon.connectSQL(IUserValue.S_UserAccountCode,searchContent,condition,params,false);
+		}else{
+			SQLCon.connectSQL(IUserValue.S_UserName,searchContent,condition,params,true);
+		}
+		SQLCon.connectSQL(IUserValue.S_DelFlag,1L,condition,params,false);
+		return dao.queryUserCountByCondition(condition.toString(),params);
+	}
+
+	/**
+	 * 删除用户信息
+	 * @param userArray
+	 * @throws Exception
+	 */
+	@Transactional(propagation = Propagation.REQUIRED)
+	public void deleteUser(JSONArray userArray)throws Exception{
+		//先查询用户
+		ArrayList userIdList = APPUtil.jsonArrayCovertToLongArrayList(userArray);
+		List<IUserValue> userList = queryUserInfoByUserIds(userIdList);
+		if(userList != null && userList.size()>0){
+			int length = userList.size();
+			for(int i = 0;i<length;i++){
+				IUserValue userValue = userList.get(i);
+				userValue.setDelFlag(0L);
+				save(userValue);
+			}
+		}
+	}
+
 }

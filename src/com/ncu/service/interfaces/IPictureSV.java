@@ -1,6 +1,9 @@
 package com.ncu.service.interfaces;
 
 import com.ncu.table.ivalue.IPictureValue;
+
+import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 
 /**
@@ -23,4 +26,17 @@ public interface IPictureSV {
      * @throws Exception
      */
     public IPictureValue queryMainPictureByHouseId(long houseId) throws Exception;
+
+
+
+    /**
+     * 查询房子的图片信息
+     * @param houseId
+     * @param pictureType
+     * @return 返回图片数组给页面
+     * @throws Exception
+     */
+    public HashMap queryPictureListByHouseId(long houseId, String pictureType,int begin,int end)throws Exception;
+
+
 }

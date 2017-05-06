@@ -12,7 +12,7 @@ import java.util.Map;
 public interface IHouseSV {
 	public HashMap queryHouseInfoByCondition(Map condition, String begin, String end) throws  Exception;
 	public void save(IHouseValue value) throws Exception;
-	public void saveUpLoadHouseInfo(JSONObject houseInfoObject,long userId,ArrayList pictureList) throws Exception;
+	public void saveUpLoadHouseInfo(JSONObject houseInfoObject,long userId,ArrayList mainPictureList,ArrayList normalPictureList,int actionType) throws Exception;
 
 	/**
 	 * 查询房源详细信息
@@ -78,5 +78,20 @@ public interface IHouseSV {
 	 * @throws Exception
 	 */
 	public IHouseValue queryHouseByUserIdAndHouseId(long userId,long houseId)  throws Exception;
+
+	/**
+	 * 查询房子的所有信息（修改页面需要）
+	 * @param houseId
+	 * @return
+	 * @throws Exception
+	 */
+	public HashMap queryAllHouseInfoByHouseId(long houseId) throws Exception;
+
+	/**
+	 * 根据房子主键删除房子信息
+	 * @param houseId
+	 * @throws Exception
+	 */
+	public void deleteHouseByHouseId(long houseId)throws Exception;
 
 }

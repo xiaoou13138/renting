@@ -85,7 +85,7 @@
     var nowtime ;
     $(document).ready(function () {
         nowtime = getCurrentTimeMillis();
-        uploderInit("uploader","dndArea","filePicker",{time:nowtime},"postBarUploadImage");//初始化
+        uploderInit({time:nowtime},"uploadImage");//初始化
     });
     //保存帖子信息
     function saveInfo(){

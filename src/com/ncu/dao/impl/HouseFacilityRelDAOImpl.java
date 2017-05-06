@@ -25,4 +25,7 @@ public class HouseFacilityRelDAOImpl implements IHouseFacilityRelDAO {
     public void save(IHouseFacilityRelValue value) throws Exception {
         houseFacilityRelEngine.save(value);
     }
+    public void  deleteHouseFacilityRel(IHouseFacilityRelValue value)throws Exception{
+        houseFacilityRelEngine.delete(value);
+    }
 }

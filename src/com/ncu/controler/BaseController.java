@@ -43,13 +43,16 @@ public class BaseController {
 			if(session != null){
 				long userId = getLongParamFromSession("userId");
 				String userName = getStringParamFromSession("userName");
+				String userType = getStringParamFromSession("userType");
 				if(userId == 0){//如果session里面获取不到userId,就尝试从cookie里面获取用户登录的信息
 					Cookie[] cookies  = request.getCookies();
 					HashMap map =userSV.checkUserInfoByCookie(cookies);
 					userId = (long)map.get("userId");
 					userName = (String)map.get("userName");
+					userType = (String)map.get("userType");
 					session.setAttribute("userId",userId);
 					session.setAttribute("userName",userName);
+					session.setAttribute("userType",userType);
 				}else{
 					//查询用户有多少条没有查阅过的私信
 					long messageNum = messageNoticeQueueSV.getMessageNum(userId);
@@ -58,8 +61,10 @@ public class BaseController {
 				}
 				rtnViewData.put("userId",userId);
 				rtnViewData.put("userName",userName);
+				rtnViewData.put("userType",userType);
 				rtnJSONObject.put("userId",userId);
 				rtnJSONObject.put("userName",userName);
+				rtnJSONObject.put("userType",userType);
 			}
 		}catch (Exception e){
 			e.printStackTrace();;

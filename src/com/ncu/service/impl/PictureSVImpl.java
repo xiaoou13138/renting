@@ -14,6 +14,7 @@ import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
 
 import javax.annotation.Resource;
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 
@@ -27,6 +28,8 @@ public class PictureSVImpl implements IPictureSV {
 
     @Resource(name="HousePictureRelSVImpl")
     private IHousePictureRelSV housePictureRelSV;
+
+
     /**
      * 根据照片的ID查找照片的信息
      * @param pictureId
@@ -90,4 +93,42 @@ public class PictureSVImpl implements IPictureSV {
         }
         return null;
     }
+
+
+
+    /**
+     * 查询房子的图片信息
+     * @param houseId
+     * @param pictureType
+     * @return 返回信息给表格
+     * @throws Exception
+     */
+    public HashMap queryPictureListByHouseId(long houseId,String pictureType,int begin,int end)throws Exception{
+        HashMap rntMap = new HashMap();
+        List<IHousePictureRelValue> housePictureRelValueList = housePictureRelSV.queryHousePictureRelByHouseIdAndType(houseId,pictureType,begin,end);
+        //查询数量
+        long count = housePictureRelSV.queryHousePictureRelCountByHouseIdAndType(houseId,pictureType);
+        rntMap.put("count",count);
+        if(housePictureRelValueList != null && housePictureRelValueList.size() >0){
+            ArrayList rtnList = new ArrayList();
+            int length  = housePictureRelValueList.size();
+            for(int i = 0;i<length;i++){
+                IHousePictureRelValue housePictureRelValue = housePictureRelValueList.get(i);
+                long pictureId = housePictureRelValue.getHousePictureId();
+                String pictureTypeOut = housePictureRelValue.getPictureType();
+                //查询图片的信息
+                IPictureValue pictureValue = queryPictureInfoByPictureId(pictureId);
+                if(pictureValue != null){
+                    HashMap map = new HashMap();
+                    map.put("pictureId",pictureId);
+                    map.put("pictureType",pictureTypeOut);
+                    map.put("picturePath",pictureValue.getPicturePath());
+                    rtnList.add(map);
+                }
+            }
+            rntMap.put("pictureList",rtnList);
+        }
+        return rntMap;
+    }
+
 }

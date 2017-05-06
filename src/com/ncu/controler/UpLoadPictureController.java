@@ -1,8 +1,10 @@
 package com.ncu.controler;
 
 import com.ncu.cache.StaticDataCache;
+import com.ncu.data.ViewData;
 import com.ncu.service.interfaces.IPictureSV;
 import com.ncu.service.interfaces.IUploadPictureSV;
+import net.sf.json.JSONObject;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Scope;
 import org.springframework.stereotype.Controller;
@@ -34,74 +36,37 @@ public class UpLoadPictureController extends BaseController {
 
 
     /**
-     * 用户上传房源的是否上传的图片
+     * 用户创建帖子的时候上传的图片
      * @param fileUpload
      * @param request
      * @param response
      */
     @RequestMapping(value="/uploadImage")
     @ResponseBody
-    public void  fileUpload(@RequestParam("file") MultipartFile fileUpload, DefaultMultipartHttpServletRequest request, HttpServletResponse response){
-        String path = cache.getStaticDataByCode("physicalPath").get(0).getCodeValue();//获取图片的物理路径
-        try{
-            Map params =request.getParameterMap();
-            Object a = params.get("pictureType");
-            long userId = getLongParamFromSession("userId");
-            //保存图片和用户的信息  保存图片路径的信息
-            String fileName = uploadPictureSV.saveImageByUploadPicture(fileUpload);
-            long pictureId = pictureSV.savePictureInfoByPictureName(fileName);
-            HttpSession session = this.getSession();
-            String type="NORMAL";
-            Object object = session.getAttribute("pictureList");
-            ArrayList pictureList = null;
-            if(object == null){
-                pictureList = new ArrayList();
-                session.setAttribute("pictureList",pictureList);
-                type = "MAIN";
-            }else{
-                pictureList = (ArrayList)object;
-            }
-            HashMap map = new HashMap();
-            map.put("TYPE",type);
-            map.put("PICTURE",pictureId);
-            pictureList.add(map);
-        }catch (Exception e){
-            e.printStackTrace();
-        }
-    }
-
-
-    /**
-     * 用户创建帖子的时候上传的图片
-     * @param fileUpload
-     * @param request
-     * @param response
-     */
-    @RequestMapping(value="/postBarUploadImage")
-    @ResponseBody
-    public void  postBarfileUpload(@RequestParam("file") MultipartFile fileUpload, DefaultMultipartHttpServletRequest request, HttpServletResponse response){
+    public void  imageFileUpload(@RequestParam("file") MultipartFile fileUpload, DefaultMultipartHttpServletRequest request, HttpServletResponse response){
         String path = cache.getStaticDataByCode("physicalPath").get(0).getCodeValue();//获取图片的物理路径
         try{
             HashMap params = (HashMap)request.getParameterMap();//获取时间片
             String time[] = (String[])params.get("time");
-            long userId = getLongParamFromSession("userId");
+            String pictureType[] = (String[])params.get("pictureType");
             //保存图片和用户的信息  保存图片路径的信息
             String fileName = uploadPictureSV.saveImageByUploadPicture(fileUpload);
             long pictureId = pictureSV.savePictureInfoByPictureName(fileName);
             HttpSession session = this.getSession();
             //获取对象
-            HashMap postBarPictureMap = null;
-            ArrayList postBarPictureList = null;
-            if(session.getAttribute("postBarPictureMap"+time[0]) == null){
-                postBarPictureMap =  new HashMap();
-                postBarPictureList = new ArrayList();
-                postBarPictureMap.put("postBarPictureList",postBarPictureList);
-                session.setAttribute("postBarPictureMap"+time[0],postBarPictureMap);
+
+            HashMap pictureMap = null;
+            ArrayList PictureList = null;
+            if(session.getAttribute("pictureMap_"+time[0]+"_"+pictureType[0]) == null){
+                pictureMap =  new HashMap();
+                PictureList = new ArrayList();
+                pictureMap.put("pictureList",PictureList);
+                session.setAttribute("pictureMap_"+time[0]+"_"+pictureType[0],pictureMap);
             }else{
-                postBarPictureMap = (HashMap) session.getAttribute("postBarPictureMap"+time[0]);
-                postBarPictureList = (ArrayList)postBarPictureMap.get("postBarPictureList");
+                pictureMap = (HashMap) session.getAttribute("pictureMap_"+time[0]+"_"+pictureType[0]);
+                PictureList = (ArrayList)pictureMap.get("pictureList");
             }
-            postBarPictureList.add(pictureId);
+            PictureList.add(pictureId);
         }catch (Exception e){
             e.printStackTrace();
         }

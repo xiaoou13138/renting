@@ -99,6 +99,12 @@ public interface IGroupsSV {
      */
     public HashMap queryAppointmentGroup(long userId,int begin,int end) throws Exception;
 
+    /**
+     * 删除组
+     * @param groupId
+     * @throws Exception
+     */
+    public void deleteGroup(long groupId)throws Exception;
 
 
 }

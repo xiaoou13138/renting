@@ -22,6 +22,7 @@ import java.util.ArrayList;
 import java.util.List;
 import javax.annotation.Resource;
 import java.util.HashMap;
+import java.util.Objects;
 
 /**
  * Created by xiaoou on 2017/4/13.
@@ -102,7 +103,7 @@ public class MessageSVImpl implements IMessageSV {
      * @throws Exception
      */
     public List<IMessageValue> queryMessageByUserId(long userId,int begin,int end) throws Exception{
-        String sql = "from MessageBean a where a.receiverId = :userId order by 1 desc";
+        String sql = "from MessageBean a where a.receiverId = :userId and delFlag=1 order by 1 desc";
         ArrayList<ParamsDefine> paramList = new ArrayList();
         ParamsDefine paramsDefine = new ParamsDefine();
         paramsDefine.setColName("userId");
@@ -119,7 +120,7 @@ public class MessageSVImpl implements IMessageSV {
      * @throws Exception
      */
     public long queryMessageCountByUserId(long userId) throws Exception{
-        String sql = "from MessageBean a where a.receiverId = :userId order by 1 desc";
+        String sql = "from MessageBean a where a.receiverId = :userId and delFlag=1 order by 1 desc";
         ArrayList<ParamsDefine> paramList = new ArrayList();
         ParamsDefine paramsDefine = new ParamsDefine();
         paramsDefine.setColName("userId");
@@ -159,5 +160,60 @@ public class MessageSVImpl implements IMessageSV {
             rtnMap.put("contentList",rtnList);
         }
         return rtnMap;
+    }
+
+    /**
+     * 删除消息
+     * @param messageId
+     * @throws Exception
+     */
+    @Transactional(propagation = Propagation.REQUIRED)
+    public void deleteMessage(long messageId)throws Exception{
+        IMessageValue messageValue = queryMessageByMessageId(messageId);
+        if(messageValue == null){
+            throw new Exception("信息不存在");
+        }
+        messageValue.setDelFlag(0L);
+        messageDAO.save(messageValue);
+    }
+
+    /**
+     * 查询评论信息
+     * @param postId
+     * @param begin
+     * @param end
+     * @return
+     * @throws Exception
+     */
+    public List<IMessageValue> queryMessageByPostId(long postId,int begin,int end)throws Exception{
+        List<IMessageValue> rtnList = new ArrayList<>();
+        String sql = "from MessageBean a,PostMessageRelBean b where a.messageId = b.messageId and b.postId =:postId and a.delFlag=1";
+        ArrayList<ParamsDefine> paramList = new ArrayList();
+        ParamsDefine paramsDefine = new ParamsDefine();
+        paramsDefine.setColName("postId");
+        paramsDefine.setParamVal(postId);
+        paramsDefine.setIsList(false);
+        paramList.add(paramsDefine);
+        Object obj =  commonDAO.commonQuery(sql,paramList.toArray(new ParamsDefine[0]),begin,end);
+        if(obj != null){
+            ArrayList list = (ArrayList)obj;
+            for(int i = 0;i<list.size();i++){
+                Object object[] = (Object[]) list.get(i);
+                IMessageValue messageValue = (IMessageValue)object[0];
+                rtnList.add(messageValue);
+            }
+            return rtnList;
+        }
+        return null;
+    }
+    public long queryMessageCountByPostId(long postId)throws Exception{
+        String sql = "from MessageBean a,PostMessageRelBean b where a.messageId = b.messageId and b.postId =:postId and a.delFlag=1";
+        ArrayList<ParamsDefine> paramList = new ArrayList();
+        ParamsDefine paramsDefine = new ParamsDefine();
+        paramsDefine.setColName("postId");
+        paramsDefine.setParamVal(postId);
+        paramsDefine.setIsList(false);
+        paramList.add(paramsDefine);
+        return commonDAO.getCount(sql,paramList.toArray(new ParamsDefine[0]));
     }
 }

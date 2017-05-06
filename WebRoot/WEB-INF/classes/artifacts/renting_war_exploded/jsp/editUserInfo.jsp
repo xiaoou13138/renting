@@ -58,6 +58,8 @@
 </div>
 <script>
     $(document).ready(function () {
+        setViewData(${data});
+        return;
         var telphone = '${data.telphone}';
         var realName = '${data.realName}';
         var age = '${data.age}';

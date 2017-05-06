@@ -93,6 +93,7 @@ public class HousesController extends BaseController{
 		rtnJSONObject.put("result",rtn);
 		return rtnJSONObject;
 	}
+
 	
 	
 }

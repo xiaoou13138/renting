@@ -31,7 +31,11 @@
     </div>
 </div>
 <script>
+    var userType;
+    var viewType;
     $(document).ready(function(){
+        userType = '${userType}';
+        viewType = getParam("viewType");
         houseShowSearch(0,10,true,3);
     });
     function houseShowSearch(begin,end,isFirst,showType){
@@ -79,15 +83,32 @@
         +"地址:"+info.houseAddress
         +"</div>"
         +"</div>"
-        +"</div>"
-        +"<div class='col-md-3 money-div'><FONT color=#FF9912>"
-        +info.money+"元/月"
-        +"</div>"
         +"</div>";
+        var rightBlock ;
+        if(userType == "admin" && viewType == 2){
+            rightBlock = "<div class='col-md-3'><div class='row'><a href='javascript:void(0)' onclick='deleteHouseInfo("+info.houseId+")' class='pull-right' style='padding-right: 50px;font-size: 20px;color: red'>删除</a></div><div class='row admin-money-div'><FONT color=#FF9912>"+info.money+"元/月"+"</div></div>";
+        }else{
+            rightBlock = "<div class='col-md-3 money-div'><FONT color=#FF9912>"+info.money+"元/月"+"</div>";
+        }
+        html = html+rightBlock+"</div>";
         return html;
+
     }
 
-
+    function deleteHouseInfo(houseId) {
+        //删除房子
+        var confirmLayer = layer.confirm("确定要删除该房子吗", {
+            btn: ['确定','取消'] //按钮
+        },function () {
+            //确定删除用户信息
+            beginLoad("删除成功","删除失败",5000,function () {
+                location.reload();
+            });
+            doPostAjaxAndLoad("adminHouseManage_dealAction",{actionType:1,houseId:houseId},function (data) {
+            });
+            layer.close(confirmLayer);
+        });
+    }
 </script>
 </body>
 </html>

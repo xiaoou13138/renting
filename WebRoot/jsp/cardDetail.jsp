@@ -14,48 +14,61 @@
 </head>
 <body>
 <div class="bg">
-    <div class="container">
-
-        <div class="row"  style='padding: 10px;border-bottom:2px solid #502c26; margin-bottom: 20px' id="head">
-            <div class="col-md-2">
-                    <img class="img-circle"style=" hight:100%;weight:100%;" src="showImage?imageFile=default_user_image.png" id="headImg">
-                </div>
-            <div class="col-md-1" style="color: #0f0f0f">
-            </div>
-        <div class="col-md-7" style="color: #0f0f0f">
-            <div class="row"style="hight:20px">
-                <p>&nbsp;</p>
-            </div>
-            <div class="row">
-                <p class='lead text-left' id="title">标题</p>
-            </div>
-            <div style='text-align: left; color: #000;' id="headContent">
-                内容
-            </div>
-        </div>
-        <div class="col-md-2"><button type="button" class="btn btn-primary pull-left" style="margin-left: 16%;" onclick="reply()">回复</button></div>
-    </div>
-    <div class="row" id="cardList">
+    <div class="container ">
         <div class="row">
-            <div class="col-md-1" style="color: #0f0f0f">
+            <div class="col-md-10 box-border">
+                <div class="row"  style='padding: 10px;border-bottom:2px solid #502c26; margin-bottom: 20px' id="head">
+                    <div class="col-md-2">
+                        <img class="img-circle"style=" hight:100%;weight:100%;" src="showImage?imageFile=default_user_image.png" id="headImg">
+                    </div>
+                    <div class="col-md-1" style="color: #0f0f0f">
+                    </div>
+                    <div class="col-md-7" style="color: #0f0f0f">
+                        <div class="row"style="hight:20px">
+                            <p>&nbsp;</p>
+                        </div>
+                        <div class="row">
+                            <p class='lead text-left' id="title">标题</p>
+                        </div>
+                        <div style='text-align: left; color: #000;' id="headContent">
+                            内容
+                        </div>
+                    </div>
+
+                </div>
+
+                <div class="row" >
+                    <div class="col-md-12" id="cardList">
+                        <div class="row">
+                            <div class="col-md-1" style="color: #0f0f0f">
+                            </div>
+                            <div class="col-md-2">
+                                <div class="img-circle"style=" hight:100%;weight:100%;" src="showImage?imageFile=default_user_image.png">
+                                </div>
+                                <div class="col-md-1" style="color: #0f0f0f">
+                                </div>
+                                <div class="col-md-8" style="color: #0f0f0f">
+                                    <div style='text-align: left; color: #000;'>
+                                        内容
+                                    </div>
+                                    <div id="pictureList1">
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                </div>
+                <div>
+                    <ul class="pagination"></ul>
+                </div>
             </div>
             <div class="col-md-2">
-                <div class="img-circle"style=" hight:100%;weight:100%;" src="showImage?imageFile=default_user_image.png">
-            </div>
-            <div class="col-md-1" style="color: #0f0f0f">
-            </div>
-            <div class="col-md-8" style="color: #0f0f0f">
-                <div style='text-align: left; color: #000;'>
-                    内容
-                </div>
-                <div id="pictureList1">
-                </div>
+                <div class="col-md-2"><button type="button" class="btn btn-primary pull-left" style="margin-left: 16%;" onclick="reply()">回复</button></div>
             </div>
         </div>
-    </div>
-    <div style="">
-        <ul class="pagination" id="detailPage"></ul>
-    </div>
+
+
 </div>
 </div>
 <script>
@@ -94,21 +107,21 @@
         }
     }
     function createCardHtml(value){
-        var html="<div class='row'>"
-            +"<div class='col-md-1' style='color: #0f0f0f'>"
-            +" </div>"
-            +"<div class='col-md-2'>"
+        var html="<div class='row ' style='border-bottom:1px dashed #000;'>"
+            +"<div class='col-md-4'>"
+            +"<div class='row'><div class='col-md-12 '>"
             +"<a style=' ' href='#'  >"
-            +"<img class='img-circle'  src='showImage?imageFile=default_user_image.png'>"
-            +"</a>"
+            +"<img class='img-circle'  src='showImage?imageFile=default_user_image.png' style='width: 100px;height: 100px'>"
+            +"</a>"+
+            "</div></div>"
+            +"<div class='row'><div class='col-md-12 text-center'>"+value.senderName+"</div></div>"
             +" </div>"
-            +"<div class='col-md-1' style='color: #0f0f0f'>"
-            +" </div>"
-            +"<div class='col-md-8' style='color: #0f0f0f'>"
+            +"<div class='col-md-7' style='color: #0f0f0f'>"
             +"<div style='text-align: left; color: #000;'>"
             +value["content"]
             +"</div>"
             +"</div>"
+            +"<div class='col-md-1'><a href='javascript:void(0)' onclick='deleteComment("+value["messageId"]+")' '>删除</a></div>"
             +"</div>";
         return html;
     }
@@ -120,29 +133,19 @@
                 postId:postId,
                 content:text
             };
-            var load = layer.load(1, {
-                shade: [0.1,'#fff'] //0.1透明度的白色背景
+            beginLoad("回复成功","回复失败",5000,function () {
+                location.reload();
             });
-            var notSuccess = true;
-            doPostAjax("cardDetail_saveReplyInfo",json,function (data) {
-                if(data.result == "Y"){
-                    layer.close(load);
-                    layer.confirm('保存成功', {
-                        btn: ['确定'] //按钮
-                    },function () {
-                        location.reload();
-                    });
-                    notSuccess = false;
+            doPostAjaxAndLoad("cardDetail_saveReplyInfo",json,function (data) {
+            });
+        });
+    }
 
-                }else{
-                    layer.close(load);layer.confirm('保存失败:', {btn: ['确定'] });
-                }
-            });
-            setTimeout(function () {
-                if(notSuccess){
-                    layer.close(load);layer.confirm('保存失败', {btn: ['确定'] });
-                }
-            }, 10000);
+    function deleteComment(messageId) {
+        beginLoad("删除成功","删除失败",5000,function () {
+            location.reload();
+        });
+        doPostAjaxAndLoad("adminPostBarManage_dealAction",{messageId:messageId,actionType:2},function (data) {
         });
     }
 </script>

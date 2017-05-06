@@ -23,4 +23,11 @@ public class HousePictureRelDAOImpl implements IHousePictureRelDAO{
 		housePictureRelEngine.save(value);
 	}
 
+	public long getHousePictureRelCountByCondition(String condition, HashMap params)throws Exception{
+		return  housePictureRelEngine.queryCountByCondition(condition, params);
+	}
+	public void deleteHousePictureRel(IHousePictureRelValue value)throws Exception{
+		housePictureRelEngine.delete(value);
+	}
+
 }
