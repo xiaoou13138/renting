@@ -18,7 +18,7 @@ import java.sql.SQLException;
  */
 public class CreateBean {
 	String path = "D:/studyWorkSpace/renting/src/com/ncu/table";
-	String tableName = "apply_group_message";
+	String tableName = "user";
 	String driver = "com.mysql.jdbc.Driver";
 	String url = "jdbc:mysql://192.168.191.5:3306/renting";
 	String user = "zuowy";

@@ -80,4 +80,19 @@ public class StaticDataCache {
         }
         return null;
     }
+    public String getCodeNameByCodeTypeAndValue(String code,String value){
+        List<IStaticDataValue> list = getStaticDataByCode(code);
+        if(list !=null &&list.size() >0 ){
+            if(StringUtils.isNotBlank(value)){
+                for(int i = 0;i<list.size();i++){
+                    if(value.equals(list.get(i).getCodeValue())){
+                        return list.get(i).getCodeName();
+                    }
+                }
+            }else{
+                return list.get(0).getCodeName();
+            }
+        }
+        return null;
+    }
 }

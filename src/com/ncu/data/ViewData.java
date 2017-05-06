@@ -86,6 +86,10 @@ public class ViewData extends HashMap implements Map{
 	public long getLong(Object key){
 		return Long.parseLong(map.get(key).toString());
 	}
+
+	public int getInt(Object key){
+		return Integer.parseInt(map.get(key).toString());
+	}
 	/**
 	 * 待优化  重写一下这个方法
 	 */

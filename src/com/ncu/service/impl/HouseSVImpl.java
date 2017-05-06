@@ -66,6 +66,7 @@ public class HouseSVImpl implements IHouseSV{
 		if(searchContent !=null){
 			SQLCon.connectSQL(IHouseValue.S_HouseName,searchContent,condtionB,params,true);
 		}
+		SQLCon.connectSQL(IHouseValue.S_DelFlag,1L,condtionB,params,false);
 
 		List<IHouseValue> houseList = houseDAO.getHouseInfoByCondition(condtionB.toString(),params,begin,end);
 		long count = houseDAO.getCount(condtionB.toString(),params);
@@ -78,19 +79,14 @@ public class HouseSVImpl implements IHouseSV{
 				map.put("houseName",houseList.get(i).getHouseName());//
 				map.put("houseType",houseList.get(i).getHouseType());
 				map.put("houseArea",houseList.get(i).getHouseArea());
-				map.put("houseAddress",houseList.get(i).getHouseAddress());
+				map.put("houseAddress",houseList.get(i).getProvince()+houseList.get(i).getCity()+houseList.get(i).getDetailAddress());
 				map.put("information",houseList.get(i).getInformation());
 				map.put("money",houseList.get(i).getMoney());
 
 				//查询房屋带有的设备
 				long houseId = houseList.get(i).getHouseId();
-				List<IHouseFacilityRelValue> houseFacilityRelValueList = houseFacilityRelSV.queryHouseFacilityRelByHouseId(houseId);
-				if(houseFacilityRelValueList!= null){
-					ArrayList facilityList = new ArrayList();
-					int relLength = houseFacilityRelValueList.size();
-					for(int j =0;j<relLength;j++){
-						facilityList.add(houseFacilityRelValueList.get(j).getCodeType());
-					}
+				List facilityList = houseFacilityRelSV.queryHouseFacilityRelListByHouseId(houseId);
+				if(facilityList != null && facilityList.size()>0){
 					map.put("facility",facilityList);
 				}
 				//查询房子对应的图片
@@ -151,7 +147,7 @@ public class HouseSVImpl implements IHouseSV{
 						map.put("houseName",houseValue.getHouseName());//
 						map.put("houseType",houseValue.getHouseType());
 						map.put("houseArea",houseValue.getHouseArea());
-						map.put("houseAddress",houseValue.getHouseAddress());
+						map.put("houseAddress",houseValue.getProvince()+houseValue.getCity()+houseValue.getDetailAddress());
 						map.put("information",houseValue.getInformation());
 						map.put("money",houseValue.getMoney());
 						if(appointmentType != 0){
@@ -160,13 +156,8 @@ public class HouseSVImpl implements IHouseSV{
 
 
 						//查询房屋带有的设备
-						List<IHouseFacilityRelValue> houseFacilityRelValueList = houseFacilityRelSV.queryHouseFacilityRelByHouseId(houseId);
-						if(houseFacilityRelValueList!= null){
-							ArrayList facilityList = new ArrayList();
-							int relLength = houseFacilityRelValueList.size();
-							for(int j =0;j<relLength;j++){
-								facilityList.add(houseFacilityRelValueList.get(j).getCodeType());
-							}
+						List facilityList = houseFacilityRelSV.queryHouseFacilityRelListByHouseId(houseId);
+						if(facilityList != null && facilityList.size()>0){
 							map.put("facility",facilityList);
 						}
 						//查询房子对应的图片
@@ -202,50 +193,72 @@ public class HouseSVImpl implements IHouseSV{
 	 * @throws Exception
 	 */
 	@Transactional(propagation = Propagation.REQUIRED)
-	public void saveUpLoadHouseInfo(JSONObject houseInfoObject,long userId,ArrayList pictureList) throws Exception{
-		houseInfoObject.get("facility");
-		long houseId = 0;
-		if(userId > 0){
-			HouseBean houseBean = new HouseBean();
-			houseBean.setDelFlag(1L);
-			houseBean.setCreateDate(TimeUtil.getCurrentTimeyyyyMMddhhmmss());
-			houseBean.setHouseArea(Long.parseLong(houseInfoObject.getString("houseArea")));
-			houseBean.setHouseName(houseInfoObject.getString("houseName"));
-			houseBean.setHouseType(houseInfoObject.getString("houseType"));
-			houseBean.setInformation(houseInfoObject.getString("information"));
-			houseBean.setLandlordId(userId);
-			houseBean.setMoney(Long.parseLong(houseInfoObject.getString("price")));
-			houseBean.setHouseAddress(houseInfoObject.getString("address"));
-			houseBean.setDepositType(houseInfoObject.getString("depositType"));
-			houseDAO.save(houseBean);
-			houseId = houseBean.getHouseId();
-			//保存图片和房源的关系
-			if(pictureList !=null && pictureList.size()>0){
-				int length  = pictureList.size();
-				for(int i = 0;i<length;i++){
-					HashMap map = (HashMap) pictureList.get(i);
-					long pictureId = (long)map.get("PICTURE");
-					String type = (String)map.get("TYPE");
-					housePictureRelSV.savePictureRelByUserIdAndTypeAndPictureId(houseId,pictureId,type);
-				}
-			}
+	public void saveUpLoadHouseInfo(JSONObject houseInfoObject,long userId,ArrayList mainPictureList,ArrayList normalPictureList,int actionType) throws Exception{
+		IHouseValue houseValue = null;
+		if(actionType == 1){
+			houseValue = new HouseBean();
+			houseValue.setDelFlag(1L);
+			houseValue.setCreateDate(TimeUtil.getCurrentTimeyyyyMMddhhmmss());
+			houseValue.setLandlordId(userId);
+			userSV.changeUserType(userId,"landlord");
+		}else if(actionType ==2 ){
+			long houseId = houseInfoObject.getLong("houseId");
+			houseValue = queryHouseDefInfoByHouseId(houseId);
 
-			//保存房子和设备的信息
-			if(houseInfoObject.containsKey("facility")){
-				JSONArray facilityArray = houseInfoObject.getJSONArray("facility");
-				if(facilityArray.size()>0){
-					int length = facilityArray.size();
-					for(int i = 0;i<length;i++){
-						String str = facilityArray.getString(i);
-						houseFacilityRelSV.saveFacilityHouseRel(houseId,str);
-					}
+			//查询房子和设备的关系
+			List<IHouseFacilityRelValue> list = houseFacilityRelSV.queryHouseFacilityRelByHouseId(houseId);
+			if(list != null && list.size()>0){
+				int length = list.size();
+				for(int i= 0;i<length;i++){
+					IHouseFacilityRelValue houseFacilityRelValue = list.get(i);
+					houseFacilityRelSV.deleteHouseFacilityRel(houseFacilityRelValue);
 				}
 			}
 
 
 		}
+		houseValue.setRentType(houseInfoObject.getString("rentingType"));
+		houseValue.setHouseArea(Long.parseLong(houseInfoObject.getString("houseArea")));
+		houseValue.setHouseName(houseInfoObject.getString("houseName"));
+		houseValue.setHouseType(houseInfoObject.getString("houseType"));
+		houseValue.setInformation(houseInfoObject.getString("information"));
+		houseValue.setMoney(Long.parseLong(houseInfoObject.getString("money")));
+		houseValue.setProvince(houseInfoObject.getString("province"));
+		houseValue.setCity(houseInfoObject.getString("city"));
+		houseValue.setDetailAddress(houseInfoObject.getString("detailAddress"));
+		houseValue.setRoom(houseInfoObject.getLong("room"));
+		houseValue.setHall(houseInfoObject.getLong("hall"));
+		houseValue.setToilet(houseInfoObject.getLong("toilet"));
+		houseValue.setDepositType(houseInfoObject.getString("depositType"));
 
-
+		houseDAO.save(houseValue);
+		long houseId =  houseValue.getHouseId();
+		//保存图片和房源的关系
+		if(mainPictureList !=null && mainPictureList.size()>0){
+			int length  = mainPictureList.size();
+			for(int i = 0;i<length;i++){
+				long pictureId = (long)mainPictureList.get(i);
+				housePictureRelSV.savePictureRelByUserIdAndTypeAndPictureId(houseId,pictureId,"MAIN");
+			}
+		}
+		if(normalPictureList !=null && normalPictureList.size()>0){
+			int length  = normalPictureList.size();
+			for(int i = 0;i<length;i++){
+				long pictureId = (long)mainPictureList.get(i);
+				housePictureRelSV.savePictureRelByUserIdAndTypeAndPictureId(houseId,pictureId,"NORMAL");
+			}
+		}
+		//保存房子和设备的信息
+		if(houseInfoObject.containsKey("facility")){
+			JSONArray facilityArray = houseInfoObject.getJSONArray("facility");
+			if(facilityArray.size()>0){
+				int length = facilityArray.size();
+				for(int i = 0;i<length;i++){
+					String str = facilityArray.getString(i);
+					houseFacilityRelSV.saveFacilityHouseRel(houseId,str);
+				}
+			}
+		}
 
 	}
 	/**
@@ -285,7 +298,7 @@ public class HouseSVImpl implements IHouseSV{
 			detailMap.put("houseName",houseValue.getHouseName());//
 			detailMap.put("houseType",houseValue.getHouseType());
 			detailMap.put("houseArea",houseValue.getHouseArea());
-			detailMap.put("houseAddress",houseValue.getHouseAddress());
+			detailMap.put("houseAddress",houseValue.getProvince()+houseValue.getCity()+houseValue.getDetailAddress());
 			detailMap.put("information",houseValue.getInformation());
 			detailMap.put("money",houseValue.getMoney());
 		}
@@ -452,4 +465,55 @@ public class HouseSVImpl implements IHouseSV{
 		houseValue.setDelFlag(0L);
 		houseDAO.save(houseValue);
 	}
+
+	/**
+	 * 查询房子的所有信息（修改页面需要）
+	 * @param houseId
+	 * @return
+	 * @throws Exception
+	 */
+	public HashMap queryAllHouseInfoByHouseId(long houseId) throws Exception{
+		HashMap rtnMap = new HashMap();
+		IHouseValue houseValue = queryHouseDefInfoByHouseId(houseId);
+		if(houseValue != null){
+			rtnMap.put("houseId",houseValue.getHouseId());//房源ID
+			rtnMap.put("landlord_id",houseValue.getLandlordId());//房东ID
+			rtnMap.put("houseName",houseValue.getHouseName());//
+			rtnMap.put("houseType",houseValue.getHouseType());
+			rtnMap.put("houseArea",houseValue.getHouseArea());
+			rtnMap.put("province",houseValue.getProvince());
+			rtnMap.put("city",houseValue.getCity());
+			rtnMap.put("detailAddress",houseValue.getDetailAddress());
+			rtnMap.put("room",houseValue.getRoom());
+			rtnMap.put("hall",houseValue.getHall());
+			rtnMap.put("toilet",houseValue.getToilet());
+			rtnMap.put("information",houseValue.getInformation());
+			rtnMap.put("money",houseValue.getMoney());
+			rtnMap.put("depositType",houseValue.getDepositType());
+			//查询房屋带有的设备
+			JSONArray facilityList = houseFacilityRelSV.queryHouseFacilityRelListByHouseId(houseId);
+			if(facilityList != null && facilityList.size()>0){
+				rtnMap.put("facility",facilityList);
+			}
+
+		}
+		return rtnMap;
+	}
+
+	/**
+	 * 根据房子主键删除房子信息
+	 * @param houseId
+	 * @throws Exception
+	 */
+	@Transactional(propagation = Propagation.REQUIRED)
+	public void deleteHouseByHouseId(long houseId)throws Exception{
+		IHouseValue houseValue = queryHouseDefInfoByHouseId(houseId);
+		if(houseValue == null){
+			throw new Exception("房子不存在");
+		}
+		houseValue.setDelFlag(0L);
+		houseDAO.save(houseValue);
+	}
+
+
 }

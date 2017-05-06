@@ -20,6 +20,24 @@ public class HouseBean implements IHouseValue,Serializable{
   @Column(name = IHouseValue.S_LandlordId)
   private Long landlordId;
 
+  @Column(name = IHouseValue.S_Province)
+  private String province;
+
+  @Column(name = IHouseValue.S_City)
+  private String city;
+
+  @Column(name = IHouseValue.S_DetailAddress)
+  private String detailAddress;
+
+  @Column(name = IHouseValue.S_Room)
+  private Long room;
+
+  @Column(name = IHouseValue.S_Hall)
+  private Long hall;
+
+  @Column(name = IHouseValue.S_Toilet)
+  private Long toilet;
+
   @Column(name = IHouseValue.S_HouseName)
   private String houseName;
 
@@ -31,9 +49,6 @@ public class HouseBean implements IHouseValue,Serializable{
 
   @Column(name = IHouseValue.S_HouseArea)
   private Long houseArea;
-
-  @Column(name = IHouseValue.S_HouseAddress)
-  private String houseAddress;
 
   @Column(name = IHouseValue.S_Information)
   private String information;
@@ -75,6 +90,54 @@ public class HouseBean implements IHouseValue,Serializable{
     return landlordId;
   }
 
+  public void setProvince(String value){
+    this.province = value;
+  }
+
+  public String getProvince(){
+    return province;
+  }
+
+  public void setCity(String value){
+    this.city = value;
+  }
+
+  public String getCity(){
+    return city;
+  }
+
+  public void setDetailAddress(String value){
+    this.detailAddress = value;
+  }
+
+  public String getDetailAddress(){
+    return detailAddress;
+  }
+
+  public void setRoom(Long value){
+    this.room = value;
+  }
+
+  public Long getRoom(){
+    return room;
+  }
+
+  public void setHall(Long value){
+    this.hall = value;
+  }
+
+  public Long getHall(){
+    return hall;
+  }
+
+  public void setToilet(Long value){
+    this.toilet = value;
+  }
+
+  public Long getToilet(){
+    return toilet;
+  }
+
   public void setHouseName(String value){
     this.houseName = value;
   }
@@ -105,14 +168,6 @@ public class HouseBean implements IHouseValue,Serializable{
 
   public Long getHouseArea(){
     return houseArea;
-  }
-
-  public void setHouseAddress(String value){
-    this.houseAddress = value;
-  }
-
-  public String getHouseAddress(){
-    return houseAddress;
   }
 
   public void setInformation(String value){

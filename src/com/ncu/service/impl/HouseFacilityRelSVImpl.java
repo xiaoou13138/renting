@@ -5,6 +5,7 @@ import com.ncu.service.interfaces.IHouseFacilityRelSV;
 import com.ncu.table.bean.HouseFacilityRelBean;
 import com.ncu.table.ivalue.IHouseFacilityRelValue;
 import com.ncu.util.SQLCon;
+import net.sf.json.JSONArray;
 import org.apache.commons.lang.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
@@ -12,6 +13,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 
@@ -44,6 +46,13 @@ public class HouseFacilityRelSVImpl implements IHouseFacilityRelSV {
     public void save(IHouseFacilityRelValue value) throws Exception {
         houseFacilityRelDAO.save(value);
     }
+
+    /**
+     * 保存房子和设备的关系
+     * @param houseId
+     * @param codeType
+     * @throws Exception
+     */
     @Transactional(propagation = Propagation.REQUIRED)
     @Override
     public void saveFacilityHouseRel(long houseId, String codeType) throws Exception {
@@ -51,5 +60,32 @@ public class HouseFacilityRelSVImpl implements IHouseFacilityRelSV {
         bean.setHouseId(houseId);
         bean.setCodeType(codeType);
         houseFacilityRelDAO.save(bean);
+    }
+
+    /**
+     * 查询房子和设备的关系
+     * @param houseId
+     * @return
+     * @throws Exception
+     */
+    public JSONArray queryHouseFacilityRelListByHouseId(long houseId)throws Exception{
+        JSONArray facilityList = new JSONArray();
+        List<IHouseFacilityRelValue> houseFacilityRelValueList = queryHouseFacilityRelByHouseId(houseId);
+        if(houseFacilityRelValueList!= null){
+            int relLength = houseFacilityRelValueList.size();
+            for(int j =0;j<relLength;j++){
+                facilityList.add(houseFacilityRelValueList.get(j).getCodeType());
+            }
+        }
+        return facilityList;
+    }
+
+    /**
+     * 删除房子和设备的关系
+     * @param value
+     * @throws Exception
+     */
+    public void deleteHouseFacilityRel(IHouseFacilityRelValue value)throws Exception{
+        houseFacilityRelDAO.deleteHouseFacilityRel(value);
     }
 }

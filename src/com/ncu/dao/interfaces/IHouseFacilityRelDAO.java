@@ -11,4 +11,5 @@ public interface IHouseFacilityRelDAO {
 
     public List<IHouseFacilityRelValue> queryHouseFacilityRelByCondition(String condition, HashMap params,int begin,int end) throws Exception;
     public void save(IHouseFacilityRelValue value) throws  Exception;
+    public void  deleteHouseFacilityRel(IHouseFacilityRelValue value)throws Exception;
 }

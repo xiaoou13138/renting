@@ -1,8 +1,10 @@
 package com.ncu.util;
 
+import java.util.ArrayList;
 import java.util.Map;
 
 
+import net.sf.json.JSONArray;
 import net.sf.json.JSONObject;
 
 import com.fasterxml.jackson.databind.util.JSONPObject;
@@ -48,6 +50,18 @@ public class APPUtil {
 			return object.getLong(key);
 		}
 		return 0L;
+	}
+
+	public static ArrayList jsonArrayCovertToLongArrayList(JSONArray array){
+		ArrayList list = new ArrayList();
+		if(array != null && array.size()>0){
+			int length = array.size();
+			for(int i= 0;i<length;i++){
+				long data = array.getLong(i);
+				list.add(data);
+			}
+		}
+		return list;
 	}
 
 }

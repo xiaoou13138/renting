@@ -60,12 +60,12 @@ public class CreateCardController extends BaseController {
             //保存图片关联
             String time = APPUtil.getSafeStringFromJSONObject(viewObject,"time");
             if(StringUtils.isNotBlank(time)){
-                if(this.getSession().getAttribute("postBarPictureMap"+time) != null){
-                    HashMap postBarPictureMap = (HashMap)this.getSession().getAttribute("postBarPictureMap"+time);
-                    ArrayList pictureList = (ArrayList)postBarPictureMap.get("postBarPictureList");
+                if(this.getSession().getAttribute("pictureMap_"+time+"_3") != null){
+                    HashMap postBarPictureMap = (HashMap)this.getSession().getAttribute("pictureMap_"+time+"_3");
+                    ArrayList pictureList = (ArrayList)postBarPictureMap.get("pictureList");
                     //需要保存图片个帖子的关系
                     postPictureRelSV.savePostPictureRelForController(postId,pictureList);
-                    this.getSession().removeAttribute("postBarPictureMap"+time);
+                    this.getSession().removeAttribute("pictureMap_"+time+"_3");
                 }
             }
         }catch (Exception e){

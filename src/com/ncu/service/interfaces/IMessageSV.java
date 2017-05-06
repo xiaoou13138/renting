@@ -51,5 +51,23 @@ public interface IMessageSV {
      */
     public HashMap queryMessageByUserIdForController(long userId,int begin,int end) throws Exception;
 
+    /**
+     * 删除消息
+     * @param messageId
+     * @throws Exception
+     */
+    public void deleteMessage(long messageId)throws Exception;
+
+    /**
+     * 查询评论信息
+     * @param postId
+     * @param begin
+     * @param end
+     * @return
+     * @throws Exception
+     */
+    public List<IMessageValue> queryMessageByPostId(long postId,int begin,int end)throws Exception;
+    public long queryMessageCountByPostId(long postId)throws Exception;
+
 
 }

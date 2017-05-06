@@ -40,7 +40,7 @@
             </div>
             <div class="col-md-9">
                 <div class="tab-content" style="height: 820px">
-                    <div class="tab-pane active" id="main"><iframe src="./editUserInfo" width="100%" height="100%" allowTransparency="true" id="rightFrame"></iframe></div>
+                    <div class="tab-pane active" id="main"><iframe src="./editUserInfo" width="100%" height="100%" allowTransparency="true" id="rightFrame" style="border: hidden;"></iframe></div>
                 </div>
             </div>
         </div>

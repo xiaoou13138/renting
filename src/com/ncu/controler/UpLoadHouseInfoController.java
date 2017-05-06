@@ -45,10 +45,28 @@ public class UpLoadHouseInfoController extends BaseController {
 
     @RequestMapping(value="/upLoadHouseInfo")
     public ModelAndView getView()throws Exception{
-        ModelAndView mv = this.getModelAndView();
-        ViewData data = this.getRtnViewData();
+        long userId = getLongParamFromSession("userId");
+        if(userId <= 0 ){
+            ModelAndView mv = this.getModelAndView();
+            mv.setViewName("login");
+            return mv;
+        }
+
+        ModelAndView mv = this.getModelAndView();//页面的容器
         mv.setViewName("upLoadHouseInfo");
-        mv.addObject("data",data);
+        JSONObject data = this.getRtnJSONObject();
+        ViewData viewData = this.getViewData();//这个是页面url拼接的参数
+        long viewType = viewData.getLong("viewType");//获得页面的类型
+        if(viewType == 1 ){
+
+        }else if(viewType == 2){
+            long houseId = viewData.getLong("houseId");
+            if(houseId > 0){
+                HashMap map = houseSV.queryAllHouseInfoByHouseId(houseId);
+                data.putAll(map);
+            }
+            mv.addObject("data",data);
+        }
         return mv;
     }
 
@@ -75,23 +93,36 @@ public class UpLoadHouseInfoController extends BaseController {
         try{
             JSONObject viewObject = viewData.getJSONObject("DATA");
             long userId = getLongParamFromSession("userId");
-            Object object = this.getSession().getAttribute("pictureList");
-            ArrayList pictureList = null;
-            if(object !=null){
-                pictureList = (ArrayList)object;
+            if(userId <=0){
+                throw new Exception("用户请先登录");
             }
-            try{
-                houseSV.saveUpLoadHouseInfo(viewObject,userId,pictureList);
-                this.getSession().removeAttribute("pictureList");
-                rtn = "Y";
-            }catch (Exception e){
-                e.printStackTrace();
+            String time = viewObject.getString("time");
+            int viewType = viewObject.getInt("viewType");
+            ArrayList mainList = new ArrayList();
+            ArrayList normalList = new ArrayList();
+            if(StringUtils.isNotBlank(time)){
+                if(this.getSession().getAttribute("pictureMap_"+time+"_2") != null){
+                    HashMap postBarPictureMap = (HashMap)this.getSession().getAttribute("pictureMap_"+time+"2");
+                    mainList = (ArrayList) postBarPictureMap.get("pictureList");
+                }
+                if(this.getSession().getAttribute("pictureMap_"+time+"_3") != null){
+                    HashMap postBarPictureMap = (HashMap)this.getSession().getAttribute("pictureMap_"+time+"_3");
+                    normalList = (ArrayList) postBarPictureMap.get("pictureList");
+                }
             }
+            houseSV.saveUpLoadHouseInfo(viewObject,userId,mainList,normalList,viewType);
+            this.getSession().removeAttribute("pictureMap_"+time+"_2");
+            this.getSession().removeAttribute("pictureMap_"+time+"_3");
+
+            rtn = "Y";
         }catch (Exception e){
+            rtnObject.put("errMessage",e.getMessage());
             e.printStackTrace();
         }
 
         rtnObject.put("result",rtn);
         return rtnObject;
     }
+
+
 }

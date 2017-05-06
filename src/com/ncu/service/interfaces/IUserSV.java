@@ -1,6 +1,7 @@
 package com.ncu.service.interfaces;
 
 import com.ncu.table.ivalue.IUserValue;
+import net.sf.json.JSONArray;
 import net.sf.json.JSONObject;
 
 import javax.servlet.http.Cookie;
@@ -92,6 +93,43 @@ public interface IUserSV {
 	 * @throws Exception
 	 */
 	public void updateUserInfo(long userId,JSONObject object)throws Exception;
+
+	/**
+	 * 改变用户的类型
+	 * @param userId
+	 * @param userType
+	 * @throws Exception
+	 */
+	public void changeUserType(long userId,String userType)throws Exception;
+
+	/**
+	 * 查询用户的信息
+	 * @param searchContent
+	 * @param searchType
+	 * @param begin
+	 * @param end
+	 * @return
+	 */
+	public HashMap queryUserForControllerByCondition(String searchContent,int searchType,int begin,int end)throws Exception;
+
+	/**
+	 * 查询用户信息
+	 * @param searchContent
+	 * @param searchType
+	 * @param begin
+	 * @param end
+	 * @return
+	 * @throws Exception
+	 */
+	public List<IUserValue> queryUserByCondition(String searchContent,int searchType,int begin,int end) throws Exception ;
+	public long queryUserCountByCondition(String searchContent,int searchType) throws Exception ;
+
+	/**
+	 * 删除用户信息
+	 * @param userArray
+	 * @throws Exception
+	 */
+	public void deleteUser(JSONArray userArray)throws Exception;
 
 
 

@@ -226,6 +226,7 @@ public class GroupsSVImpl implements IGroupsSV{
                 SQLCon.connectSQL(IGroupsValue.S_GroupName,searchContent,condition,params,true);
             }
         }
+        SQLCon.connectSQL(IGroupsValue.S_DelFlag,1L,condition,params,false);
         return groupsDAO.queryGroupsInfoByCondition(condition.toString(),params,begin,end);
     }
 
@@ -246,6 +247,7 @@ public class GroupsSVImpl implements IGroupsSV{
                 SQLCon.connectSQL(IGroupsValue.S_GroupName,searchContent,condition,params,true);
             }
         }
+        SQLCon.connectSQL(IGroupsValue.S_DelFlag,1L,condition,params,false);
         return groupsDAO.getCountByCondition(condition.toString(),params);
     }
 
@@ -315,5 +317,18 @@ public class GroupsSVImpl implements IGroupsSV{
         return rtnMap;
     }
 
-
+    /**
+     * 删除组
+     * @param groupId
+     * @throws Exception
+     */
+    @Transactional(propagation = Propagation.REQUIRED)
+    public void deleteGroup(long groupId)throws Exception{
+        IGroupsValue  groupsValue = queryGroupInfoByGroupsId(groupId);
+        if(groupsValue == null){
+            throw new Exception("组不存在");
+        }
+        groupsValue.setDelFlag(0L);
+        groupsDAO.save(groupsValue);
+    }
 }

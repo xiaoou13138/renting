@@ -20,7 +20,7 @@ public class HouseDAOImpl implements IHouseDAO{
 		return (List<IHouseValue>) houseEngine.queryByCondition(condition, params, beginPage, endPage);
 	}
 	public long getCount(String condition, HashMap params)throws Exception{
-		return houseEngine.getCount(condition,params);
+		return houseEngine.queryCountByCondition(condition,params);
 	}
 
 	public void save(IHouseValue value) throws Exception{

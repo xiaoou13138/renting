@@ -42,7 +42,11 @@
 </div>
 
 <script>
+    var userType;
+    var viewType;
     $(document).ready(function () {
+        userType = '${userType}';
+        viewType = getParam("viewType");
         getGroupInfo(0,10,true);
     });
 
@@ -83,10 +87,26 @@
 
             }
         });
-        html = html+"<td><a onclick='openGroupView("+groupId+")'>成员查看/</a><a onclick='addGroup("+groupId+")'>加入</a></td>"+"</tr>";
+        if(userType == 'admin' && viewType == 2){
+            html = html+"<td><a onclick='openGroupView("+groupId+")'>成员查看/</a><a onclick='deleteGroup("+groupId+")'>删除</a></td>"+"</tr>";
+        }else{
+            html = html+"<td><a onclick='openGroupView("+groupId+")'>成员查看/</a><a onclick='addGroup("+groupId+")'>加入</a></td>"+"</tr>";
+        }
         return html;
     }
-
+    function deleteGroup(groupId) {
+        var confirmLayer = layer.confirm("确定要删除该组吗", {
+            btn: ['确定','取消'] //按钮
+        },function () {
+            //确定删除用户信息
+            beginLoad("删除成功","删除失败",5000,function () {
+                location.reload();
+            });
+            doPostAjaxAndLoad("adminGroupManage_dealAction",{actionType:1,groupId:groupId},function (data) {
+            });
+            layer.close(confirmLayer);
+        });
+    }
     function addGroup(groupId) {
         doPostAjax("group_addGroup",{"groupId":groupId},function (data) {
             if(data.result =="Y"){
