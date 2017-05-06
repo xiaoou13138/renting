@@ -91,6 +91,8 @@
 
 
     <!-- 静态资源的引入 -->
+    <mvc:resources mapping="/jQueryMagnifier/css/**" location="/plugInUnit/jQueryMagnifier/css/" />
+    <mvc:resources mapping="/jQueryMagnifier/js/**" location="/plugInUnit/jQueryMagnifier/js/" />
     <mvc:resources mapping="/cityPicker/css/**" location="/plugInUnit/cityPicker/css/" />
     <mvc:resources mapping="/cityPicker/js/**" location="/plugInUnit/cityPicker/js/" />
     <mvc:resources mapping="/layer/css/**" location="/plugInUnit/layer/skin/" />
