@@ -87,7 +87,7 @@ public class MessageSVImpl implements IMessageSV {
         }else{
             bean.setReceiverId(receiverId);
             messageDAO.save(bean);
-            messageNoticeQueueSV.addNotice(userId);
+            messageNoticeQueueSV.addNotice(receiverId);
         }
         //消息通知
 
@@ -150,7 +150,9 @@ public class MessageSVImpl implements IMessageSV {
                 IMessageValue messageValue = messageValueList.get(i);
                 HashMap map = new HashMap();
                 IUserValue userValue = userSV.queryUserInfoByUserId(messageValue.getSenderId());
-                map.put("postBarId",messageValue.getPostId());
+                if(messageValue.getPostId() != null){
+                    map.put("postBarId",messageValue.getPostId());
+                }
                 map.put("content",messageValue.getContent());
                 map.put("friendId",messageValue.getSenderId());
                 map.put("friendName",userValue.getUserName());

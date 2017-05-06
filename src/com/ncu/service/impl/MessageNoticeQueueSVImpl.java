@@ -28,7 +28,7 @@ public class MessageNoticeQueueSVImpl implements IMessageNoticeQueueSV {
     @Transactional(propagation = Propagation.REQUIRED)
     public void addNotice(long userId)throws Exception{
         IMessageNoticeQueueValue messageNoticeQueueValue = queryMessageNoticeQueue(userId);
-        if(messageNoticeQueueValue != null ){
+        if(messageNoticeQueueValue == null ){
             throw new Exception("用户不合法:"+userId);
         }
         messageNoticeQueueValue.setMessageNum(messageNoticeQueueValue.getMessageNum()+1);
@@ -74,9 +74,8 @@ public class MessageNoticeQueueSVImpl implements IMessageNoticeQueueSV {
      */
     @Transactional(propagation = Propagation.REQUIRED)
     public void saveMessageNoticeQueue(long userId,long num,boolean isNew)throws Exception{
-        IMessageNoticeQueueValue value;
+        IMessageNoticeQueueValue value = new MessageNoticeQueueBean();
         if(isNew){
-            value = new MessageNoticeQueueBean();
             value.setMessageNum(0L);
             value.setUserId(userId);
         }else{
