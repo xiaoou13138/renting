@@ -5,7 +5,7 @@ import net.sf.json.JSONArray;
 
 import java.util.List;
 /**
- * Created by xiaoou on 2017/3/30.
+ * Created by zuowy on 2017/3/30.
  */
 public interface IHouseFacilityRelSV {
     public void save(IHouseFacilityRelValue value) throws Exception;

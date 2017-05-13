@@ -6,7 +6,7 @@ import java.util.List;
 import java.util.HashMap;
 
 /**
- * Created by xiaoou on 2017/4/11.
+ * Created by zuowy on 2017/4/11.
  */
 public interface IPostSV {
     /**

@@ -7,7 +7,7 @@ import java.util.List;
 import java.util.HashMap;
 
 /**
- * Created by xiaoou on 2017/4/10.
+ * Created by zuowy on 2017/4/10.
  */
 public interface IApplyGroupMessageDAO {
     public void save(IApplyGroupMessageValue value) throws Exception;

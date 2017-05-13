@@ -5,7 +5,7 @@ import com.ncu.table.ivalue.IGroupsRenterRelValue;
 import java.util.HashMap;
 import java.util.List;
 /**
- * Created by xiaoou on 2017/4/1.
+ * Created by zuowy on 2017/4/1.
  */
 public interface IGroupRenterRelDAO {
     public void save(IGroupsRenterRelValue value) throws Exception;

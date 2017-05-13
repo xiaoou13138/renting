@@ -371,3 +371,8 @@ function getTableCheckData(id) {
     });
     return rtnArray;
 }
+
+function closeIframe() {
+    var index = parent.layer.getFrameIndex(window.name);
+    parent.layer.close(index);
+}

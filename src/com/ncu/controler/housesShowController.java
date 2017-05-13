@@ -7,7 +7,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.servlet.ModelAndView;
 
 /**
- * Created by xiaoou on 2017/4/11.
+ * Created by zuowy on 2017/4/11.
  */
 @Controller
 @Scope("prototype")

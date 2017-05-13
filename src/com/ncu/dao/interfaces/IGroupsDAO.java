@@ -6,7 +6,7 @@ import java.util.HashMap;
 import java.util.List;
 
 /**
- * Created by xiaoou on 2017/4/1.
+ * Created by zuowy on 2017/4/1.
  */
 public interface IGroupsDAO {
     public void save(IGroupsValue value) throws Exception;

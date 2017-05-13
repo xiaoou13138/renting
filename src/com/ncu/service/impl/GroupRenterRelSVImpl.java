@@ -16,7 +16,7 @@ import javax.annotation.Resource;
 import java.util.HashMap;
 
 /**
- * Created by xiaoou on 2017/4/10.
+ * Created by zuowy on 2017/4/10.
  */
 @Service("GroupRenterRelSVImpl")
 public class GroupRenterRelSVImpl implements IGroupRenterRelSV{
@@ -42,6 +42,8 @@ public class GroupRenterRelSVImpl implements IGroupRenterRelSV{
             bean.setCreateDate(TimeUtil.getCurrentTimeyyyyMMddhhmmss());
             bean.setGroupId(groupId);
             groupRenterRelDAO.save(bean);
+            //查询组 然后人数+1
+            groupsSV.addGroupNum(groupId);
         }else{
             throw new Exception("传入的参数错误");
         }

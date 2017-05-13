@@ -1,19 +1,19 @@
 <%--
   Created by IntelliJ IDEA.
-  User: xiaoou
+  User: zuowy
   Date: 2017/4/10
   Time: 14:07
   To change this template use File | Settings | File Templates.
 --%>
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
-<html>
+<!doctype html>
 <head>
     <title>Title</title>
     <script src="js/head.js"></script>
 </head>
 <body>
-<div class="bg">
-    <div class="container" style="height: 1000px;background-color: white">
+<div class="bg" id="mainBlock">
+    <div class="container" style="height: 1000px;background-color: transparent">
         <div class="row">
             <div class="grid-search-center center-block" style="margin-top: 100px">
                 <div class="grid-left"><input type="text"  class="myform-control" id="searchContent"></div>
@@ -48,6 +48,9 @@
         userType = '${userType}';
         viewType = getParam("viewType");
         getGroupInfo(0,10,true);
+        if(viewType == 2){
+            $("#mainBlock").attr("class","bg-no-padding");
+        }
     });
 
     function getGroupInfo(begin,end,isFirst){

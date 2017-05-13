@@ -14,7 +14,7 @@ import javax.annotation.Resource;
 import java.util.HashMap;
 
 /**
- * Created by xiaoou on 2017/4/2.
+ * Created by zuowy on 2017/4/2.
  */
 @Controller
 @Scope("prototype")
@@ -36,7 +36,12 @@ public class MessageController extends BaseController {
         mv.setViewName("message");
         mv.addObject("data",data);
         long userId = getLongParamFromSession("userId");
-        messageNoticeQueueSV.saveMessageNoticeQueue(userId,0L,false);
+        if(userId <= 0){
+            mv.setViewName("gotoLogin");
+        }else{
+            messageNoticeQueueSV.saveMessageNoticeQueue(userId,0L,false);
+        }
+
         return mv;
     }
 
@@ -53,6 +58,9 @@ public class MessageController extends BaseController {
             ViewData viewData = this.getViewData();
             JSONObject viewObject= viewData.getJSONObject("DATA");
             long userId = getLongParamFromSession("userId");
+            if(userId <=0){
+                throw new Exception("用户请先登录");
+            }
             int begin = viewObject.getInt("begin");
             int end = viewObject.getInt("end");
             HashMap rtnMap = messageSV.queryMessageByUserIdForController(userId,begin,end);

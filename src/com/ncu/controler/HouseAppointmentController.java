@@ -13,7 +13,7 @@ import javax.annotation.Resource;
 import java.util.HashMap;
 
 /**
- * Created by xiaoou on 2017/4/21.
+ * Created by zuowy on 2017/4/21.
  */
 @Controller
 @Scope("prototype")
@@ -49,7 +49,7 @@ public class HouseAppointmentController extends BaseController{
             }else if(actionType ==2){//删除预约信息
                 String content = viewObject.getString("content");
                 long appointmentId = viewObject.getLong("appointmentId");
-                appointmentSV.deleteAppointmentForController(userId,appointmentId,content);
+                appointmentSV.deleteAppointmentForController(userId,appointmentId,content,1);
             }
         }catch (Exception e){
             e.printStackTrace();

@@ -14,7 +14,7 @@
         button.navbar-toggle {background-color:#fbfbfb;}/*整个背景都是transparent透明的，会看不到，所以再次覆盖一下*/  
         button.navbar-toggle > span.icon-bar {background-color:#dedede}
     </style>
-<body>
+<body style="overflow: hidden">
 <nav class="navbar navbar-fixed-top my-navbar bottom-shadow" role="navigation" style="background-color:#87CEEB">
     <div class="container-fluid" style="background-color:#87CEEB">
 		<div >
@@ -33,7 +33,7 @@
 			</a>
 		</div>
 		<div >
-			<a class="navbar-brand" onclick="change('./upLoadHouseInfo?viewType=1')"  id="upLoadHouseInfo" style="float: right;margin-right: 40px">
+			<a class="navbar-brand" onclick="javascript:window.open('upLoadHouseInfo?viewType=1')"  id="upLoadHouseInfo" style="float: right;margin-right: 40px">
 				上传房源
 			</a>
 		</div>
@@ -138,7 +138,14 @@
 		$.cookie('passwordVal', '', {
 			expires : -1
 		});
-		changeUserIcon(false)
+		changeUserIcon(false);
+		//要删除session里面的数据
+        doPostAjax("login_clearSession",{},function (data) {
+            if(data.result =="Y"){
+                location.href="./houses";
+            }
+        });
+
 	}
 
 </script>

@@ -73,11 +73,27 @@
             +"</div>"
             +"</div>"
             +"<div class='col-xs-3 '>"
-            +"<div class='row' style='height: 100px'>"+"<button type='button' class='btn btn-primary pull-right'  style='margin-right: 10px'>取消收藏</button>"+"</div>"
+            +"<div class='row' style='height: 100px'>"+"<button type='button' class='btn btn-primary pull-right'  style='margin-right: 10px' onclick='cancelCollect("+info.houseId+")'>取消收藏</button>"+"</div>"
             +"<div class='row text-center' style='line-height: 20px;;height: 100px;font-size: 25px;color: red;'>"+info.money+"元/月"+"</div>"
             +"</div>"
             +"</div>";
         return html;
+    }
+    
+    function cancelCollect(houseId) {
+        var collectLayer = layer.confirm('确定取消收藏吗', {
+            btn: ['确定'] //按钮
+        },function () {
+            beginLoad("","",5000,function () {
+                location.reload();
+            });
+            doPostAjaxAndLoad("houseDetail_collect",{houseId:houseId,collectState:false},function (data) {
+                if(data.result== "Y"){
+                    location.reload();
+                }
+            });
+            collectLayer.close(collectLayer);
+        });
     }
 
 

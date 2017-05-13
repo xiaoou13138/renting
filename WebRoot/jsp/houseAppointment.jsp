@@ -1,6 +1,6 @@
 <%--
   Created by IntelliJ IDEA.
-  User: xiaoou
+  User: zuowy
   Date: 2017/4/21
   Time: 20:38
   To change this template use File | Settings | File Templates.
@@ -79,8 +79,7 @@
     }
     function inputReason(appointmentId) {
         var content = "";
-        layer.prompt({title: '请输入拒绝理由,可不填写', formType: 2,end:function () {
-            alert(1);
+        layer.prompt({title: '请输入拒绝理由,不填写理由则点击取消', formType: 2,end:function () {
             doPostAjax("showMessage_action",{appointmentId:appointmentId,actionType:2,content:content},function (data) {
                 if(data.result =="Y"){
                     layer.confirm('删除成功', {

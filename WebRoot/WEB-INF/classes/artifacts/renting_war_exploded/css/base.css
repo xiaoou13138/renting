@@ -183,6 +183,15 @@
 	background-color: #e7e9ff;
 	overflow: auto;
 }
+.bg-no-padding{
+	width: 100%;
+	height: 100%;
+	padding: 20px 0;
+	text-align: center;
+	color: #000000;
+	background-color: #e7e9ff;
+	overflow: auto;
+}
 .bg h1{
 	color: #000000;
 }

@@ -10,7 +10,7 @@ import java.util.List;
 import java.util.Map;
 
 public interface IHouseSV {
-	public HashMap queryHouseInfoByCondition(Map condition, String begin, String end) throws  Exception;
+	public HashMap queryHouseInfoByCondition(String searchContent, int begin, int end) throws  Exception;
 	public void save(IHouseValue value) throws Exception;
 	public void saveUpLoadHouseInfo(JSONObject houseInfoObject,long userId,ArrayList mainPictureList,ArrayList normalPictureList,int actionType) throws Exception;
 
@@ -93,5 +93,8 @@ public interface IHouseSV {
 	 * @throws Exception
 	 */
 	public void deleteHouseByHouseId(long houseId)throws Exception;
+
+	public List<IHouseValue> queryHouseInfoBySearchContent(String searchContent,int begin,int end)throws Exception;
+	public long queryHouseCountBySearchContent(String searchContent)throws Exception;
 
 }

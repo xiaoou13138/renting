@@ -1,6 +1,6 @@
 <%--
   Created by IntelliJ IDEA.
-  User: xiaozuo
+  User: zuowy
   Date: 2017/4/17
   Time: 9:39
   To change this template use File | Settings | File Templates.
@@ -86,14 +86,26 @@
             +"</div>"
             +"</div>"
             +"<div class='col-xs-3 '>"
-            +"<div class='row' style='height: 100px'>"+"<button type='button' class='btn btn-primary pull-right'style='margin-right: 10px' >取消预约</button>"+"</div>"
+            +"<div class='row' style='height: 100px'>"+"<button type='button' class='btn btn-primary pull-right'style='margin-right: 10px' onclick='cancelAppoint("+info.appointmentId+")'>取消预约</button>"+"</div>"
             +"<div class='row text-center' style='line-height: 20px;;height: 100px;font-size: 25px;color: red;'>"+info.money+"元/月"+"</div>"
             +"</div>"
             +"</div>";
         return html;
     }
 
-
+    function cancelAppoint(appointmentId) {
+        var appLayer = layer.confirm('确定取消预约吗', {
+            btn: ['确定'] //按钮
+        },function () {
+            beginLoad("","",5000);
+            doPostAjaxAndLoad("orderHouseShow_dealAction",{appointmentId:appointmentId,actionType:1},function (data) {
+                if(data.result == "Y"){
+                    location.reload();
+                }
+            });
+            layer.close(appLayer);
+        });
+    }
 
 
 </script>

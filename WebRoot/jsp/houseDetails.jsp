@@ -2,7 +2,7 @@
 <!doctype html>
 <html>
 <head>
-    <title>Title</title>
+    <title></title>
     <script src="js/head.js"></script>
     <script src="http://api.map.baidu.com/api?v=2.0&ak=09BOANftFs7uVaipXxFGsRF2txzTOiT9" type="text/javascript"></script>
     <style>
@@ -62,26 +62,29 @@
                                 预约
                                 <span class="caret"></span>
                             </button>
-                            <ul class="dropdown-menu" aria-labelledby="appointment">
-                                <li><a href="javascript:void(0);" onclick="appointment('personal')">个人预约</a></li>
-                                <li><a href="javascript:void(0);" onclick="appointment('group')">团体预约</a></li>
-                            </ul>
-                        </div></div>
 
+                            <ul class="dropdown-menu" aria-labelledby="appointment">
+                                <li><a href="javascript:void(0);" onclick="appointment('personal')" id="personalAppoint">个人预约</a></li>
+                                <li><a href="javascript:void(0);" onclick="appointment('group')" id="groupAppoint">团体预约</a></li>
+                            </ul>
+                        </div>
+                        </div>
+                        <div class="col-md-2 text-left" ><button type="button" class="btn btn-warning" onclick="sendPrivateMessage()">私信房东</button></div>
                     </div>
                 </div>
             </div>
 
-            <div class="row house-details-block box-border" id="information">
-                <h2 class="h2">&nbsp;&nbsp;房源描述</h2>
+            <div class="row house-details-block box-border">
+                <h2 class="h2" style="background-color: khaki">&nbsp;&nbsp;房源描述</h2>
+                <div id="information" style='padding: 2px 0px 2px 30px;font-size: 20px'></div>
             </div>
 
             <div class="row house-details-block box-border" id="facility">
-                <h2 class="h2">&nbsp;&nbsp;配套设施</h2>
+                <h2 class="h2" style="background-color: khaki">&nbsp;&nbsp;配套设施</h2>
             </div>
 
             <div class="row house-details-block " style="height: 500px;">
-                <h2 class="h2">&nbsp;&nbsp;地图</h2>
+                <h2 class="h2" style="background-color: khaki">&nbsp;&nbsp;地图</h2>
                 <div id="allmap"></div>
             </div>
         </div>
@@ -106,9 +109,8 @@
                 }
                 pictureHtmlArray.push(createImageHtml(value));
             });
-            debugger;
             $("#detailImageList").html(String.prototype.concat.apply("", pictureHtmlArray));
-
+            $("title").text(data.houseName);
             magnifier({
                 width : 460,//主容器宽
                 height : 300,//主容器高
@@ -130,13 +132,18 @@
                 facilityHtml.push(createFaclityHtml(value));
             });
             $("#facility").append(String.prototype.concat.apply("", facilityHtml));
+            if(data.rentType == 1){
+                $("#groupAppoint").hide();
+            }
             map(data.houseAddress);
+
+
     });
         //需要的数据有  图片 房子的信息  房源描述 配套设施 位置  放到地图中去
     }
 
     function createFaclityHtml(value) {
-        var html = "<div>"+value+"&nbsp</div>";
+        var html = "<div style='padding: 2px 0px 2px 30px;font-size: 20px'><img style='height: 27px;width: 27px' src='showImage?imageFile=select1.PNG'>&nbsp;&nbsp;"+value+"&nbsp</div>";
         return html;
     }
 
@@ -200,7 +207,6 @@
     }
 
     function changeCollectState(state){
-        debugger;
         if(state){
             $("#collect").text("已收藏");
             return false;
@@ -265,6 +271,21 @@
             });
         }
 
+    }
+
+    function sendPrivateMessage() {
+        layer.prompt({title: '回复', formType: 2,area: ['893px', '100px']}, function(text, index){
+            layer.close(index);
+            var json = {
+                content:text,
+                houseId:houseId
+            };
+            beginLoad("发送私信成功","发送私信失败",5000);
+            doPostAjaxAndLoad("houseDetail_sendPrivateMessage",json,function (data) {
+                
+            })
+
+        });
     }
 </script>
 </body>

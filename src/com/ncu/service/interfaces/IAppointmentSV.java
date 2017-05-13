@@ -5,7 +5,7 @@ import com.ncu.table.ivalue.IAppointmentValue;
 import java.util.HashMap;
 import java.util.List;
 /**
- * Created by xiaoou on 2017/4/14.
+ * Created by zuowy on 2017/4/14.
  */
 public interface IAppointmentSV {
     /**
@@ -69,7 +69,8 @@ public interface IAppointmentSV {
      * @param appointmentId
      * @throws Exception
      */
-    public void deleteAppointmentForController(long userd,long appointmentId,String content)throws Exception;
+    public void deleteAppointmentForController(long userd,long appointmentId,String content,int userType)throws Exception;
+
 
     /**
      * 查询预约信息

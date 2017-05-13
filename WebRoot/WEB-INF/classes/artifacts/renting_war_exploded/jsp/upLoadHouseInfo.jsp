@@ -7,7 +7,7 @@
 <html>
   <head>
     <script src="js/head.js"></script>
-    <title>登记房屋信息</title>
+    <title>发布房源信息</title>
   </head>
   
   <body>
@@ -43,6 +43,7 @@
 						  <div class="col-sm-4">
 							  <select class="form-control" id ="houseType">
 								  <option>公寓</option>
+								  <option>别墅</option>
 							  </select>
 						  </div>
 					  </div>
@@ -115,9 +116,9 @@
 						  </div>
 					  </div>
 
-					  <div class="form-group form-checkbox">
+					  <div class="form-group form-checkbox" id="facility">
 						  <label for="depositType" class="col-sm-2 control-label">房屋设备情况:</label>
-						  <div class="col-sm-6" id="facility">
+						  <div class="col-sm-6" >
 							  <label class="checkbox-inline">
 								  <input type="checkbox"  value="TV"> 电视
 							  </label>
@@ -153,14 +154,14 @@
 					  <div class="form-group">
 						  <label for="depositType" class="col-sm-2 control-label">上传图片(主图片):</label>
 						  <div class="col-sm-8" style="height: 350px;">
-							  <iframe src="./uploader?pictureType=1&time='<%=time%>'" width="100%" height="100%" allowTransparency="true" style="border: hidden;"></iframe>
+							  <iframe src="./uploader?pictureType=1&time=<%=time%>" width="100%" height="100%" allowTransparency="true" style="border: hidden;"></iframe>
 						  </div>
 					  </div>
 
 					  <div class="form-group">
 						  <label for="depositType" class="col-sm-2 control-label">上传图片(其他普通图片):</label>
 						  <div class="col-sm-8" style="height: 350px;">
-							  <iframe src="./uploader?pictureType=2&time='<%=time%>'" width="100%" height="100%" allowTransparency="true" style="border: hidden;"></iframe>
+							  <iframe src="./uploader?pictureType=2&time=<%=time%>" width="100%" height="100%" allowTransparency="true" style="border: hidden;"></iframe>
 						  </div>
 					  </div>
 
@@ -176,7 +177,7 @@
 	  var nowtime;
 	  var viewType = getParam("viewType");
       $(document).ready(function () {
-          nowtime = getCurrentTimeMillis();
+          nowtime = <%=time%>;
           upLoadHouseInfoViewInit();
           if(viewType == 1){//新增
 
@@ -191,7 +192,7 @@
 
 
 	 function saveInfo() {
-         $("#address").val($("#province").val()+$("#city").val());
+          $("#address").val($("#province").val()+$("#city").val());
          if(!validForm()){
              return;
          }
@@ -199,9 +200,8 @@
          json.viewType =viewType;
          json.time = nowtime;
          json.houseId = houseId;
-         debugger;
 		 beginLoad("保存成功","保存失败",5000,function () {
-			 window.close();
+		     window.close();
          });
 		 doPostAjaxAndLoad("upLoadHouseInfo_upLoad",json,function (data) {
 

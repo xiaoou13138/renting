@@ -25,8 +25,8 @@
     <bean id="dataSource" class="com.alibaba.druid.pool.DruidDataSource"
           destroy-method="close">
         <property name="driverClassName" value="com.mysql.jdbc.Driver" />
-        <property name="url" value="jdbc:mysql://192.168.191.5:3306/renting?useUnicode=true&amp;characterEncoding=UTF-8&amp;" />
-        <property name="username" value="zuowy" />
+        <property name="url" value="jdbc:mysql://localhost:3306/renting?useUnicode=true&amp;characterEncoding=UTF-8&amp;" />
+        <property name="username" value="root" />
         <property name="password" value="123456" />
         <property name="filters" value="wall" />
         <property name="initialSize" value="2" />
@@ -53,7 +53,7 @@
                 <prop key="hiberante.format_sql">true</prop>
                 <prop key="hibernate.autoReconnect">true</prop>
                 <prop key="hibernate.connection.autocommit">true</prop>
-                <prop key="hibernate.connection.username">zuowy</prop>
+                <prop key="hibernate.connection.username">root</prop>
                 <prop key="hibernate.connection.password">123456</prop>
             </props>
         </property>
@@ -91,8 +91,8 @@
 
 
     <!-- 静态资源的引入 -->
-    <mvc:resources mapping="/adGallery/css/**" location="/plugInUnit/adGallery/css/" />
-    <mvc:resources mapping="/adGallery/js/**" location="/plugInUnit/adGallery/js/" />
+    <mvc:resources mapping="/jQueryMagnifier/css/**" location="/plugInUnit/jQueryMagnifier/css/" />
+    <mvc:resources mapping="/jQueryMagnifier/js/**" location="/plugInUnit/jQueryMagnifier/js/" />
     <mvc:resources mapping="/cityPicker/css/**" location="/plugInUnit/cityPicker/css/" />
     <mvc:resources mapping="/cityPicker/js/**" location="/plugInUnit/cityPicker/js/" />
     <mvc:resources mapping="/layer/css/**" location="/plugInUnit/layer/skin/" />

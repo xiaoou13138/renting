@@ -57,11 +57,11 @@ public class HousesController extends BaseController{
 				//查询用户上传的房源
 				HashMap map = houseSV.queryHouseInfoByLandlordIdForController(userId,Integer.parseInt(begin),Integer.parseInt(end));
 				rtnJSONObject.putAll(map);
-			} else if(showType ==3){
-				String searchContent = APPUtil.getSafeStringFromJSONObject(dataJSONObject,"searchContent");
-				HashMap condition = new HashMap();
-				condition.put("searchContent",searchContent);
-				HashMap map = houseSV.queryHouseInfoByCondition(condition,begin,end);
+			} else if(showType ==3){//获取房屋信息  主页
+				int beginI = dataJSONObject.getInt("begin");
+				int endI =dataJSONObject.getInt("end");
+				String searchContent = dataJSONObject.getString("searchContent");
+				HashMap map = houseSV.queryHouseInfoByCondition(searchContent,beginI,endI);
 				rtnJSONObject.putAll(map);
 			}else if(showType == 4){
 				HashMap map = houseSV.queryHouseInfoByUserIdAndQueryType(userId,2,Integer.parseInt(begin),Integer.parseInt(end));

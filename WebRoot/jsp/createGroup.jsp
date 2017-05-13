@@ -1,6 +1,6 @@
 <%--
   Created by IntelliJ IDEA.
-  User: xiaoou
+  User: zuowy
   Date: 2017/4/10
   Time: 11:52
   To change this template use File | Settings | File Templates.
@@ -89,26 +89,13 @@
             groupNumber.focus();
             return;
         }
-        var notSuccess = true;
-        var load = layer.load(1, {
-            shade: [0.1,'#fff'] //0.1透明度的白色背景
+        beginLoad("保存成功","保存失败",5000,function () {
+            var index = parent.layer.getFrameIndex(window.name);
+            parent.layer.close(index);
         });
-        doPostAjax("group_createGroup",{"groupName":groupName.val(),"groupNumber":groupNumber.val(),"address":address,"groupInfor":groupInfor.val()},function (data) {
-            if(data.result =="Y"){
-                layer.close(load);
-                layer.confirm('保存成功', {
-                    btn: ['确定'] //按钮
-                });
-                notSuccess = false;
-            }else{
-                layer.close(load);layer.confirm('保存失败', {btn: ['确定'] });
-            }
+        doPostAjaxAndLoad("group_createGroup",{"groupName":groupName.val(),"groupNumber":groupNumber.val(),"address":address,"groupInfor":groupInfor.val()},function (data) {
+
         });
-        setTimeout(function () {
-            if(notSuccess){
-                layer.close(load);layer.confirm('保存失败', {btn: ['确定'] });
-            }
-        }, 10000);
     }
 </script>
 </body>

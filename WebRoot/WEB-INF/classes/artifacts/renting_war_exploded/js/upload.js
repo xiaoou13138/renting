@@ -188,8 +188,15 @@ function uploderInit(data,url){
     uploader.on('uploadAccept', function(object ,ret) {
         if(ret["result"] == "Y"){
             return true;
+        }else{
+            var layerConfirm = layer.confirm(ret['errMessage'], {
+                btn: ['确定'] //按钮
+            },function () {
+                layer.close(layerConfirm);
+            });
+            return false;
         }
-        return false;
+
     });
     // uploader.on('filesQueued', function() {
     //     uploader.sort(function( a, b ) {

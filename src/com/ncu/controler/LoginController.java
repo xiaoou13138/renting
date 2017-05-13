@@ -70,4 +70,21 @@ public class LoginController extends BaseController{
 		}
 		return rtnObject;
     }
+
+	@RequestMapping(value="/login_clearSession" ,produces="application/json;charset=UTF-8")
+	@ResponseBody
+	public Object clearSession(){
+		JSONObject rtnObject = this.getRtnJSONObject();
+		String rtn = "Y";
+		try{
+			this.getSession().removeAttribute("userId");
+			this.getSession().removeAttribute("userName");
+			this.getSession().removeAttribute("userType");
+		}catch (Exception e){
+			rtn = "N";
+			e.printStackTrace();
+		}
+		rtnObject.put("result", rtn);
+		return rtnObject;
+	}
 }

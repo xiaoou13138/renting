@@ -40,7 +40,7 @@
             </div>
             <div class="col-md-9">
                 <div class="tab-content" style="height: 820px">
-                    <div class="tab-pane active" id="main"><iframe src="./editUserInfo" width="100%" height="100%" allowTransparency="true" id="rightFrame"></iframe></div>
+                    <div class="tab-pane active" id="main"><iframe src="./editUserInfo" width="100%" height="100%" allowTransparency="true" id="rightFrame" style="border: hidden;"></iframe></div>
                 </div>
             </div>
         </div>
@@ -48,13 +48,19 @@
 </div>
 
 <script>
+    var activeView;
     $(document).ready(function(){
+        activeView = getParam("activeView");
+
         $('#managementTab a:first').tab('show');//初始化显示哪个tab
 
         $('#managementTab a').click(function(e) {
             e.preventDefault();//阻止a链接的跳转行为
             $(this).tab('show');//显示当前选中的链接及关联的content
         });
+                if(activeView == 'myHouse'){
+            manageChange('./myHouse');
+        }
     });
     function manageChange(address){
         $("#rightFrame").attr("src",address);

@@ -5,7 +5,7 @@ import com.ncu.table.ivalue.IPostPictureRelValue;
 import java.util.ArrayList;
 import java.util.List;
 /**
- * Created by xiaoou on 2017/4/12.
+ * Created by zuowy on 2017/4/12.
  */
 public interface IPostPictureRelSV {
     /**

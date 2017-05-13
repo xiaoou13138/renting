@@ -13,7 +13,7 @@ import javax.annotation.Resource;
 import java.util.HashMap;
 
 /**
- * Created by xiaoou on 2017/4/11.
+ * Created by zuowy on 2017/4/11.
  */
 @Controller
 @Scope("prototype")
@@ -45,7 +45,6 @@ public class PosBarController extends BaseController {
         try{
             ViewData viewData = this.getViewData();
             JSONObject viewObject= viewData.getJSONObject("DATA");
-            long userId = getLongParamFromSession("userId");
             HashMap map = postSV.queryPostInfoForController(viewObject);
             rtnJSONObject.putAll(map);
         }catch (Exception e){

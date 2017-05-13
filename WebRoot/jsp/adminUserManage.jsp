@@ -1,6 +1,6 @@
 <%--
   Created by IntelliJ IDEA.
-  User: xiaoou
+  User: zuowy
   Date: 2017/5/5
   Time: 11:43
   To change this template use File | Settings | File Templates.
@@ -19,10 +19,10 @@
         </div>
         <div class="panel-body" style="height: 756px">
             <div class="row">
-                <div class="col-md-offset-3 col-md-4">
+                <div class="col-xs-offset-3 col-xs-4">
                     <input type="text"  class="myform-control" id="searchContent" placeholder="用户名或者账号">
                 </div>
-                <div class="col-md-2">
+                <div class="col-xs-2">
                     <a class="search-button btn-primary no-line " onclick="getTableData(0,10,true)">查询</a>
                 </div>
             </div>

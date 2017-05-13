@@ -11,7 +11,7 @@ import java.util.HashMap;
 import java.util.List;
 
 /**
- * Created by xiaoou on 2017/4/12.
+ * Created by zuowy on 2017/4/12.
  */
 @Repository("PostPictureRelDAOImpl")
 public class PostPictureRelDAOImpl implements IPostPictureRelDAO{

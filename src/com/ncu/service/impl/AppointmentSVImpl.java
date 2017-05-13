@@ -24,7 +24,7 @@ import javax.annotation.Resource;
 import java.util.HashMap;
 
 /**
- * Created by xiaoou on 2017/4/14.
+ * Created by zuowy on 2017/4/14.
  */
 @Service("AppointmentSVImpl")
 public class AppointmentSVImpl implements IAppointmentSV {
@@ -186,7 +186,7 @@ public class AppointmentSVImpl implements IAppointmentSV {
      * @throws Exception
      */
     @Transactional(propagation = Propagation.REQUIRED)
-    public void deleteAppointmentForController(long userId,long appointmentId,String content)throws Exception{
+    public void deleteAppointmentForController(long userId,long appointmentId,String content,int userType)throws Exception{
         IAppointmentValue appointmentValue = queryAppointmentById(appointmentId);
         if(appointmentValue == null){
             throw new Exception("预约信息不存在");
@@ -195,10 +195,12 @@ public class AppointmentSVImpl implements IAppointmentSV {
         appointmentDAO.save(appointmentValue);
 
         //发送一条私信消息
-        if(StringUtils.isBlank(content)){
-            content = "您的预约已经被房源上传者取消，具体原因房源上传者没有填写！如需了解，请拨打房源上传者号码";
+        if(userType == 1){
+            if(StringUtils.isBlank(content)){
+                content = "您的预约已经被房源上传者取消，具体原因房源上传者没有填写！如需了解，请拨打房源上传者号码";
+            }
+            messageSV.saveMessageByUserIdAndContent(userId,0,content,1L,appointmentValue.getRenterId());
         }
-        messageSV.saveMessageByUserIdAndContent(userId,0,content,1L,appointmentValue.getRenterId());
     }
 
     /**

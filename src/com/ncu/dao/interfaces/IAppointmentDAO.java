@@ -5,7 +5,7 @@ import com.ncu.table.ivalue.IAppointmentValue;
 import java.util.HashMap;
 import java.util.List;
 /**
- * Created by xiaoou on 2017/4/14.
+ * Created by zuowy on 2017/4/14.
  */
 public interface IAppointmentDAO {
     public void save(IAppointmentValue value) throws Exception;

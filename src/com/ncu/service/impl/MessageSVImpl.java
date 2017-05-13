@@ -2,12 +2,10 @@ package com.ncu.service.impl;
 
 import com.ncu.dao.interfaces.ICommonDAO;
 import com.ncu.dao.interfaces.IMessageDAO;
-import com.ncu.service.interfaces.IMessageNoticeQueueSV;
-import com.ncu.service.interfaces.IMessageSV;
-import com.ncu.service.interfaces.IPostMessageRelSV;
-import com.ncu.service.interfaces.IUserSV;
+import com.ncu.service.interfaces.*;
 import com.ncu.table.bean.MessageBean;
 import com.ncu.table.bean.ParamsDefine;
+import com.ncu.table.ivalue.IHouseValue;
 import com.ncu.table.ivalue.IMessageValue;
 import com.ncu.table.ivalue.IPostValue;
 import com.ncu.table.ivalue.IUserValue;
@@ -25,7 +23,7 @@ import java.util.HashMap;
 import java.util.Objects;
 
 /**
- * Created by xiaoou on 2017/4/13.
+ * Created by zuowy on 2017/4/13.
  */
 @Service("MessageSVImpl")
 public class MessageSVImpl implements IMessageSV {
@@ -43,6 +41,9 @@ public class MessageSVImpl implements IMessageSV {
 
     @Resource(name="MessageNoticeQueueSVImpl")
     private IMessageNoticeQueueSV messageNoticeQueueSV;
+
+    @Resource(name="HouseSVImpl")
+    private IHouseSV houseSV;
     /**
      * 根据消息的主键查询消息的信息
      * @param messageId
@@ -87,7 +88,12 @@ public class MessageSVImpl implements IMessageSV {
         }else{
             bean.setReceiverId(receiverId);
             messageDAO.save(bean);
-            messageNoticeQueueSV.addNotice(receiverId);
+            if(receiverId == -1){
+                messageNoticeQueueSV.addNoticeAll();
+            }else{
+                messageNoticeQueueSV.addNotice(receiverId);
+            }
+
         }
         //消息通知
 
@@ -103,7 +109,7 @@ public class MessageSVImpl implements IMessageSV {
      * @throws Exception
      */
     public List<IMessageValue> queryMessageByUserId(long userId,int begin,int end) throws Exception{
-        String sql = "from MessageBean a where a.receiverId = :userId and delFlag=1 order by 1 desc";
+        String sql = "from MessageBean a where (a.receiverId = :userId or a.receiverId = -1) and delFlag=1 order by 1 desc";
         ArrayList<ParamsDefine> paramList = new ArrayList();
         ParamsDefine paramsDefine = new ParamsDefine();
         paramsDefine.setColName("userId");
@@ -120,7 +126,7 @@ public class MessageSVImpl implements IMessageSV {
      * @throws Exception
      */
     public long queryMessageCountByUserId(long userId) throws Exception{
-        String sql = "from MessageBean a where a.receiverId = :userId and delFlag=1 order by 1 desc";
+        String sql = "from MessageBean a where (a.receiverId = :userId or a.receiverId = -1) and delFlag=1 order by 1 desc";
         ArrayList<ParamsDefine> paramList = new ArrayList();
         ParamsDefine paramsDefine = new ParamsDefine();
         paramsDefine.setColName("userId");
@@ -150,6 +156,9 @@ public class MessageSVImpl implements IMessageSV {
                 IMessageValue messageValue = messageValueList.get(i);
                 HashMap map = new HashMap();
                 IUserValue userValue = userSV.queryUserInfoByUserId(messageValue.getSenderId());
+                if(userValue == null){
+                    continue;
+                }
                 if(messageValue.getPostId() != null){
                     map.put("postBarId",messageValue.getPostId());
                 }
@@ -217,5 +226,22 @@ public class MessageSVImpl implements IMessageSV {
         paramsDefine.setIsList(false);
         paramList.add(paramsDefine);
         return commonDAO.getCount(sql,paramList.toArray(new ParamsDefine[0]));
+    }
+
+    /**
+     * 发送私信给房东
+     * @param houseId
+     * @param userId
+     * @param content
+     * @throws Exception
+     */
+    @Transactional(propagation = Propagation.REQUIRED)
+    public void saveMessageByHouseId(long houseId,long userId,String content)throws Exception{
+        IHouseValue houseValue = houseSV.queryHouseDefInfoByHouseId(houseId);
+        if(houseValue == null){
+            throw new Exception("房子不存在");
+        }
+        long acceptUserId = houseValue.getLandlordId();
+        saveMessageByUserIdAndContent(userId,0,content,1,acceptUserId);
     }
 }

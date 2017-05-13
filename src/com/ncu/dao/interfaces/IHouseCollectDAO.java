@@ -5,7 +5,7 @@ import com.ncu.table.ivalue.IHouseCollectValue;
 import java.util.HashMap;
 import java.util.List;
 /**
- * Created by xiaoou on 2017/4/14.
+ * Created by zuowy on 2017/4/14.
  */
 public interface IHouseCollectDAO {
     public void save(IHouseCollectValue value) throws Exception;

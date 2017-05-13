@@ -1,6 +1,6 @@
 <%--
   Created by IntelliJ IDEA.
-  User: xiaoou
+  User: zuowy
   Date: 2017/4/10
   Time: 18:16
   To change this template use File | Settings | File Templates.
@@ -78,17 +78,45 @@
         var dealTypeStr = "";
         if(dealType ==1){
             dealTypeStr = "accept";
+            doPostAjax("showMessage_dealMessage",{"applyId":applyId,"dealType":dealTypeStr},function (data) {
+                if(data.result =="Y"){
+                    layer.confirm('批准成功', {
+                        btn: ['确定'] //按钮
+                    });
+                    location.reload();
+                }
+            })
         }else if(dealType ==2){
             dealTypeStr = "refuse";
-        }
-        doPostAjax("showMessage_dealMessage",{"applyId":applyId,"dealType":dealTypeStr},function (data) {
-            if(data.result =="Y"){
-                layer.confirm('批准成功', {
-                    btn: ['确定'] //按钮
+            layer.prompt({title: '请输入拒绝理由,不填写则点击取消', formType: 2,end:function () {
+                doPostAjax("showMessage_dealMessage",{"applyId":applyId,"dealType":dealTypeStr,text:text},function (data) {
+                    if(data.result =="Y"){
+                        layer.confirm('操作成功', {
+                            btn: ['确定'] //按钮
+                        });
+                        location.reload();
+                    }
+                })
+            }}, function(text, index){
+                layer.close(index);
+                content = text;
+            });
+            var content = "";
+            layer.prompt({title: '请输入拒绝理由,不填写理由则点击取消', formType: 2,end:function () {
+                doPostAjax("showMessage_dealMessage",{"applyId":applyId,"dealType":dealTypeStr,content:content},function (data) {
+                    if(data.result =="Y"){
+                        layer.confirm('操作成功', {
+                            btn: ['确定'] //按钮
+                        });
+                        location.reload();
+                    }
                 });
-                location.reload();
-            }
-        })
+            }}, function(text, index){
+                layer.close(index);
+                content = text;
+            });
+        }
+
     }
 </script>
 </body>

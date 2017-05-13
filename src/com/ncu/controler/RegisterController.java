@@ -57,9 +57,9 @@ public class RegisterController extends BaseController{
 			ViewData data = this.getViewData();
 			//获取用户的信息
 			JSONObject userInfoObject = data.getJSONObject("DATA");
+			userInfoObject.put("userType","normal");
 			sv.saveUserInfoByViewData(userInfoObject);
 			//用户通知表自动存一条记录
-
 			rtnObject.put("result", "Y");
 		}catch (Exception e){
 			rtnObject.put("result", "N");

@@ -4,7 +4,7 @@ import com.ncu.table.ivalue.IPostMessageRelValue;
 import java.util.HashMap;
 import java.util.List;
 /**
- * Created by xiaoou on 2017/4/13.
+ * Created by zuowy on 2017/4/13.
  */
 public interface IPostMessageRelDAO {
     public void save(IPostMessageRelValue value) throws Exception;

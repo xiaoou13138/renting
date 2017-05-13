@@ -58,3 +58,23 @@ function validateNum(obj1) {
         }
     }
 }
+
+
+function validForm(){
+    var success = true;
+    $.each($(".has-check"),function (index,value,array) {
+        var labelText = $(value).find('.control-label').text();
+        var index = labelText.indexOf(':');
+        labelText = labelText.substr(0,index);
+
+        var checkComponent = $(value).find('.form-control');
+        var checkComponentVal = checkComponent.val();
+        if(checkComponentVal ==  undefined || checkComponentVal ==""){
+            layer.msg(labelText+'必须要填写');
+            checkComponent.focus();
+            success = false;
+            return false;
+        }
+    });
+    return success;
+}

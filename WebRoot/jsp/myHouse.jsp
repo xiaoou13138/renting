@@ -13,6 +13,11 @@
         <div class="panel-body" style="height: 756px;overflow: auto">
             <div class="container-fluid" >
                 <div class="row">
+                    <div class="col-xs-offset-11 col-xs-1">
+                        <button type="button" class="btn btn-primary"  onclick="javascript:location.reload();">刷新</button>
+                    </div>
+                </div>
+                <div class="row">
                     <div class="row" >
                         <div class="container-fluid" id = "myHouse">
 
@@ -69,7 +74,7 @@
             +"<div class='border-just-right' style=\""+createImageHtml(info.mainPicture,80,80)+"\"></div>"
             +"</div>"
             +"<div class='col-xs-8 text-left house-show-title'>"
-            +"<a href = './houseDetails?houseId="+info.houseId+"'>"+info.houseName+"</a>"
+            +"<a  href = './houseDetails?houseId="+info.houseId+"' target='_blank'>"+info.houseName+"</a>"
             +"</div>"
             +"<div class='col-xs-2'><div class='row'><div class='col-xs-12'><a href='javascript:void(0)' onclick='updateInfo("+info.houseId+")'>修改</a><a href='javascript:void(0)' onclick='delInfo("+info.houseId+")'>/删除</a></div></div>"
             +"<div class='row'><div class='col-xs-12'><a onclick='appointmentDetail("+info.houseId+")'>预约详细</a><span class='label label-warning' style='font-size:16px'>"+info.appointmentCount+"</span></div></div>"

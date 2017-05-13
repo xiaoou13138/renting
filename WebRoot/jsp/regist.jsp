@@ -136,24 +136,27 @@ function checkPassword(){
 	if(passwordVal == ""){
 		passwordObj.qtip(getRentingTips('密码不能为空'));
 		passwordObj.focus();
-		return;
+		return false;
 	}
 	if(passwordConfirmVal == ""){
 		passwordConfirmObj.qtip(getRentingTips('密码不能为空'));
 		passwordConfirmObj.focus();
-		return;
+		return false;
 	}
 	if(passwordVal != passwordConfirmVal){
 		passwordConfirmObj.qtip(getRentingTips('两次密码不相同'));
 		passwordConfirmObj.focus();
-		return;
+		return false;
 	}
+	return true;
 }
 
 function regist(){
     checkTelphone();
     checkTrueMail();
-    checkPassword();
+    if(!checkPassword()){
+        return;
+	}
 	var codeVal = codeObj.val();//账号的值
 	var passwordVal = passwordObj.val();//密码的值
 	var telphoneVal = telphoneObj.val();

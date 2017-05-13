@@ -13,7 +13,6 @@ import com.ncu.table.ivalue.IMessageNoticeQueueValue;
 public class MessageNoticeQueueBean implements IMessageNoticeQueueValue,Serializable{
 
   @Id
-  @GeneratedValue(strategy = GenerationType.IDENTITY)
   @Column(name = IMessageNoticeQueueValue.S_UserId)
   private Long userId;
 

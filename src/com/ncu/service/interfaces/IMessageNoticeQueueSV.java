@@ -3,7 +3,7 @@ package com.ncu.service.interfaces;
 import com.ncu.table.ivalue.IMessageNoticeQueueValue;
 
 /**
- * Created by xiaoou on 2017/4/21.
+ * Created by zuowy on 2017/4/21.
  */
 public interface IMessageNoticeQueueSV {
     /**
@@ -36,5 +36,11 @@ public interface IMessageNoticeQueueSV {
      * @throws Exception
      */
     public void saveMessageNoticeQueue(long userId,long num,boolean isNew)throws Exception;
+
+    /**
+     * 给所有用户都通知
+     * @throws Exception
+     */
+    public void addNoticeAll()throws Exception;
 
 }

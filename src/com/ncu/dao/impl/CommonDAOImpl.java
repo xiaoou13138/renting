@@ -15,7 +15,7 @@ import org.springframework.stereotype.Repository;
 import java.util.*;
 
 /**
- * Created by xiaoou on 2017/3/23.
+ * Created by zuowy on 2017/3/23.
  */
 @Repository("CommonDAOImpl")
 public class CommonDAOImpl implements ICommonDAO {

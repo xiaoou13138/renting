@@ -1,6 +1,6 @@
 <%--
   Created by IntelliJ IDEA.
-  User: xiaozuo
+  User: zuowy
   Date: 2017/4/18
   Time: 12:02
   To change this template use File | Settings | File Templates.
@@ -18,8 +18,13 @@
 </head>
 <body>
 <div class="bg container-fluid">
-        <div class="row" style="background-color: #00b7ee">
-            <h1>系统管理员</h1>
+        <div class="row" style="background-color: #f5f5ff">
+            <div class="col-md-offset-4 col-md-4"style="height: 50px;margin-bottom: 10px">
+            <h2>系统管理员</h2>
+            </div>
+            <div class="col-md-1 col-md-offset-3" style="margin-top: 20px;margin-left:250px">
+                 <a class="search-button btn-default no-line" style="background-color: transparent" onclick="sendReportToAllUser()">发布公告</a>
+            </div>
         </div>
         <div class="row">
             <div class="col-md-3">
@@ -43,6 +48,19 @@
 <script>
     function manageChange(address){
         $("#rightFrame").attr("src",address);
+    }
+
+    function sendReportToAllUser() {
+        layer.prompt({title: '公告内容', formType: 2,area: ['893px', '100px']}, function(text, index){
+            layer.close(index);
+            var json = {
+                content:text,
+                actionType:1
+            };
+            beginLoad("发布公告成功","发布公告失败",5000);
+            doPostAjaxAndLoad("administratorsMain_dealAction",json,function (data) {
+            });
+        });
     }
 </script>
 </html>

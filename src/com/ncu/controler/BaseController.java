@@ -44,7 +44,7 @@ public class BaseController {
 				long userId = getLongParamFromSession("userId");
 				String userName = getStringParamFromSession("userName");
 				String userType = getStringParamFromSession("userType");
-				if(userId == 0){//如果session里面获取不到userId,就尝试从cookie里面获取用户登录的信息
+				if(userId == 0 ||StringUtils.isBlank(userName) || userType ==null){//如果session里面获取不到userId,就尝试从cookie里面获取用户登录的信息
 					Cookie[] cookies  = request.getCookies();
 					HashMap map =userSV.checkUserInfoByCookie(cookies);
 					userId = (long)map.get("userId");

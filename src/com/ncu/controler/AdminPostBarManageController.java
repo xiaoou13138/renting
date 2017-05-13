@@ -12,7 +12,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import javax.annotation.Resource;
 
 /**
- * Created by xiaoou on 2017/5/6.
+ * Created by zuowy on 2017/5/6.
  */
 @Controller
 @Scope("prototype")
@@ -37,7 +37,7 @@ public class AdminPostBarManageController extends BaseController{
             ViewData viewData = this.getViewData();
             JSONObject viewObject= viewData.getJSONObject("DATA");
             int actionType = viewObject.getInt("actionType");
-            if(actionType ==  1 ){//获取用户表格信息
+            if(actionType ==  1 ){
                 long postId = viewObject.getLong("postId");
                 if(postId <= 0){
                     throw new Exception("帖子主键不合法");

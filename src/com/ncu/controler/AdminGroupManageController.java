@@ -11,7 +11,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import javax.annotation.Resource;
 
 /**
- * Created by xiaoou on 2017/5/5.
+ * Created by zuowy on 2017/5/5.
  */
 @Controller
 @Scope("prototype")

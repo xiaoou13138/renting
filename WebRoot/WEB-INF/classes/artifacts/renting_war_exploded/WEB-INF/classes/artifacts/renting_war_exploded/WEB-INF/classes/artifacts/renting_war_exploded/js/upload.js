@@ -1,5 +1,5 @@
-function uploderInit(compId,init_dnd,init_filePicker,data,url){
-    var $wrap = $('#'+compId),
+function uploderInit(data,url){
+    var $wrap = $('#uploader'),
 
         // 图片容器
         $queue = $( '<ul class="filelist"></ul>' )
@@ -136,14 +136,15 @@ function uploderInit(compId,init_dnd,init_filePicker,data,url){
     }
 
     // 实例化
+
     uploader = WebUploader.create({
         pick: {
-            id: '#'+init_filePicker,
+            id: '#filePicker',
             label: '点击选择图片'
         },
         formData: data,
-        dnd: '#'+init_dnd,
-        paste: '#'+compId,
+        dnd: '#dndArea',
+        paste: '#uploader',
         accept: {
             title: 'Images',
             extensions: 'gif,jpg,jpeg,bmp,png',
@@ -153,13 +154,7 @@ function uploderInit(compId,init_dnd,init_filePicker,data,url){
         chunked: false,
         chunkSize: 512 * 1024,
         server: url,
-        // runtimeOrder: 'flash',
 
-        // accept: {
-        //     title: 'Images',
-        //     extensions: 'gif,jpg,jpeg,bmp,png',
-        //     mimeTypes: 'image/*'
-        // },
 
         // 禁掉全局的拖拽功能。这样不会出现图片拖进页面的时候，把图片打开。
         disableGlobalDnd: true,
@@ -190,7 +185,19 @@ function uploderInit(compId,init_dnd,init_filePicker,data,url){
     uploader.on('dialogOpen', function() {
         console.log('here');
     });
+    uploader.on('uploadAccept', function(object ,ret) {
+        if(ret["result"] == "Y"){
+            return true;
+        }else{
+            var layerConfirm = layer.confirm(ret['errMessage'], {
+                btn: ['确定'] //按钮
+            },function () {
+                layer.close(layerConfirm);
+            });
+            return false;
+        }
 
+    });
     // uploader.on('filesQueued', function() {
     //     uploader.sort(function( a, b ) {
     //         if ( a.name < b.name )
@@ -203,7 +210,7 @@ function uploderInit(compId,init_dnd,init_filePicker,data,url){
 
     // 添加“添加文件”的按钮，
     uploader.addButton({
-        id: '#'+init_filePicker+"2",
+        id: '#filePicker2',
         label: '继续添加'
     });
 
@@ -447,14 +454,14 @@ function uploderInit(compId,init_dnd,init_filePicker,data,url){
 
             case 'ready':
                 $placeHolder.addClass( 'element-invisible' );
-                $( '#'+init_filePicker+"2" ).removeClass( 'element-invisible');
+                $( '#filePicker2' ).removeClass( 'element-invisible');
                 $queue.show();
                 $statusBar.removeClass('element-invisible');
                 uploader.refresh();
                 break;
 
             case 'uploading':
-                $( '#'+init_filePicker+"2" ).addClass( 'element-invisible' );
+                $( '#filePicker2' ).addClass( 'element-invisible' );
                 $progress.show();
                 $upload.text( '暂停上传' );
                 break;
@@ -466,7 +473,7 @@ function uploderInit(compId,init_dnd,init_filePicker,data,url){
 
             case 'confirm':
                 $progress.hide();
-                $( '#'+init_filePicker+"2" ).removeClass( 'element-invisible' );
+                $( '#filePicker2' ).removeClass( 'element-invisible' );
                 $upload.text( '开始上传' );
 
                 stats = uploader.getStats();

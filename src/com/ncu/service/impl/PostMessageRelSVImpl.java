@@ -15,7 +15,7 @@ import java.util.HashMap;
 import java.util.List;
 
 /**
- * Created by xiaoou on 2017/4/13.
+ * Created by zuowy on 2017/4/13.
  */
 @Service("PostMessageRelSVImpl")
 public class PostMessageRelSVImpl implements IPostMessageRelSV {

@@ -15,7 +15,7 @@ import javax.annotation.Resource;
 import java.util.HashMap;
 
 /**
- * Created by xiaoou on 2017/4/13.
+ * Created by zuowy on 2017/4/13.
  */
 @Controller
 @Scope("prototype")
@@ -73,10 +73,21 @@ public class CardDetailContoller extends BaseController {
             ViewData viewData = this.getViewData();
             JSONObject viewObject= viewData.getJSONObject("DATA");
             long userId = getLongParamFromSession("userId");
+            if(userId <= 0){
+                throw new Exception("请先登录");
+            }
+            int actionType = viewObject.getInt("actionType");
             long postId = APPUtil.getSafeLongParamFromJSONObject(viewObject,"postId");
             String content = APPUtil.getSafeStringFromJSONObject(viewObject,"content");
-            messageSV.saveMessageByUserIdAndContent(userId,postId,content,0L,0L);
+            if(actionType == 1){
+                messageSV.saveMessageByUserIdAndContent(userId,postId,content,0L,0L);
+            }else if(actionType == 2){
+                long hostId = viewObject.getLong("hostId");
+                messageSV.saveMessageByUserIdAndContent(userId,0L,content,1L,hostId);
+            }
+
         }catch (Exception e){
+            rtnJSONObject.put("errMessage",e.getMessage());
             rtn="N";
         }
         rtnJSONObject.put("result",rtn);

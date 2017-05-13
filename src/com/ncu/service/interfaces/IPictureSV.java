@@ -7,7 +7,7 @@ import java.util.HashMap;
 import java.util.List;
 
 /**
- * Created by xiaoou on 2017/3/31.
+ * Created by zuowy on 2017/3/31.
  */
 public interface IPictureSV {
     public void save(IPictureValue value)throws Exception;

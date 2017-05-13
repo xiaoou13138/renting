@@ -5,7 +5,7 @@ import java.util.List;
 import java.util.HashMap;
 
 /**
- * Created by xiaoou on 2017/4/13.
+ * Created by zuowy on 2017/4/13.
  */
 public interface IMessageDAO {
     public void save(IMessageValue value) throws Exception;

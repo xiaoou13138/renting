@@ -2,7 +2,7 @@ package com.ncu.table.bean;
 import java.util.List;
 
 /**
- * Created by xiaoou on 2017/3/25.
+ * Created by zuowy on 2017/3/25.
  */
 public class ParamsDefine {
     private String colName;

@@ -27,7 +27,7 @@ import java.util.HashMap;
 import java.util.List;
 
 /**
- * Created by xiaoou on 2017/4/1.
+ * Created by zuowy on 2017/4/1.
  */
 @Service("GroupsSVImpl")
 public class GroupsSVImpl implements IGroupsSV{
@@ -137,7 +137,7 @@ public class GroupsSVImpl implements IGroupsSV{
                     HashMap map = new HashMap();
                     long role = groupsRenterRelValueList.get(i).getRole();
                     String roleStr = "";
-                    if(role ==0 ){
+                    if(role ==1 ){
                         roleStr = "组长";
                     }else{
                         roleStr = "组员";
@@ -329,6 +329,24 @@ public class GroupsSVImpl implements IGroupsSV{
             throw new Exception("组不存在");
         }
         groupsValue.setDelFlag(0L);
+        groupsDAO.save(groupsValue);
+    }
+
+    /**
+     * 组人数+1
+     * @param groupId
+     * @throws Exception
+     */
+    @Transactional(propagation = Propagation.REQUIRED)
+    public void addGroupNum(long groupId)throws Exception{
+        IGroupsValue groupsValue = queryGroupInfoByGroupsId(groupId);
+        if(groupsValue == null ){
+            throw new Exception("组不存在");
+        }
+        if(groupsValue.getCurrentNumber()+1>groupsValue.getGroupNumber()){
+            throw new Exception("该组人员已经满了");
+        }
+        groupsValue.setCurrentNumber(groupsValue.getCurrentNumber()+1);
         groupsDAO.save(groupsValue);
     }
 }

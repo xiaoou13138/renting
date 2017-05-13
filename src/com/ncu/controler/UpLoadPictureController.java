@@ -4,6 +4,7 @@ import com.ncu.cache.StaticDataCache;
 import com.ncu.data.ViewData;
 import com.ncu.service.interfaces.IPictureSV;
 import com.ncu.service.interfaces.IUploadPictureSV;
+import net.sf.json.JSONNull;
 import net.sf.json.JSONObject;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Scope;
@@ -22,7 +23,7 @@ import java.util.HashMap;
 import java.util.Map;
 
 /**
- * Created by xiaoou on 2017/4/12.
+ * Created by zuowy on 2017/4/12.
  */
 @Controller
 @Scope("prototype")
@@ -43,7 +44,9 @@ public class UpLoadPictureController extends BaseController {
      */
     @RequestMapping(value="/uploadImage")
     @ResponseBody
-    public void  imageFileUpload(@RequestParam("file") MultipartFile fileUpload, DefaultMultipartHttpServletRequest request, HttpServletResponse response){
+    public Object imageFileUpload(@RequestParam("file") MultipartFile fileUpload, DefaultMultipartHttpServletRequest request, HttpServletResponse response){
+        JSONObject rtnObject = new JSONObject();
+        String rtn = "Y";
         String path = cache.getStaticDataByCode("physicalPath").get(0).getCodeValue();//获取图片的物理路径
         try{
             HashMap params = (HashMap)request.getParameterMap();//获取时间片
@@ -66,10 +69,19 @@ public class UpLoadPictureController extends BaseController {
                 pictureMap = (HashMap) session.getAttribute("pictureMap_"+time[0]+"_"+pictureType[0]);
                 PictureList = (ArrayList)pictureMap.get("pictureList");
             }
+            if("1".equals(pictureType[0])){
+                if(PictureList.size()>=1){
+                    throw new Exception("主图片只能有一张");
+                }
+            }
             PictureList.add(pictureId);
         }catch (Exception e){
+            rtn = "N";
+            rtnObject.put("errMessage",e.getMessage());
             e.printStackTrace();
         }
+        rtnObject.put("result",rtn);
+        return rtnObject;
     }
 }
 

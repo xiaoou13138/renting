@@ -10,7 +10,7 @@ import java.util.HashMap;
 import java.util.List;
 
 /**
- * Created by xiaoou on 2017/3/27.
+ * Created by zuowy on 2017/3/27.
  */
 @Repository("StaticDataDAOImpl")
 public class StaticDataDAOImpl implements IStaticDataDAO {

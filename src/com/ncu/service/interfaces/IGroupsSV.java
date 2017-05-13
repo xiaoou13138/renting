@@ -7,7 +7,7 @@ import net.sf.json.JSONObject;
 import java.util.HashMap;
 import java.util.List;
 /**
- * Created by xiaoou on 2017/4/1.
+ * Created by zuowy on 2017/4/1.
  */
 public interface IGroupsSV {
     public void save(IGroupsValue value) throws Exception;
@@ -105,6 +105,13 @@ public interface IGroupsSV {
      * @throws Exception
      */
     public void deleteGroup(long groupId)throws Exception;
+
+    /**
+     * 组人数+1
+     * @param groupId
+     * @throws Exception
+     */
+    public void addGroupNum(long groupId)throws Exception;
 
 
 }

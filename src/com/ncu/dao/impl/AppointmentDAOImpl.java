@@ -12,7 +12,7 @@ import java.util.HashMap;
 import java.util.List;
 
 /**
- * Created by xiaoou on 2017/4/14.
+ * Created by zuowy on 2017/4/14.
  */
 @Repository("AppointmentDAOImpl")
 public class AppointmentDAOImpl implements IAppointmentDAO {

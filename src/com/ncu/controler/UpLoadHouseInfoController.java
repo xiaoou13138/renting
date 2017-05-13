@@ -28,7 +28,7 @@ import java.util.HashMap;
 import java.util.Map;
 
 /**
- * Created by xiaoou on 2017/4/1.
+ * Created by zuowy on 2017/4/1.
  */
 @Controller
 @Scope("prototype")
@@ -101,19 +101,18 @@ public class UpLoadHouseInfoController extends BaseController {
             ArrayList mainList = new ArrayList();
             ArrayList normalList = new ArrayList();
             if(StringUtils.isNotBlank(time)){
-                if(this.getSession().getAttribute("pictureMap_"+time+"_2") != null){
-                    HashMap postBarPictureMap = (HashMap)this.getSession().getAttribute("pictureMap_"+time+"2");
+                if(this.getSession().getAttribute("pictureMap_"+time+"_1") != null){
+                    HashMap postBarPictureMap = (HashMap)this.getSession().getAttribute("pictureMap_"+time+"_1");
                     mainList = (ArrayList) postBarPictureMap.get("pictureList");
                 }
-                if(this.getSession().getAttribute("pictureMap_"+time+"_3") != null){
-                    HashMap postBarPictureMap = (HashMap)this.getSession().getAttribute("pictureMap_"+time+"_3");
+                if(this.getSession().getAttribute("pictureMap_"+time+"_2") != null){
+                    HashMap postBarPictureMap = (HashMap)this.getSession().getAttribute("pictureMap_"+time+"_2");
                     normalList = (ArrayList) postBarPictureMap.get("pictureList");
                 }
             }
             houseSV.saveUpLoadHouseInfo(viewObject,userId,mainList,normalList,viewType);
+            this.getSession().removeAttribute("pictureMap_"+time+"_1");
             this.getSession().removeAttribute("pictureMap_"+time+"_2");
-            this.getSession().removeAttribute("pictureMap_"+time+"_3");
-
             rtn = "Y";
         }catch (Exception e){
             rtnObject.put("errMessage",e.getMessage());

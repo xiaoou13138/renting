@@ -1,12 +1,15 @@
 <%--
   Created by IntelliJ IDEA.
-  User: xiaoou
+  User: zuowy
   Date: 2017/4/11
   Time: 15:29
   To change this template use File | Settings | File Templates.
 --%>
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
-<html>
+<%
+    long time = System.currentTimeMillis();
+%>
+<!doctype html>
 <head>
     <title>发布帖子</title>
     <script src="js/head.js"></script>
@@ -51,40 +54,30 @@
             </div>
         </div>
 
-        <div class="form-group has-check">
-            <label  class="col-sm-2 control-label">上传图片:</label>
-            <div class="col-sm-8">
-                <div id="wrapper">
-                    <div id="container">
-                        <!--头部，相册选择和格式选择-->
-                        <div id="uploader">
-                            <div class="queueList">
-                                <div id="dndArea" class="placeholder">
-                                    <div id="filePicker"></div>
-                                    <p>或将文件拖到这里，单次最多可选300份</p>
-                                </div>
-                            </div>
-                            <div class="statusBar" style="display:none;">
-                                <div class="progress">
-                                    <span class="text">0%</span>
-                                    <span class="percentage"></span>
-                                </div><div class="info"></div>
-                                <div class="btns">
-                                    <div id="filePicker2"></div><div class="uploadBtn">开始上传</div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
+        <div class="form-group">
+            <label for="image" class="col-sm-2 control-label">上传图片(其他普通图片):</label>
+            <div class="col-sm-8" style="height: 350px;" id="image">
+                <iframe src="./uploader?pictureType=3&time=<%=time%>" width="100%" height="100%" allowTransparency="true" style="border: hidden;"></iframe>
             </div>
         </div>
+
         <button type="button" class="btn btn-primary btn-lg btn-block" style="width: 200px; margin: auto;margin-bottom: 50px" onclick="saveInfo()">提交</button>
     </form>
 </div>
 <script>
     var nowtime ;
+    var needLogin;
     $(document).ready(function () {
-        nowtime = getCurrentTimeMillis();
+        nowtime = <%=time%>;
+        needLogin = '${data.needLogin}';
+        if(needLogin == '1'){
+            var confirmLayer = layer.confirm("请先登录", {
+                btn: ['确定'] //按钮
+            },function () {
+                var index = parent.layer.getFrameIndex(window.name);
+                parent.layer.close(index);
+            });
+        }
         uploderInit({time:nowtime},"uploadImage");//初始化
     });
     //保存帖子信息
@@ -108,26 +101,14 @@
             "cardContent":cardContent.val(),
             "time":nowtime
         };
-        var load = layer.load(1, {
-            shade: [0.1,'#fff'] //0.1透明度的白色背景
+        beginLoad("保存成功","保存失败",5000,function () {
+            var index = parent.layer.getFrameIndex(window.name);
+            parent.layer.close(index);
         });
-        var notSuccess = true;
-        doPostAjax("createCard_saveCard",json,function (data) {
-            if(data.result =="Y"){
-                layer.close(load);
-                layer.confirm('保存成功', {
-                    btn: ['确定'] //按钮
-                });
-                notSuccess = false;
-            }else{
-                layer.close(load);layer.confirm('保存失败', {btn: ['确定'] });
-            }
+        doPostAjaxAndLoad("createCard_saveCard",json,function (data) {
+
         });
-        setTimeout(function () {
-            if(notSuccess){
-                layer.close(load);layer.confirm('保存失败', {btn: ['确定'] });
-            }
-        }, 10000);
+
     }
 </script>
 </body>

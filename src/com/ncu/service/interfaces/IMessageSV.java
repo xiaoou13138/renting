@@ -5,7 +5,7 @@ import com.ncu.table.ivalue.IMessageValue;
 import java.util.HashMap;
 import java.util.List;
 /**
- * Created by xiaoou on 2017/4/13.
+ * Created by zuowy on 2017/4/13.
  */
 public interface IMessageSV {
     /**
@@ -68,6 +68,15 @@ public interface IMessageSV {
      */
     public List<IMessageValue> queryMessageByPostId(long postId,int begin,int end)throws Exception;
     public long queryMessageCountByPostId(long postId)throws Exception;
+
+    /**
+     * 发送私信给房东
+     * @param houseId
+     * @param userId
+     * @param content
+     * @throws Exception
+     */
+    public void saveMessageByHouseId(long houseId,long userId,String content)throws Exception;
 
 
 }

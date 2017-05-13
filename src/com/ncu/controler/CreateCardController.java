@@ -18,7 +18,7 @@ import java.util.ArrayList;
 import java.util.HashMap;
 
 /**
- * Created by xiaoou on 2017/4/11.
+ * Created by zuowy on 2017/4/11.
  */
 @Controller
 @Scope("prototype")
@@ -35,9 +35,12 @@ public class CreateCardController extends BaseController {
     @RequestMapping(value="/createCard")
     public ModelAndView getView()throws Exception{
         ModelAndView mv = this.getModelAndView();
-        ViewData data = this.getRtnViewData();
+        JSONObject rtnObject = this.getRtnJSONObject();
+        if(getLongParamFromSession("userId") <= 0){
+            rtnObject.put("needLogin",1);
+        }
         mv.setViewName("createCard");
-        mv.addObject("data",data);
+        mv.addObject("data",rtnObject);
         return mv;
     }
 

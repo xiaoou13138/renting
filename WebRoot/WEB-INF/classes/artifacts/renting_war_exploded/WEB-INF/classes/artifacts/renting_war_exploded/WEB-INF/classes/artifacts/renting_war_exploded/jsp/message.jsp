@@ -1,6 +1,6 @@
 <%--
   Created by IntelliJ IDEA.
-  User: xiaoou
+  User: zuowy
   Date: 2017/4/2
   Time: 0:43
   To change this template use File | Settings | File Templates.
@@ -15,20 +15,6 @@
 <div class="container-fluid">
     <div class="row">
         <div class="col-xs-6 " id="messageBlock">
-
-            <div class="row wechat-content-block">
-                <div class="col-md-2 text-right"><a>用户A</a>：</div>
-                <div class="col-md-7"><a class="wechat-content" href="javascript:void(0)" onclick="gotoBar(1)">哈哈哈</a></div>
-                <div class="col-md-3">
-                    <div class="row">
-                        <div class="col-xs-12">时间 </div>
-                    </div>
-                    <div class="row">
-                        <div class="col-xs-12"><a href="javascript:void(0)" onclick="reply(2)">回复</a></div>
-                    </div>
-                </div>
-            </div>
-
         </div>
     </div>
     <div class="row">
@@ -44,6 +30,7 @@
     function getMessageByFriendId(begin,end,isFirst){
         doPostAjax("message_getMessage",{begin:begin,end:end},function (data) {
             if(data.result == "Y"){
+                debugger;
                 $("#messageBlock").html(createHtml(data));
                 if(isFirst){
                     setPage(data.count,function (begin,end) {
@@ -54,17 +41,19 @@
         })
     }
     function createHtml(contentValueList){
+        debugger;
         var htmlArray = new Array();
         $.each(contentValueList.contentList,function (index,value,array) {
-            var html = "<div class='row wechat-content-block'>"
-            +"<div class='col-md-2 text-right'><a>"+value.friendName +"</a>：</div>"
-            +"<div class='col-md-6'><a class='wechat-content' href='javascript:void(0)' onclick='gotoBar("+value.postBarId+")'>"+value.content+"</a></div>"
+            debugger;
+            var html = "<div class='row wechat-content-block' >"
+            +"<div class='col-md-2 text-left'><a>"+value.friendName +"</a>：</div>"
+            +"<div class='col-md-6'>"+value.content+"</div>"
             +"<div class='col-md-4'>"
             +"<div class='row'>"
             +"<div class='col-xs-12' style='font-size: 15px'>"+value.createTime+"</div>"
             +"</div>"
             +"<div class='row'>"
-            +"<div class='col-xs-12'><a href='javascript:void(0)' onclick='reply("+value.friendId+")'>回复</a></div>"
+            +"<div class='col-xs-12 text-right'><a href='javascript:void(0)'  onclick='reply("+value.friendId+")'  >回复</a></div>"
             +"</div>"
             +"</div>"
             +"</div>";
@@ -75,6 +64,7 @@
     function gotoBar(postBarId){
         window.open( './cardDetail?postId='+postBarId)
     }
+
     function reply(firendId) {
         layer.prompt({title: '回复', formType: 2,area: ['893px', '100px']}, function(text, index){
             layer.close(index);

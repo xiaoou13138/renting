@@ -1,6 +1,6 @@
 <%--
   Created by IntelliJ IDEA.
-  User: xiaoou
+  User: zuowy
   Date: 2017/4/1
   Time: 14:04
   To change this template use File | Settings | File Templates.
@@ -58,6 +58,8 @@
 </div>
 <script>
     $(document).ready(function () {
+        setViewData(${data});
+        return;
         var telphone = '${data.telphone}';
         var realName = '${data.realName}';
         var age = '${data.age}';

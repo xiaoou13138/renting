@@ -8,8 +8,10 @@ import java.util.Map;
 import javax.annotation.Resource;
 
 import com.ncu.cache.StaticDataCache;
+import com.ncu.dao.interfaces.ICommonDAO;
 import com.ncu.service.interfaces.*;
 import com.ncu.table.bean.HouseBean;
+import com.ncu.table.bean.ParamsDefine;
 import com.ncu.table.ivalue.*;
 import com.ncu.util.SQLCon;
 import com.ncu.util.TimeUtil;
@@ -43,34 +45,26 @@ public class HouseSVImpl implements IHouseSV{
 	private IHouseCollectSV houseCollectSV;
 	@Resource(name="AppointmentSVImpl")
 	private IAppointmentSV appointmentSV;
+	@Resource(name="CommonDAOImpl")
+	private ICommonDAO commonDAO;
+
 
 
 	/**
 	 * 查询页面展示的信息
-	 * @param condition
-	 * @param beginI
-	 * @param endI
+	 * @param searchContent
+	 * @param begin
+	 * @param end
 	 * @return
 	 * @throws Exception
 	 */
-	public HashMap queryHouseInfoByCondition(Map condition, String beginI, String endI) throws  Exception{
+	public HashMap queryHouseInfoByCondition(String searchContent, int begin, int end) throws  Exception{
 		HashMap rtnMap = new HashMap();
-		int begin = Integer.parseInt(beginI);
-		int end = Integer.parseInt(endI);
-		Object searchContent = condition.get("searchContent");
-
-
-		ArrayList rtnList = new ArrayList();
-		StringBuilder condtionB = new StringBuilder();
-		HashMap params = new HashMap();
-		if(searchContent !=null){
-			SQLCon.connectSQL(IHouseValue.S_HouseName,searchContent,condtionB,params,true);
-		}
-		SQLCon.connectSQL(IHouseValue.S_DelFlag,1L,condtionB,params,false);
-
-		List<IHouseValue> houseList = houseDAO.getHouseInfoByCondition(condtionB.toString(),params,begin,end);
-		long count = houseDAO.getCount(condtionB.toString(),params);
+		List<IHouseValue> houseList = queryHouseInfoBySearchContent(searchContent,begin,end);
+		long count = queryHouseCountBySearchContent(searchContent);
+		rtnMap.put("count",count);
 		if(houseList != null){
+			ArrayList rtnList = new ArrayList();
 			int length = houseList.size();
 			for(int i = 0;i<length;i++){
 				HashMap map = new HashMap();
@@ -80,7 +74,9 @@ public class HouseSVImpl implements IHouseSV{
 				map.put("houseType",houseList.get(i).getHouseType());
 				map.put("houseArea",houseList.get(i).getHouseArea());
 				map.put("houseAddress",houseList.get(i).getProvince()+houseList.get(i).getCity()+houseList.get(i).getDetailAddress());
-				map.put("information",houseList.get(i).getInformation());
+				if(houseList.get(i).getInformation() !=null){
+					map.put("information",houseList.get(i).getInformation());
+				}
 				map.put("money",houseList.get(i).getMoney());
 
 				//查询房屋带有的设备
@@ -96,10 +92,9 @@ public class HouseSVImpl implements IHouseSV{
 				}
 				rtnList.add(map);
 			}
-
+			rtnMap.put("houseView",rtnList);
 		}
-		rtnMap.put("houseView",rtnList);
-		rtnMap.put("count",count);
+
 		return rtnMap;
 	}
 
@@ -131,6 +126,7 @@ public class HouseSVImpl implements IHouseSV{
 				for(int i = 0;i<length;i++){
 					long houseId = 0;
 					long appointmentType = 0;
+					long appointmentId= 0;
 					if(queryType ==1 ){
 						IHouseCollectValue houseCollectValue = (IHouseCollectValue)list.get(i);
 						houseId =houseCollectValue.getHouseId();
@@ -138,6 +134,7 @@ public class HouseSVImpl implements IHouseSV{
 						IAppointmentValue appointmentValue = (IAppointmentValue)list.get(i);
 						houseId = appointmentValue.getHouseId();
 						appointmentType = appointmentValue.getRenterType();
+						appointmentId = appointmentValue.getOrderId();
 					}
 					IHouseValue houseValue = queryHouseDefInfoByHouseId(houseId);
 					if(houseValue != null){
@@ -148,11 +145,14 @@ public class HouseSVImpl implements IHouseSV{
 						map.put("houseType",houseValue.getHouseType());
 						map.put("houseArea",houseValue.getHouseArea());
 						map.put("houseAddress",houseValue.getProvince()+houseValue.getCity()+houseValue.getDetailAddress());
-						map.put("information",houseValue.getInformation());
+						if(houseValue.getInformation() != null){
+							map.put("information",houseValue.getInformation());
+						}
 						map.put("money",houseValue.getMoney());
 						if(appointmentType != 0){
 							map.put("appointmentType",appointmentType);
 						}
+						map.put("appointmentId",appointmentId);
 
 
 						//查询房屋带有的设备
@@ -200,7 +200,7 @@ public class HouseSVImpl implements IHouseSV{
 			houseValue.setDelFlag(1L);
 			houseValue.setCreateDate(TimeUtil.getCurrentTimeyyyyMMddhhmmss());
 			houseValue.setLandlordId(userId);
-			userSV.changeUserType(userId,"landlord");
+			userSV.changeUserType(userId,"land lord");
 		}else if(actionType ==2 ){
 			long houseId = houseInfoObject.getLong("houseId");
 			houseValue = queryHouseDefInfoByHouseId(houseId);
@@ -221,7 +221,9 @@ public class HouseSVImpl implements IHouseSV{
 		houseValue.setHouseArea(Long.parseLong(houseInfoObject.getString("houseArea")));
 		houseValue.setHouseName(houseInfoObject.getString("houseName"));
 		houseValue.setHouseType(houseInfoObject.getString("houseType"));
-		houseValue.setInformation(houseInfoObject.getString("information"));
+		if(houseInfoObject.containsKey("information")){
+			houseValue.setInformation(houseInfoObject.getString("information"));
+		}
 		houseValue.setMoney(Long.parseLong(houseInfoObject.getString("money")));
 		houseValue.setProvince(houseInfoObject.getString("province"));
 		houseValue.setCity(houseInfoObject.getString("city"));
@@ -244,7 +246,7 @@ public class HouseSVImpl implements IHouseSV{
 		if(normalPictureList !=null && normalPictureList.size()>0){
 			int length  = normalPictureList.size();
 			for(int i = 0;i<length;i++){
-				long pictureId = (long)mainPictureList.get(i);
+				long pictureId = (long)normalPictureList.get(i);
 				housePictureRelSV.savePictureRelByUserIdAndTypeAndPictureId(houseId,pictureId,"NORMAL");
 			}
 		}
@@ -298,8 +300,12 @@ public class HouseSVImpl implements IHouseSV{
 			detailMap.put("houseName",houseValue.getHouseName());//
 			detailMap.put("houseType",houseValue.getHouseType());
 			detailMap.put("houseArea",houseValue.getHouseArea());
+			detailMap.put("rentType",houseValue.getRentType());
 			detailMap.put("houseAddress",houseValue.getProvince()+houseValue.getCity()+houseValue.getDetailAddress());
-			detailMap.put("information",houseValue.getInformation());
+			if(houseValue.getInformation() != null){
+				detailMap.put("information",houseValue.getInformation());
+			}
+
 			detailMap.put("money",houseValue.getMoney());
 		}
 		//查询收藏的信息,是否收藏过
@@ -487,7 +493,9 @@ public class HouseSVImpl implements IHouseSV{
 			rtnMap.put("room",houseValue.getRoom());
 			rtnMap.put("hall",houseValue.getHall());
 			rtnMap.put("toilet",houseValue.getToilet());
-			rtnMap.put("information",houseValue.getInformation());
+			if(houseValue.getInformation() != null){
+				rtnMap.put("information",houseValue.getInformation());
+			}
 			rtnMap.put("money",houseValue.getMoney());
 			rtnMap.put("depositType",houseValue.getDepositType());
 			//查询房屋带有的设备
@@ -515,5 +523,43 @@ public class HouseSVImpl implements IHouseSV{
 		houseDAO.save(houseValue);
 	}
 
+
+	public List<IHouseValue> queryHouseInfoBySearchContent(String searchContent,int begin,int end)throws Exception{
+		String sql ="";
+		ArrayList<ParamsDefine> paramsDefineArrayList = new ArrayList<>();
+		if(StringUtils.isNotBlank(searchContent)){
+			sql  = "from HouseBean a where a.houseName like:searchContent or a.province like:searchContent"
+					+" or a.city like :searchContent or a.detailAddress like :searchContent"
+					+" or a.houseType like :searchContent";
+			paramsDefineArrayList = new ArrayList<>();
+			ParamsDefine paramsDefine = new ParamsDefine();
+			paramsDefine.setColName("searchContent");
+			paramsDefine.setIsList(false);
+			paramsDefine.setParamVal('%'+searchContent+'%');
+			paramsDefineArrayList.add(paramsDefine);
+		}else{
+			sql =" from HouseBean";
+		}
+		return commonDAO.commonQuery(sql,paramsDefineArrayList.toArray(new ParamsDefine[0]),begin,end);
+
+	}
+	public long queryHouseCountBySearchContent(String searchContent)throws Exception{
+		String sql ="";
+		ArrayList<ParamsDefine> paramsDefineArrayList = new ArrayList<>();
+		if(StringUtils.isNotBlank(searchContent)){
+			sql  = "from HouseBean a where a.houseName like:searchContent or a.province like:searchContent"
+					+" or a.city like :searchContent or a.detailAddress like :searchContent"
+					+" or a.houseType like :searchContent";
+			paramsDefineArrayList = new ArrayList<>();
+			ParamsDefine paramsDefine = new ParamsDefine();
+			paramsDefine.setColName("searchContent");
+			paramsDefine.setIsList(false);
+			paramsDefine.setParamVal('%'+searchContent+'%');
+			paramsDefineArrayList.add(paramsDefine);
+		}else{
+			sql =" from HouseBean";
+		}
+		return commonDAO.getCount(sql,paramsDefineArrayList.toArray(new ParamsDefine[0]));
+	}
 
 }

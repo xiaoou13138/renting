@@ -4,6 +4,7 @@ import com.ncu.dao.interfaces.IMessageNoticeQueueDAO;
 import com.ncu.service.interfaces.IMessageNoticeQueueSV;
 import com.ncu.table.bean.MessageNoticeQueueBean;
 import com.ncu.table.ivalue.IMessageNoticeQueueValue;
+import com.ncu.table.ivalue.IMessageValue;
 import com.ncu.util.SQLCon;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Propagation;
@@ -13,7 +14,7 @@ import javax.annotation.Resource;
 import java.util.HashMap;
 import java.util.List;
 /**
- * Created by xiaoou on 2017/4/21.
+ * Created by zuowy on 2017/4/21.
  */
 @Service("MessageNoticeQueueSVImpl")
 public class MessageNoticeQueueSVImpl implements IMessageNoticeQueueSV {
@@ -84,5 +85,23 @@ public class MessageNoticeQueueSVImpl implements IMessageNoticeQueueSV {
         }
        messageNoticeQueueDAO.save(value);
     }
+    /**
+     * 给所有用户都通知
+     * @throws Exception
+     */
+    @Transactional(propagation = Propagation.REQUIRED)
+    public void addNoticeAll()throws Exception{
+        StringBuilder condition = new StringBuilder();
+        HashMap params =  new HashMap();
+        List<IMessageNoticeQueueValue> list = messageNoticeQueueDAO.queryMessageNoticeQueueByCondition(condition.toString(),params,-1,-1);
+        int length = list.size();
+        for(int i = 0;i<length;i++){
+            IMessageNoticeQueueValue messageNoticeQueueValue = list.get(i);
+            messageNoticeQueueValue.setMessageNum(messageNoticeQueueValue.getMessageNum()+1);
+            messageNoticeQueueDAO.save(messageNoticeQueueValue);
+        }
+
+    }
+
 
 }

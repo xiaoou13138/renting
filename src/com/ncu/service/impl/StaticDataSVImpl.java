@@ -12,7 +12,7 @@ import java.util.HashMap;
 import java.util.List;
 
 /**
- * Created by xiaoou on 2017/3/27.
+ * Created by zuowy on 2017/3/27.
  */
 @Service("StaticDataSVImpl")
 public class StaticDataSVImpl implements IStaticDataSV {

@@ -20,7 +20,7 @@ import javax.annotation.Resource;
 import java.util.HashMap;
 
 /**
- * Created by xiaoou on 2017/4/11.
+ * Created by zuowy on 2017/4/11.
  */
 @Service("PostSVImpl")
 public class PostSVImpl implements IPostSV {
@@ -116,6 +116,12 @@ public class PostSVImpl implements IPostSV {
                 map.put("postId",value.getPostId());
                 map.put("createDate",TimeUtil.formatTimeyyyyMMddhhmmss(value.getCrateDate()));
                 map.put("hostId",value.getHostId());
+                //查询用户的名称
+                IUserValue userValue = userSV.queryUserInfoByUserId(value.getHostId());
+                if(userValue == null){
+                    throw new Exception("用户不存在");
+                }
+                map.put("hostName",userValue.getUserName());
                 if(value.getIsNoHouse() != null){
                     map.put("houseLimit",staticDataCache.getCodeNameByCodeTypeAndValue("houseLimit",String.valueOf(value.getIsNoHouse())));
                 }
@@ -159,13 +165,17 @@ public class PostSVImpl implements IPostSV {
                 postMap.put("postId",postValue.getPostId());
                 postMap.put("title",postValue.getPostTitle());
                 postMap.put("hostId",postValue.getHostId());
-                postMap.put("hostId",postValue.getHostId());
                 if(postValue.getIsNoHouse() != null){
                     postMap.put("houseLimit",postValue.getIsNoHouse());
                 }
                 postMap.put("sexLimit",postValue.getSexLimit());
                 postMap.put("createDate",postValue.getCrateDate());
                 postMap.put("content",postValue.getContent());
+                IUserValue userValue = userSV.queryUserInfoByUserId(postValue.getHostId());
+                if(userValue == null){
+                    throw new Exception("用户不存在");
+                }
+                postMap.put("hostName",userValue.getUserName());
                 rtnMap.put("head",postMap);
             }
             //查询帖下面的评论的内容

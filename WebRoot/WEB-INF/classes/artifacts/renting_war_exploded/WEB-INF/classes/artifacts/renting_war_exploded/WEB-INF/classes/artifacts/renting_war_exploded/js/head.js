@@ -8,8 +8,6 @@ document.write("<script src=\"js/jquery.cookie.js\"></script>");
 document.write("<script src=\"layer/js/layer.js\"></script>");
 document.write("<script src=\"cityPicker/js/cityData.js\"></script>");
 document.write("<script src=\"cityPicker/js/cityPicker.js\"></script>");
-document.write("<script src=\"js/webuploader.js\"></script>");
-document.write("<script src=\"js/upload.js\"></script>");
 document.write("<script src=\"js/jBootstrapPage.js\"></script>");
 document.write("<script src=\"jQueryMagnifier/js/magnifier.js\"></script>");
 
@@ -18,7 +16,5 @@ document.write("<link rel=\"stylesheet\" type=\"text/css\" href=\"css/jquery.qti
 document.write("<link rel=\"stylesheet\" type=\"text/css\" href=\"css/base.css\">");
 document.write("<link rel=\"stylesheet\" type=\"text/css\" href=\"layer/css/layer.css\">");
 document.write("<link rel=\"stylesheet\" type=\"text/css\" href=\"cityPicker/css/cityPicker.css\">");
-document.write("<link rel=\"stylesheet\" type=\"text/css\" href=\"css/webuploader.css\">");
-document.write("<link rel=\"stylesheet\" type=\"text/css\" href=\"css/upload.css\">");
 document.write("<link rel=\"stylesheet\" type=\"text/css\" href=\"css/jBootsrapPage.css\">");
 document.write("<link rel=\"stylesheet\" type=\"text/css\" href=\"jQueryMagnifier/css/magnifier.css\">");

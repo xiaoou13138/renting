@@ -3,7 +3,7 @@ package com.ncu.service.interfaces;
 import com.ncu.table.ivalue.IPostMessageRelValue;
 import java.util.List;
 /**
- * Created by xiaoou on 2017/4/13.
+ * Created by zuowy on 2017/4/13.
  */
 public interface IPostMessageRelSV {
     /**

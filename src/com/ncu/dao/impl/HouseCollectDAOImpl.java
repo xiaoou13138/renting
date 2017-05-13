@@ -10,7 +10,7 @@ import java.util.HashMap;
 import java.util.List;
 
 /**
- * Created by xiaoou on 2017/4/14.
+ * Created by zuowy on 2017/4/14.
  */
 @Repository("HouseCollectDAOImpl")
 public class HouseCollectDAOImpl implements IHouseCollectDAO {

@@ -1,10 +1,7 @@
 package com.ncu.service.impl;
 
 import com.ncu.dao.interfaces.IApplyGroupMessageDAO;
-import com.ncu.service.interfaces.IApplyGroupMessageSV;
-import com.ncu.service.interfaces.IGroupRenterRelSV;
-import com.ncu.service.interfaces.IGroupsSV;
-import com.ncu.service.interfaces.IUserSV;
+import com.ncu.service.interfaces.*;
 import com.ncu.table.bean.ApplyGroupMessageBean;
 import com.ncu.table.ivalue.IApplyGroupMessageValue;
 import com.ncu.table.ivalue.IGroupsRenterRelValue;
@@ -12,6 +9,7 @@ import com.ncu.table.ivalue.IGroupsValue;
 import com.ncu.table.ivalue.IUserValue;
 import com.ncu.util.SQLCon;
 import com.ncu.util.TimeUtil;
+import org.apache.commons.lang.StringUtils;
 import org.infinispan.commons.hash.Hash;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Propagation;
@@ -23,7 +21,7 @@ import java.util.HashMap;
 import java.util.List;
 
 /**
- * Created by xiaoou on 2017/4/10.
+ * Created by zuowy on 2017/4/10.
  */
 @Service("ApplyGroupMessageSVImpl")
 public class ApplyGroupMessageSVImpl implements IApplyGroupMessageSV {
@@ -38,6 +36,9 @@ public class ApplyGroupMessageSVImpl implements IApplyGroupMessageSV {
 
     @Resource(name="GroupsSVImpl")
     private IGroupsSV groupsSV;
+
+    @Resource(name="MessageSVImpl")
+    private IMessageSV messageSV;
 
     /**
      * 查询用户是否有需要推送的申请的消息
@@ -68,6 +69,13 @@ public class ApplyGroupMessageSVImpl implements IApplyGroupMessageSV {
         //首先先查出创建团的人是谁
         if(userId != 0&& groupId !=0){
             //查询用户是否已经在组里面
+            IGroupsValue groupsValue = groupsSV.queryGroupInfoByGroupsId(groupId);
+            if(groupsValue ==null ){
+                throw new Exception("组不存在");
+            }
+            if(groupsValue.getCurrentNumber()>=groupsValue.getGroupNumber()){
+                throw new Exception("该组人数已满，不能加入");
+            }
             IGroupsRenterRelValue value =  groupRenterRelSV.queryGroupRenterRelByUserIdAndGroupId(userId,groupId);
             if(value != null){
                 throw new Exception("您已经加入该组");
@@ -140,15 +148,22 @@ public class ApplyGroupMessageSVImpl implements IApplyGroupMessageSV {
      * @throws Exception
      */
     @Transactional(propagation = Propagation.REQUIRED)
-    public void dealMessage(long applyId,String dealType)  throws Exception{
+    public void dealMessage(long applyId,String dealType,String content)  throws Exception{
         //先查出是否有这条申请的数据
         IApplyGroupMessageValue applyGroupMessageValue =  queryApplyGroupMessageByApplyId(applyId);
         if(applyGroupMessageValue != null){
             if("accept".equals(dealType)){
                 applyGroupMessageValue.setState(2L);//2是批准
-                groupRenterRelSV.saveAddGroupInfo(applyId,applyGroupMessageValue.getApplyGroupId(),2L);
+                groupRenterRelSV.saveAddGroupInfo(applyGroupMessageValue.getApplyUserId(),applyGroupMessageValue.getApplyGroupId(),2L);
             }else if("refuse".equals(dealType)){
                 applyGroupMessageValue.setState(3L);//3是拒绝
+                //发送拒绝的消息
+                if(StringUtils.isBlank(content)){
+                    content = "你的入组申请被拒绝，组长没有写理由。如有问题可直接回复组长";
+                }
+                long sendUserId = applyGroupMessageValue.getAcceptApplyUserId();
+                long acceptId = applyGroupMessageValue.getApplyUserId();
+                messageSV.saveMessageByUserIdAndContent(sendUserId,0,content,1,acceptId);
             }else{
                 throw new Exception("传入的dealType:"+dealType+"参数错误");
             }
@@ -187,6 +202,7 @@ public class ApplyGroupMessageSVImpl implements IApplyGroupMessageSV {
         SQLCon.connectSQL(IApplyGroupMessageValue.S_ApplyUserId,userId,condition,params,false);
         SQLCon.connectSQL(IApplyGroupMessageValue.S_AcceptApplyUserId,acceptUserId,condition,params,false);
         SQLCon.connectSQL(IApplyGroupMessageValue.S_ApplyGroupId,groupId,condition,params,false);
+        SQLCon.connectSQL(IApplyGroupMessageValue.S_State,1L,condition,params,false);
         List<IApplyGroupMessageValue> list= applyGroupMessageDAO.queryApplyGroupMessageInfoByCondition(condition.toString(),params,-1,-1);
         if(list != null && list.size()>0){
             return list.get(0);

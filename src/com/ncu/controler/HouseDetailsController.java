@@ -4,8 +4,11 @@ import com.ncu.data.ViewData;
 import com.ncu.service.interfaces.IAppointmentSV;
 import com.ncu.service.interfaces.IHouseCollectSV;
 import com.ncu.service.interfaces.IHouseSV;
+import com.ncu.service.interfaces.IMessageSV;
 import com.ncu.util.APPUtil;
+import com.ncu.util.StringUtil;
 import net.sf.json.JSONObject;
+import org.apache.commons.lang.StringUtils;
 import org.infinispan.commons.hash.Hash;
 import org.springframework.context.annotation.Scope;
 import org.springframework.stereotype.Controller;
@@ -17,7 +20,7 @@ import javax.annotation.Resource;
 import java.util.HashMap;
 
 /**
- * Created by xiaoou on 2017/4/2.
+ * Created by zuowy on 2017/4/2.
  */
 @Controller
 @Scope("prototype")
@@ -30,6 +33,9 @@ public class HouseDetailsController extends BaseController {
 
     @Resource(name="AppointmentSVImpl")
     private IAppointmentSV appointmentSV;
+
+    @Resource(name="MessageSVImpl")
+    private IMessageSV messageSV;
 
     @RequestMapping(value="/houseDetails")
     public ModelAndView getView()throws Exception{
@@ -114,6 +120,35 @@ public class HouseDetailsController extends BaseController {
                 rtn = "N";
                 rtnObject.put("rtnMessage","用户请重新登录");
             }
+        }catch (Exception e){
+            rtn = "N";
+            rtnObject.put("rtnMessage",e.getMessage());
+        }
+        rtnObject.put("result",rtn);
+        return rtnObject;
+    }
+
+    /**
+     * 预约（个人、团体）
+     */
+    @RequestMapping(value="/houseDetail_sendPrivateMessage",produces="application/json;charset=UTF-8")
+    @ResponseBody
+    public Object sendPrivateMessage(){
+        JSONObject rtnObject = this.getRtnJSONObject();
+        String rtn = "Y";
+        try{
+            ViewData viewData = this.getViewData();
+            JSONObject viewObject = viewData.getJSONObject("DATA");
+            long userId = getLongParamFromSession("userId");
+            if(userId <=0){
+                throw new Exception("用户请先登录");
+            }
+            long houseId = viewObject.getLong("houseId");
+            String content = viewObject.getString("content");
+            if(houseId > 0 && StringUtils.isNotBlank(content)){
+                messageSV.saveMessageByHouseId(houseId,userId,content);
+            }
+
         }catch (Exception e){
             rtn = "N";
             rtnObject.put("rtnMessage",e.getMessage());

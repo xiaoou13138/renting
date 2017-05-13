@@ -14,7 +14,7 @@ import javax.annotation.Resource;
 import java.util.HashMap;
 
 /**
- * Created by xiaoou on 2017/4/10.
+ * Created by zuowy on 2017/4/10.
  */
 @Controller
 @Scope("prototype")
@@ -72,7 +72,11 @@ public class ApplyGroupMessageCotroller extends BaseController {
             JSONObject viewObject= viewData.getJSONObject("DATA");
             String applyId = APPUtil.getSafeStringFromJSONObject(viewObject,"applyId");
             String  dealType = APPUtil.getSafeStringFromJSONObject(viewObject,"dealType");
-            applyGroupMessageSV.dealMessage(Long.parseLong(applyId),dealType);
+            String content="";
+            if("refuse".equals(dealType)){
+                content = viewObject.getString("content");
+            }
+            applyGroupMessageSV.dealMessage(Long.parseLong(applyId),dealType,content);
         }catch (Exception e){
             e.printStackTrace();
             rtn="N";

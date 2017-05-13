@@ -6,7 +6,7 @@ import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 /**
- * Created by xiaoou on 2017/4/14.
+ * Created by zuowy on 2017/4/14.
  */
 public interface IHouseCollectSV {
     /**

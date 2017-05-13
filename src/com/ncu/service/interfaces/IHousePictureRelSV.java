@@ -5,7 +5,7 @@ import net.sf.json.JSONArray;
 
 import java.util.List;
 /**
- * Created by xiaoou on 2017/3/31.
+ * Created by zuowy on 2017/3/31.
  */
 public interface IHousePictureRelSV {
     public List<IHousePictureRelValue> queryHousePictureRelByHouseId(long houseId) throws  Exception;

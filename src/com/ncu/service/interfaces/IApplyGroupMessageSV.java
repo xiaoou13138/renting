@@ -6,7 +6,7 @@ import java.util.HashMap;
 import java.util.List;
 
 /**
- * Created by xiaoou on 2017/4/10.
+ * Created by zuowy on 2017/4/10.
  */
 public interface IApplyGroupMessageSV {
     /**
@@ -41,7 +41,7 @@ public interface IApplyGroupMessageSV {
      * @param dealType accept是申请 refuse是拒绝
      * @throws Exception
      */
-    public void dealMessage(long applyId,String dealType)  throws Exception;
+    public void dealMessage(long applyId,String dealType,String content)  throws Exception;
 
     /**
      * 根据applyId查询带批准的信息
